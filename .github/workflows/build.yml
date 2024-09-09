@@ -1,4 +1,4 @@
-name: Build Next.js App
+name: Build and Lint Next.js App
 
 # Trigger the workflow on every push to the main branch
 on:
@@ -34,3 +34,6 @@ jobs:
       # Run the build command (pnpm build)
       - name: Build the app
         run: pnpm build
+
+      - name: Lint the app
+        run: pnpm lint
