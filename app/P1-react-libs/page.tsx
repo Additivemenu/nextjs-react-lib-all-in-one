@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type ContentItem = {
   title: string;
@@ -8,21 +11,32 @@ type ContentItem = {
 
 const content: ContentItem[] = [
   {
-    title: "P1: react libs",
-    path: "/P1-react-libs/",
+    title: "C0: error boundary",
+    path: "/C0-error-boundary/",
     style: "text-red-500 underline",
   },
   {
-    title: "P2: js libs",
-    path: "/P2-js-libs/",
+    title: "C1-framer-motion",
+    path: "/C1-framer-motion/",
   },
   {
-    title: "P3: react design patterns",
-    path: "/P3-react-design-patterns/",
+    title: "C2-react-flow",
+    path: "/C2-react-flow/",
+  },
+  {
+    title: "C3-react-query",
+    path: "/C3-react-query/",
+  },
+  {
+    title: "C5-react-hook-form-zod",
+    path: "/C5-react-hook-form-zod/",
+    style: "text-red-500 underline",
   },
 ];
 
 export default function Home() {
+  const pathname = usePathname();
+
   return (
     <>
       <h2 className="text-red-500">
@@ -30,7 +44,7 @@ export default function Home() {
         try to keep each page as independent as possible
       </h2>
       {content.map((item) => (
-        <Link key={item.title} href={item.path}>
+        <Link key={item.title} href={pathname + item.path}>
           <h1 className={`text-2xl font-bold ${item.style ?? ""}`}>
             {item.title}
           </h1>
