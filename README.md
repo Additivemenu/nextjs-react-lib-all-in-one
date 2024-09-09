@@ -17,6 +17,19 @@ css-in-js
 - styled-component
 - tailwind css is also used for styling
 
+React design patterns
+
+- compound component pattern
+  - multi-select
+  - dropdown-select
+
+## devops practice
+
+- github workflow actions & CICD pipelines
+- unit test for demo component
+- Eslint
+- Prettier
+
 ## Getting Started
 
 First, run the development server:
