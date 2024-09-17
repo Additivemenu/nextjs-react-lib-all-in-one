@@ -14,14 +14,47 @@ const demos = [
     path: "/demo2/",
   },
   {
-    title: "Demo 3: recipe form (dynamic form + devtool on)", // https://claritydev.net/blog/managing-forms-with-react-hook-form
+    title: "Demo 3: recipe form (dynamic form + react-hook-form devtool)", // https://claritydev.net/blog/managing-forms-with-react-hook-form
     path: "/demo3/",
+    style: "text-red-500 underline",
+  },
+  {
+    title:
+      "Demo 4: a form with variants of form fields (need ts type union & type narrowing)", // https://claritydev.net/blog/managing-forms-with-react-hook-form
+    path: "/demo4/",
+    style: "text-red-500 underline",
+  },
+  {
+    title: "Demo 5: conditional fields (watch a form state)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo5/",
     style: "text-red-500 underline",
   },
 ];
 
 /**
+ * use react-hook-form + zod:
+ * - elegant form management & validation -> readable, maintainable, scalable code
+ * - avoid unnecessary re-rendering as react-hook-form use ref
+ *
+ * 2 types of form -> representing 2 ways to define form:
+ * - controlled form:
+ *   - use the useForm hook to register inputs and manage their state by being wrapped into the Controller component.
+ *   - they provide more granular control over the input state, allowing for easier integration with external  libraries and more complex validation logic.
+ * - uncontrolled form:
+ *   - inputs that are registered using the register function and have their state managed by the DOM.
+ *   - Uncontrolled components can be simpler to implement, especially for basic forms, but can be more difficult to customize for more complex use cases.
+ *
  * find more tutorials at https://react-hook-form.com/resources/articles
+ *
+ * ! many official examples (but many are in js, we will migrate those js example to ts): https://github.com/react-hook-form/react-hook-form/tree/master/examples
+ *  - validation:
+ *    - basic validation: https://codesandbox.io/s/react-hook-form-basic-validation-qdyye
+ *    - custom validation -> register() config obj: https://codesandbox.io/p/sandbox/react-hook-form-custom-validation-8kuu7?file=%2Fsrc%2Findex.js%3A40%2C15
+ *        - we can also use zod refine() for custom validation (see demo5 conditional fields)
+ *    - ! compare field values-> getValues(): https://codesandbox.io/s/react-hook-form-getvalues-compare-field-values-orf0p
+ *  - custom input:
+ *    - use Controller component and `control` from useForm to integrate with custom input component
+ *    - ! Controlled components: https://codesandbox.io/p/sandbox/react-hook-form-v7-controller-5h1q5?file=%2Fsrc%2FMui.js%3A35%2C18
  *
  * @returns
  */
