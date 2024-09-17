@@ -5,6 +5,7 @@ import BombPanel from "./panel-contents/BombPanel";
 import NormalPanel from "./panel-contents/NormalPanel";
 import { ErrorBoundary } from "react-error-boundary";
 import FallbackPanel from "./panel-contents/FallbackPanel";
+import { ErrorFallback } from "../demo1/ErrorFallback";
 
 type PanelControl = {
   PanelType: "BombPanel" | "NormalPanel";

@@ -16,12 +16,14 @@
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^6.0.2",
+    "@xyflow/react": "^12.3.0",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",
     "react-error-boundary": "^4.0.13",
     "react-hook-form": "^7.53.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "5.0.0-rc.2"
   },
   "devDependencies": {
     "@hookform/devtools": "^4.3.1",
