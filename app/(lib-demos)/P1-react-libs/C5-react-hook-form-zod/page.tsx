@@ -29,6 +29,21 @@ const demos = [
     path: "/demo5/",
     style: "text-red-500 underline",
   },
+  {
+    title: "Demo 6: book viewer (book content change on submit)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo6/",
+    style: "text-red-500 underline",
+  },
+  {
+    title: "Demo 7: book viewer (book content change on form field change)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo7/",
+    style: "text-purple-500 underline",
+  },
+  {
+    title: "Demo 8: book viewer + line selection (upgrade version of demo7)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo8/",
+    style: "text-purple-500 underline",
+  },
 ];
 
 /**
