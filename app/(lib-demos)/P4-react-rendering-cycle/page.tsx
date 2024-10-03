@@ -19,6 +19,11 @@ const content: ContentItem[] = [
     path: "/demo2/",
     style: "text-red-500 underline",
   },
+  {
+    title: "demo3: useEffect simple case",
+    path: "/demo3/",
+  
+  },
 ];
 
 export default function Home() {
