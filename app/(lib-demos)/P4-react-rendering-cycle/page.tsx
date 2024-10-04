@@ -22,7 +22,10 @@ const content: ContentItem[] = [
   {
     title: "demo3: useEffect simple case",
     path: "/demo3/",
-  
+  },
+  {
+    title: "demo4: react-hook-form initial form values",
+    path: "/demo4/",
   },
 ];
 

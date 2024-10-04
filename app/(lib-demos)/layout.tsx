@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useRouter } from "next/navigation";
 
 export default function RootLayout({
@@ -24,7 +25,7 @@ export default function RootLayout({
         <div className="h-full flex flex-col shadow-lg p-4 min-w-[var(--left-sidebar-width)] grow">
           left side bar
         </div>
-        <div className="flex flex-col justify-center items-center p-6 grow-[5]">
+        <div className="h-full flex flex-col justify-center items-center p-6 grow-[5]">
           {children}
         </div>
       </div>
