@@ -11,6 +11,7 @@ react lib
 - @tanstack/react-query
 - react hook form + zod
   - with react hook form devtool
+- shadcn (on top of radix ui)
 
 css-in-js
 

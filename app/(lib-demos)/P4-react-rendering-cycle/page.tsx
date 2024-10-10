@@ -27,6 +27,16 @@ const content: ContentItem[] = [
     title: "demo4: react-hook-form initial form values",
     path: "/demo4/",
   },
+  {
+    title: "demo5: useEffect + useMemo + useCallback - sync and async function",
+    path: "/demo5/",
+    style: "text-purple-500 underline",
+  },
+  {
+    title: "demo5: optimized version on demo5",
+    path: "/demo5/",
+    style: "text-purple-500 underline",
+  },
 ];
 
 export default function Home() {
