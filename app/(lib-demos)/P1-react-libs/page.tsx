@@ -22,6 +22,7 @@ const content: ContentItem[] = [
   {
     title: "C2-react-flow",
     path: "/C2-react-flow/",
+    style: "text-purple-500 underline",
   },
   {
     title: "C3-react-query",

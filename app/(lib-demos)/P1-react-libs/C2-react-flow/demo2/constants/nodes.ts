@@ -1,5 +1,13 @@
 import { AppNode } from "../types/types";
 
+/**
+ * ! there are some cases that you need to convert a general graph representation (usually without node position information) to react-flow graph representation
+ *
+ * in react-flow graph representation
+ * + each node has a unique id, position information and data property (which can be used to store additional information)
+ * + the connection between nodes is represented by edges
+ *
+ */
 export default [
   {
     id: "1",

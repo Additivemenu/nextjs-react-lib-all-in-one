@@ -10,8 +10,8 @@ import {
 export type ColorNode = Node<
   {
     color: string;
-  },
-  "colorChooser"
+  },  // -> data property
+  "colorChooser"  // -> type property
 >;
 
 export type AppNode = ColorNode | BuiltInNode;
