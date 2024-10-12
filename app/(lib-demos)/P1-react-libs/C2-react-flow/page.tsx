@@ -17,14 +17,20 @@ const demos = [
   {
     title: "Demo 3: derive node position info using DFS",
     path: "/demo3/",
+    style: "text-purple-500 underline",
   },
   {
-    title: "Demo 4: uncontrolled react flow",
-    path: "/demo4/",
+    title: "Demo 3-1: derive node position info using DFS",
+    path: "/demo3-1/",
+    style: "text-purple-500 underline",
   },
   {
-    title: "Demo 5: controlled react flow - useReactFlow() hook",
-    path: "/demo5/",
+    title: "Demo 4-1: uncontrolled react flow",
+    path: "/demo4-1/",
+  },
+  {
+    title: "Demo 4-2: controlled react flow - useReactFlow() hook",
+    path: "/demo4-2/",
     style: "text-purple-500 underline",
   },
   {
