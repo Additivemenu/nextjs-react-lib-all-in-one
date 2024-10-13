@@ -9,11 +9,8 @@ import { defaultEdges, initialEdges } from "./_internal/edges";
 import useAddNodeAndConnectWithNodeA from "./_hooks/use-add-node-and-connect";
 import useAddNodeChain from "./_hooks/use-add-node-chain";
 import useAddNode from "./_hooks/use-add-node";
-import {
-  defaultNodeInfoArray,
-  inputNodes,
-  useBuildGraph,
-} from "./_hooks/use-build-graph";
+import { inputNodes, useBuildGraph } from "./_hooks/use-build-graph";
+import { useBuildGraphAsync } from "./_hooks/use-build-graph-async";
 
 const edgeOptions = {
   animated: true,
@@ -33,9 +30,15 @@ function Flow() {
   const { handleAddNodeAndConnect } = useAddNodeAndConnectWithNodeA(nodeId);
 
   const { buildGraph } = useBuildGraph();
+  const { buildGraph: buildGraphAsync, clearGraph } = useBuildGraphAsync();
 
   useEffect(() => {
-    buildGraph({ inputGraphInfo: inputNodes });
+    // buildGraph({ inputGraphInfo: inputNodes });
+    buildGraphAsync({ inputGraphInfo: inputNodes });
+
+    return () => {
+      clearGraph();
+    };
   }, []);
 
   return (
