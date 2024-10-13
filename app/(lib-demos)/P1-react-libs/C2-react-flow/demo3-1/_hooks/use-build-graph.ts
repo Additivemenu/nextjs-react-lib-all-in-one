@@ -35,7 +35,7 @@ export const inputNodes: RandomNodeInfo[] = [
   { id: "4", name: "Grandchild 1", parentIds: ["2"] },
   { id: "5", name: "Grandchild 2", parentIds: ["2"] },
   { id: "6", name: "Grandchild 3", parentIds: ["4"] },
-  { id: "7", name: "Grandchild 4", parentIds: ["3"] },
+  { id: "7", name: "Grandchild 4", parentIds: ["2", "3"] },
   { id: "8", name: "Grandchild 4", parentIds: ["2"] },
   { id: "9", name: "Grandchild 4", parentIds: ["3"] },
   { id: "10", name: "Grandchild 4", parentIds: ["2"] },
@@ -69,7 +69,7 @@ export const useBuildGraph = () => {
       // step2:
       const { positionedNodes, graphEdges } =
         graphAdapter.convertToReactFlowGraphData({
-          nodeInfoArray,
+          standardizedGraphInfo: nodeInfoArray,
         });
 
       // step3:
