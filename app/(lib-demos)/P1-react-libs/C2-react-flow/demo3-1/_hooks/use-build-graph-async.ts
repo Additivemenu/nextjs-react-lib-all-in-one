@@ -12,7 +12,7 @@ export const useBuildGraphAsync = () => {
         timeoutRef.current = setTimeout(() => {
           reactFlowInstance.addNodes([node]);
           reactFlowInstance.addEdges(edges);
-
+          reactFlowInstance.fitView();
           resolve();
         }, delay);
       });
@@ -22,15 +22,20 @@ export const useBuildGraphAsync = () => {
 
   const buildReactFlowGraph = useCallback(
     async (positionedNodes: Node[], graphEdges: Edge[]) => {
-      const delay = 500; // Delay between adding each node (in milliseconds)
+      const delay = 300; // Delay between adding each node (in milliseconds)
+      const addedEdgeIds = new Set<string>();
 
-      // ! TODO: add the nodes and edges one by one with a delay, but this needs to follow a particular order to avoid repetitive edges
       for (const node of positionedNodes) {
         const nodeEdges = graphEdges.filter(
-          (edge) => edge.source === node.id || edge.target === node.id,
+          (edge) =>
+            (edge.source === node.id || edge.target === node.id) &&
+            !addedEdgeIds.has(edge.id),
         );
+
+        // Mark these edges as added
+        nodeEdges.forEach((edge) => addedEdgeIds.add(edge.id));
+
         await addNodeAndEdges(node, nodeEdges, delay);
-        reactFlowInstance.fitView();
       }
     },
     [addNodeAndEdges],
