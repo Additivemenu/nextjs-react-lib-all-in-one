@@ -9,8 +9,9 @@ import { defaultEdges, initialEdges } from "./_internal/edges";
 import useAddNodeAndConnectWithNodeA from "./_hooks/use-add-node-and-connect";
 import useAddNodeChain from "./_hooks/use-add-node-chain";
 import useAddNode from "./_hooks/use-add-node";
-import { inputNodes, useBuildGraph } from "./_hooks/use-build-graph";
+import { useBuildGraph } from "./_hooks/use-build-graph";
 import { useBuildGraphAsync } from "./_hooks/use-build-graph-async";
+import { inputNodes } from "./input-nodes";
 
 const edgeOptions = {
   animated: true,
