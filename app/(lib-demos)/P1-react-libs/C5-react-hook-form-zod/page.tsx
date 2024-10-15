@@ -30,18 +30,23 @@ const demos = [
     style: "text-red-500 underline",
   },
   {
-    title: "Demo 6: book viewer (book content change on submit)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
-    path: "/demo6/",
+    title: "Demo 6-1: book viewer (book content change on submit)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo6-1/",
     style: "text-red-500 underline",
   },
   {
-    title: "Demo 7: book viewer (book content change on form field change)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
-    path: "/demo7/",
+    title: "Demo 6-2: book viewer (book content change on form field change)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo6-2/",
     style: "text-purple-500 underline",
   },
   {
-    title: "Demo 8: book viewer + line selection (upgrade version of demo7)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
-    path: "/demo8/",
+    title: "Demo 6-3: book viewer + line selection (upgrade version of demo6-2)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo6-3/",
+    style: "text-purple-500 underline",
+  },
+  {
+    title: "Demo 7: refine and superRefine", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo7/",
     style: "text-purple-500 underline",
   },
 ];

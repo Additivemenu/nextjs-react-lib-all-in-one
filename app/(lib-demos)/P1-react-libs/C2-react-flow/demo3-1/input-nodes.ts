@@ -38,8 +38,8 @@ import { RandomNodeInfo } from "./_hooks/_lib/graph-adapter";
 // with order the same as we render the nodes
 export const inputNodes: RandomNodeInfo[] = [
   { id: "1", name: "Root", parentIds: [] },
-  { id: "2", name: "Child 1", parentIds: ["1"] },
   { id: "3", name: "Child 2", parentIds: ["1"] },
+  { id: "2", name: "Child 1", parentIds: ["1"] },
   { id: "4", name: "Grandchild 1", parentIds: ["2"] },
   { id: "5", name: "Grandchild 2", parentIds: ["2"] },
   { id: "6", name: "Grandchild 3", parentIds: ["4"] },
