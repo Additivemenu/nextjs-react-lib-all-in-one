@@ -40,13 +40,19 @@ const demos = [
     style: "text-purple-500 underline",
   },
   {
-    title: "Demo 6-3: book viewer + line selection (upgrade version of demo6-2)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    title:
+      "Demo 6-3: book viewer + line selection (upgrade version of demo6-2)", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
     path: "/demo6-3/",
     style: "text-purple-500 underline",
   },
   {
-    title: "Demo 7: refine and superRefine", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    title: "Demo 7-1: refine and superRefine", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
     path: "/demo7/",
+    style: "text-purple-500 underline",
+  },
+  {
+    title: "Demo 7-2: refine and superRefine - range input", // official example: https://codesandbox.io/s/react-hook-form-conditional-fields-qgr41
+    path: "/demo7-2/",
     style: "text-purple-500 underline",
   },
 ];
