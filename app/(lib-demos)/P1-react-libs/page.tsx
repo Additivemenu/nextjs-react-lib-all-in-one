@@ -29,6 +29,10 @@ const content: ContentItem[] = [
     path: "/C3-react-query/",
   },
   {
+    title: "C4-zustand",
+    path: "/C4-zustand/",
+  },
+  {
     title: "C5-react-hook-form-zod",
     path: "/C5-react-hook-form-zod/",
     style: "text-red-500 underline",

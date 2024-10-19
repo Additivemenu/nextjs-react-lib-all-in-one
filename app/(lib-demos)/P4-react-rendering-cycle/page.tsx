@@ -37,6 +37,11 @@ const content: ContentItem[] = [
     path: "/demo5/",
     style: "text-purple-500 underline",
   },
+  {
+    title: "demo6: async/await modal open close process",
+    path: "/demo6/",
+    style: "text-purple-500 underline",
+  },
 ];
 
 export default function Home() {
