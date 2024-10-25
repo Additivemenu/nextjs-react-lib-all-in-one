@@ -20,7 +20,7 @@ const AddTodoModal: React.FC<{
 
   const handleSubmit = () => {
     if (newTodo.trim()) {
-      onAddTodo(newTodo);
+      onAddTodo(newTodo);  // !
       setNewTodo("");
     }
   };

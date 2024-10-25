@@ -9,8 +9,15 @@ const demos = [
     path: "/demo1/",
   },
   {
-    title: "Demo 2: task manager (with react-hook-form + zod + file break down)",
+    title:
+      "Demo 2: task manager (useReducer with react-hook-form + zod + file break down)",
     path: "/demo2/",
+    style: "text-purple-500 underline",
+  },
+  {
+    title:
+      "Demo 3: task manager (zustand with react-hook-form + zod + file break down)",
+    path: "/demo3/",
     style: "text-purple-500 underline",
   },
 ];
@@ -27,7 +34,12 @@ const Page = () => {
   return (
     <div className="flex justify-center items-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg min-w-[500px]">
-        <h1 className="text-2xl font-bold mb-6 text-center">reducer pattern</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          reducer pattern.
+        </h1>
+        <p className="text-xl font-bold mb-6 text-center">
+          Redux, Zustand also adopts this pattern
+        </p>
         <ul className="space-y-4">
           {demos.map((demo) => (
             <li key={demo.title}>

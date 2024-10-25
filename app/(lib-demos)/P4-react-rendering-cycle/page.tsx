@@ -11,6 +11,17 @@ type ContentItem = {
 
 const content: ContentItem[] = [
   {
+    title: "demo0: React Strict Mode on useEffect",
+    path: "/demo0/",
+    style: "text-red-500 underline",
+  },
+  {
+    title: "demo0-1: order of async code execution",
+    path: "/demo0-1/",
+    style: "text-red-500 underline",
+  },
+  
+  {
     title: "demo1: ",
     path: "/demo1/",
   },

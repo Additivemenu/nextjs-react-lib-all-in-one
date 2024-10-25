@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const openAndAddNewTodos = useCallback(() => {
     return new Promise<Todo[]>((resolve) => {
-      const newTodos: Todo[] = []; // ! track temp todos added programmatically in this async operation
+      const newTodos: Todo[] = []; // ! track temp todos added programmatically during the modal session
 
       // Create a new div for the modal
       if (!modalRef.current) {
@@ -41,9 +41,10 @@ const App: React.FC = () => {
           document.body.removeChild(modalRef.current);
           modalRef.current = null;
         }
-        resolve(newTodos);
+        resolve(newTodos); // ! when this modal session ends, resolve the new todos so that we finally collect the result of this modal session!
       };
 
+      // ! AddTodoModal needs to expose some behavior to the parent component, so that we can pass in
       const ModalComponent = () => (
         <AddTodoModal
           isOpen={true}
@@ -73,7 +74,7 @@ const App: React.FC = () => {
         </Button>
         <Button
           onClick={async () => {
-            const newlyAddedTodos = await openAndAddNewTodos();
+            const newlyAddedTodos = await openAndAddNewTodos();  // ! get user newly added todos programmatically
             console.log("Newly added todos:", newlyAddedTodos);
           }}
           className="flex items-center gap-2"
