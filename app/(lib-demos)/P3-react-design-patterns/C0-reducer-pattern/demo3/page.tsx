@@ -1,47 +1,226 @@
 "use client";
 
-import React, { useReducer } from "react";
-import { useForm, Controller, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { DevTool } from "@hookform/devtools";
+import React from "react";
+import { create } from "zustand";
+import { Plus, Trash2, Edit2, Check, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 
-import { INITIAL_FORM_VALUE, TaskFormData, taskSchema } from "./form";
-import { TaskState, TaskAction, Priority, Category, Task } from "./type";
-import { taskReducer } from "./_reducers/task-reducer";
-import { TaskProvider } from "./context/provider";
-import AddTaskForm from "./_components/add-task-form";
-import TaskFilter from "./_components/task-filter";
-import TaskList from "./_components/task-list";
-import RedoUndo from "./_components/redo-undo";
+// Define Todo type
+interface Todo {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+}
 
-// Component
-const TaskManager: React.FC = () => {
-  const methods = useForm<TaskFormData>({
-    resolver: zodResolver(taskSchema),
-    defaultValues: INITIAL_FORM_VALUE,
-  });
+// Define store type
+interface TodoStore {
+  todos: Todo[];
+  addTodo: (title: string, description: string) => void;
+  toggleTodo: (id: string) => void;
+  deleteTodo: (id: string) => void;
+  updateTodo: (id: string, title: string, description: string) => void;
+}
+
+// Create Zustand store
+const useTodoStore = create<TodoStore>((set) => ({
+  todos: [],
+  addTodo: (title, description) =>
+    set((state) => ({
+      todos: [
+        ...state.todos,
+        {
+          id: Date.now().toString(),
+          title,
+          description,
+          completed: false,
+        },
+      ],
+    })),
+  toggleTodo: (id) =>
+    set((state) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
+    })),
+  deleteTodo: (id) =>
+    set((state) => ({
+      todos: state.todos.filter((todo) => todo.id !== id),
+    })),
+  updateTodo: (id, title, description) =>
+    set((state) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, title, description } : todo,
+      ),
+    })),
+}));
+
+// AddTodoDialog Component
+const AddTodoDialog: React.FC = () => {
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const addTodo = useTodoStore((state) => state.addTodo);
+
+  const handleSubmit = () => {
+    if (title.trim()) {
+      addTodo(title, description);
+      setTitle("");
+      setDescription("");
+    }
+  };
 
   return (
-    <FormProvider {...methods}>
-      <TaskProvider>
-        <div className="container mx-auto p-4 max-w-3xl">
-          <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
-            Task Manager (react-hook-form + zod)
-          </h1>
-
-          <p>should use Zustand for managing complex state (TODO)</p>
-
-          <AddTaskForm />
-          <TaskFilter />
-          <TaskList />
-          <RedoUndo />
-
-          {/* <DevTool control={control} /> */}
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="gap-2">
+          <Plus size={16} /> Add Todo
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add New Todo</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <Input
+            placeholder="Todo title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Textarea
+            placeholder="Todo description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <DialogClose asChild>
+            <Button onClick={handleSubmit} className="w-full">
+              Add Todo
+            </Button>
+          </DialogClose>
         </div>
-      </TaskProvider>
-    </FormProvider>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default TaskManager;
+// EditTodoDialog Component
+const EditTodoDialog: React.FC<{
+  todo: Todo;
+}> = ({ todo }) => {
+  const [title, setTitle] = React.useState(todo.title);
+  const [description, setDescription] = React.useState(todo.description);
+  const updateTodo = useTodoStore((state) => state.updateTodo);
+
+  const handleSubmit = () => {
+    if (title.trim()) {
+      updateTodo(todo.id, title, description);
+    }
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Edit2 size={16} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Todo</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <Input
+            placeholder="Todo title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Textarea
+            placeholder="Todo description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <DialogClose asChild>
+            <Button onClick={handleSubmit} className="w-full">
+              Update Todo
+            </Button>
+          </DialogClose>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+// TodoItem Component
+const TodoItem: React.FC<{
+  todo: Todo;
+}> = ({ todo }) => {
+  const toggleTodo = useTodoStore((state) => state.toggleTodo);
+  const deleteTodo = useTodoStore((state) => state.deleteTodo);
+
+  return (
+    <div className="flex items-start gap-4 p-4 border rounded-lg">
+      <Checkbox
+        checked={todo.completed}
+        onCheckedChange={() => toggleTodo(todo.id)}
+      />
+      <div className="flex-1">
+        <h3
+          className={`font-medium ${
+            todo.completed ? "line-through text-gray-500" : ""
+          }`}
+        >
+          {todo.title}
+        </h3>
+        <p
+          className={`text-sm ${
+            todo.completed ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
+          {todo.description}
+        </p>
+      </div>
+      <div className="flex gap-2">
+        <EditTodoDialog todo={todo} />
+        <Button variant="ghost" size="icon" onClick={() => deleteTodo(todo.id)}>
+          <Trash2 size={16} />
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+// Main TodoList Component
+const TodoList: React.FC = () => {
+  const todos = useTodoStore((state) => state.todos);
+
+  return (
+    <Card className="w-full max-w-2xl mx-auto">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle>Todo List</CardTitle>
+        <AddTodoDialog />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {todos.length === 0 ? (
+          <p className="text-center text-gray-500">
+            No todos yet. Add one to get started!
+          </p>
+        ) : (
+          todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default TodoList;

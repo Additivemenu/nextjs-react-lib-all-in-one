@@ -15,10 +15,19 @@ const demos = [
     style: "text-purple-500 underline",
   },
   {
-    title:
-      "Demo 3: task manager (zustand with react-hook-form + zod + file break down)",
+    title: "Demo 3: todo list - just normal todo list with zustand",
     path: "/demo3/",
     style: "text-purple-500 underline",
+  },
+  {
+    title: "Demo 3-1: todo list - with sequence actions",
+    path: "/demo3-1/",
+    style: "text-red-500 underline",
+  },
+  {
+    title: "Demo 3-2: todo list - with sequence actions",
+    path: "/demo3-2/",
+    style: "text-red-500 underline",
   },
 ];
 
