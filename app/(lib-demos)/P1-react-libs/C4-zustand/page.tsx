@@ -21,6 +21,11 @@ const demos = [
     path: "/demo3/",
     style: "text-red-500 underline",
   },
+  {
+    title: "Demo 4: todo app - optics",
+    path: "/demo4/",
+    style: "text-red-500 underline",
+  },
 ];
 
 /**

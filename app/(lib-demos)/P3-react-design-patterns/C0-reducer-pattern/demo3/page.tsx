@@ -16,6 +16,8 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import ChatbotClient from "./components/ChatbotClient";
+import { ChatBotProvider, useChatWindow } from "react-chatbotify";
 
 // Define Todo type
 interface Todo {
@@ -204,23 +206,47 @@ const TodoItem: React.FC<{
 const TodoList: React.FC = () => {
   const todos = useTodoStore((state) => state.todos);
 
+  const { toggleChatWindow } = useChatWindow();
+
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Todo List</CardTitle>
-        <AddTodoDialog />
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {todos.length === 0 ? (
-          <p className="text-center text-gray-500">
-            No todos yet. Add one to get started!
-          </p>
-        ) : (
-          todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <Card className="w-full max-w-2xl mx-auto">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Todo List</CardTitle>
+          <AddTodoDialog />
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {todos.length === 0 ? (
+            <p className="text-center text-gray-500">
+              No todos yet. Add one to get started!
+            </p>
+          ) : (
+            todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
+          )}
+
+          <button
+            onClick={() => {
+              toggleChatWindow();
+            }}
+          >
+            {" "}
+            toggle chat window
+          </button>
+        </CardContent>
+      </Card>
+      <ChatbotClient />
+    </>
   );
 };
 
-export default TodoList;
+const Page: React.FC = () => {
+  return (
+    <div className="p-4">
+      <ChatBotProvider>
+        <TodoList />
+      </ChatBotProvider>
+    </div>
+  );
+};
+
+export default Page;

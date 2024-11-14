@@ -5,8 +5,13 @@ import { usePathname } from "next/navigation";
 
 const demos = [
   {
-    title: "Demo 1: task manager (not using react-hook-form)",
+    title: "Demo 1: task manager (useReducer, not using react-hook-form)",
     path: "/demo1/",
+  },
+  {
+    title: "TODO: Demo 1-1: task manager (zustand + react-hook-form)",
+    path: "/demo1-1/",
+    style: "text-purple-500 underline",
   },
   {
     title:

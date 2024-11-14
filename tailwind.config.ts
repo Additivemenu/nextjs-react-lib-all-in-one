@@ -9,13 +9,12 @@ const config: Config = {
   ],
   theme: {
     container: {
-      center: true,
+      center: "true",
       padding: "2rem",
       screens: {
         "2xl": "1400px",
       },
     },
-    // ! note you have to define global css variable in globals.css
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -51,6 +50,13 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        chart: {
+          "1": "hsl(var(--chart-1))",
+          "2": "hsl(var(--chart-2))",
+          "3": "hsl(var(--chart-3))",
+          "4": "hsl(var(--chart-4))",
+          "5": "hsl(var(--chart-5))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -64,7 +70,7 @@ const config: Config = {
       },
       height: {
         "top-nav": "var(--top-nav-height)",
-        "main-content": "calc(100vh - var(--top-nav-height))", // content under top nav
+        "main-content": "calc(100vh - var(--top-nav-height))",
       },
       width: {
         "left-side-bar": "var(--left-side-bar-width)",
@@ -75,24 +81,24 @@ const config: Config = {
         hover:
           "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
       },
-      // keyframes: {
-      //   "accordion-down": {
-      //     from: { height: 0 },
-      //     to: { height: "var(--radix-accordion-content-height)" },
-      //   },
-      //   "accordion-up": {
-      //     from: { height: "var(--radix-accordion-content-height)" },
-      //     to: { height: 0 },
-      //   },
-      // },
-      // animation: {
-      //   "accordion-down": "accordion-down 0.2s ease-out",
-      //   "accordion-up": "accordion-up 0.2s ease-out",
-      // },
+      keyframes: {
+        // shad-cn accordion animation
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        // shad-cn accordion animation
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
-  plugins: [
-    // require("tailwindcss-animate")
-  ],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;
