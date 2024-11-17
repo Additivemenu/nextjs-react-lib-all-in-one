@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/TodoApp.tsx
 import React, { useState } from "react";
 import useTodoStore from "./store";
