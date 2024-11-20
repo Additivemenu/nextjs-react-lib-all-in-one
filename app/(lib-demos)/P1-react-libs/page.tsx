@@ -11,6 +11,10 @@ type ContentItem = {
 
 const content: ContentItem[] = [
   {
+    title: "C0: react experiments",
+    path: "/C0-react-experiments/",
+  },
+  {
     title: "C0: error boundary",
     path: "/C0-error-boundary/",
     style: "text-red-500 underline",
