@@ -68,7 +68,7 @@ self.onmessage = async (e: MessageEvent<WorkerMessage>) => {
       return;
     }
 
-    // Original single-row reading logic
+    // Original single-row reading logic (no caching)
     if (!headerRow || headerRow < 1) {
       self.postMessage({ headers: [] });
       return;

@@ -8,7 +8,18 @@ const demos = [
     title: "Demo 1: overlaying and disable an interface",
     path: "/demo1/",
   },
-
+  {
+    title: "Demo 2: react-portal",
+    path: "/demo2/",
+  },
+  {
+    title: "Demo 3: react suspense",
+    path: "/demo3/",
+  },
+  {
+    title: "Demo 4: mutation observer + react chatbotify",
+    path: "/demo4/",
+  },
 ];
 
 const Page = () => {

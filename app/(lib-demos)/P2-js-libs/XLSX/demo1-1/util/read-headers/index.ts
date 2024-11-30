@@ -1,26 +1,16 @@
 // index.ts
 
-/**
- * Interface for the cached header data structure
- */
 interface CachedFileHeaders {
   timestamp: number;
   headers: string[][]; // Array of header rows (1-100)
   fileHash: string;
 }
 
-/**
- * Cache duration in milliseconds (e.g., 1 hour)
- */
-const CACHE_DURATION = 60 * 60 * 1000;
-
-/**
- * Maximum header row to cache
- */
+const CACHE_DURATION = 60 * 60 * 1000; // 1hr
 const MAX_CACHED_ROW = 100;
 
 /**
- * Calculate a hash for the file
+ * Calculate a hash for the file, which will be used as the cache key
  */
 async function calculateFileHash(file: File): Promise<string> {
   const buffer = await file.arrayBuffer();
@@ -105,7 +95,7 @@ export const readHeaderValuesAsync = async (
       return cachedHeaders[headerRow - 1];
     }
 
-    // If not in cache, read first 100 rows
+    // If not in cache, read first 100 rows and create the cache
     return new Promise((resolve, reject) => {
       const worker = new Worker(new URL("./worker.ts", import.meta.url), {
         type: "module",
@@ -132,6 +122,7 @@ export const readHeaderValuesAsync = async (
 
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
+        // ! 
         worker.postMessage({
           file: e.target?.result,
           readFirstNRows: MAX_CACHED_ROW,
@@ -145,7 +136,7 @@ export const readHeaderValuesAsync = async (
     });
   }
 
-  // For rows > 100, use the original single-row reading logic
+  // For rows > 100, use the original single-row reading logic -> no caching will be used
   return new Promise((resolve, reject) => {
     const worker = new Worker(new URL("./worker.ts", import.meta.url), {
       type: "module",
@@ -169,6 +160,7 @@ export const readHeaderValuesAsync = async (
 
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
+      // ! 
       worker.postMessage({
         file: e.target?.result,
         headerRow,

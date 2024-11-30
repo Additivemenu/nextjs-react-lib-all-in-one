@@ -15,7 +15,7 @@ const demos = [
     path: "/demo1/",
     style: " underline",
     description:
-      "only read a certain row from a large excel file without any caching",
+      "only read a certain row from a large excel file with web worker, but no caching",
     links: [
       {
         name: "useMutation official doc",
@@ -27,8 +27,7 @@ const demos = [
     title: "Demo 1-1: read large excel file certain row",
     path: "/demo1-1/",
     style: " underline",
-    description:
-      "only read a certain row from a large excel file, with caching mechanism",
+    description: "upgrade from demo1, with caching mechanism",
     links: [
       {
         name: "useMutation official doc",
