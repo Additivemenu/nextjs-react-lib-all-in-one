@@ -3,7 +3,8 @@ import { Loader2 } from "lucide-react";
 
 const LoaderReplacer = () => {
   useEffect(() => {
-    // Create our custom loader element
+    // ! Create our custom loader element
+    // use DOM API to replace the loader UI
     const createCustomLoader = () => {
       const customLoader = document.createElement("div");
       customLoader.className = "flex items-center justify-center p-2";
@@ -21,7 +22,13 @@ const LoaderReplacer = () => {
 
     // Callback function to handle DOM mutations
     const callback = (mutations: MutationRecord[]) => {
+      console.log("mutations:", mutations);
+
       mutations.forEach((mutation) => {
+        // console.log("mutation inside forEach", mutation);
+
+        // ! rcb-bot-message-container > rcb-bot-message rcb-bot-message-entry > rcb-typing-indicator
+        // while this observer only captures rcb-bot-message-container as addedNodes
         mutation.addedNodes.forEach((node) => {
           if (
             node instanceof HTMLElement &&
@@ -42,6 +49,9 @@ const LoaderReplacer = () => {
 
     // Create and setup the observer
     const observer = new MutationObserver(callback);
+
+    // ! need to note chatbotWindow is also dynamic element in DOM tree
+    const chatbotWindow = document.querySelector(".rcb-chat-window");
 
     // Start observing with specific configuration
     observer.observe(document.body, {
