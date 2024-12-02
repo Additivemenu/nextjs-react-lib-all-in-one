@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 
 const demos = [
   {
+    title: "Demo 0: PostHog feature flag",
+    path: "/demo0/",
+  },
+  {
     title: "Demo 1: overlaying and disable an interface",
     path: "/demo1/",
   },
@@ -19,10 +23,6 @@ const demos = [
   {
     title: "Demo 4: mutation observer + react chatbotify",
     path: "/demo4/",
-  },
-  {
-    title: "Demo 0: PostHog feature flag",
-    path: "/demo0/",
   },
 ];
 
