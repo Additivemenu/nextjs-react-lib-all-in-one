@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { useRouter } from "next/navigation";
+import { PHProvider } from "./providers";
+import dynamic from "next/dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const PostHogPageView = dynamic(() => import("./PostHogPageView"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,11 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="h-screen flex flex-col items-center justify-between">
-          {children}
-        </main>
-      </body>
+      <PHProvider>
+        <body className={inter.className}>
+          <PostHogPageView />
+          <main className="h-screen flex flex-col items-center justify-between">
+            {children}
+          </main>
+        </body>
+      </PHProvider>
     </html>
   );
 }

@@ -33,6 +33,7 @@
     "next": "14.2.7",
     "next-themes": "^0.4.3",
     "optics-ts": "^2.4.1",
+    "posthog-js": "^1.194.1",
     "react": "^18",
     "react-chatbotify": "2.0.0-beta.21",
     "react-dom": "^18",

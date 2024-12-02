@@ -20,6 +20,10 @@ const demos = [
     title: "Demo 4: mutation observer + react chatbotify",
     path: "/demo4/",
   },
+  {
+    title: "Demo 0: PostHog feature flag",
+    path: "/demo0/",
+  },
 ];
 
 const Page = () => {
