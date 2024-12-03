@@ -41,6 +41,11 @@ const content: ContentItem[] = [
     path: "/C5-react-hook-form-zod/",
     style: "text-red-500 underline",
   },
+  {
+    title: "C6 driver.js",
+    path: "/C6-driver-js/",
+    style: "text-red-500 underline",
+  },
 ];
 
 export default function Home() {
