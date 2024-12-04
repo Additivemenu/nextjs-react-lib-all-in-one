@@ -10,6 +10,10 @@ export const observerCallback = (mutations: MutationRecord[]) => {
   // (it seems there are specialized tools to help with this process)
   // level1: rcb-bot-message-container level
   mutations.forEach((mutation) => {
+    if (mutation.type !== "childList") {
+      return;
+    }
+
     // console.log("mutation inside forEach", mutation);
     if (mutation.addedNodes.length !== 1) {
       return;
@@ -63,14 +67,13 @@ export const observerCallback = (mutations: MutationRecord[]) => {
     // 1. default loading spinner -> for normal conversations
     // 2. a step by step information that reveals backend tasks, which should be triggered by server event -> for chatbot api calls
 
-    // ! DOM change here
-    typingIndicator.style.display = "none";
-    // Add our custom loader
-    chatbotMessage.appendChild(createCustomLoader());
-    // TODO: add websocket or server event trigger status change of the loader and add new task tracker?
+    // // ! DOM change here
+    // typingIndicator.style.display = "none";
+    // // Add our custom loader
+    // chatbotMessage.appendChild(createCustomLoader());
+    // // TODO: add websocket or server event trigger status change of the loader and add new task tracker?
 
-
-    // observer.disconnect(); // ! avoid infinite loop
+  
   });
 
   console.log("end of callback -------------------------------------");
