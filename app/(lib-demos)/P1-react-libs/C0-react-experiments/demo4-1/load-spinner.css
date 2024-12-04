@@ -1,0 +1,80 @@
+/*
+overwrite style for react-chatbotify load visual
+*/
+.custom-rcb-loading-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #eafefe;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 8px solid #f2f6f8;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  width: fit-content;
+}
+.custom-rcb-loading-container:hover {
+  cursor: pointer;
+}
+.custom-rcb-loading-text {
+  color: #0ca0b5;
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 40px;
+}
+
+/* From Uiverse.io by VashonG  https://uiverse.io/VashonG/jolly-yak-23 */
+.custom-rcb-loader {
+  --hue: 255;
+  --size: 28px;
+  --border: 4px;
+  --speed: 1s;
+  --blur: var(--border);
+}
+
+.custom-rcb-loader {
+  width: var(--border);
+  aspect-ratio: 1;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  --y: calc((var(--size) * -0.5) + (var(--border) * 0.5));
+  transform: rotate(0deg) translateY(var(--y));
+  animation: custom-rcb-spin var(--speed) infinite linear;
+}
+
+.custom-rcb-loader::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--border) * -0.5);
+  border-radius: 50%;
+  background: white;
+  filter: blur(var(--blur));
+  z-index: -1;
+}
+
+.custom-rcb-loader::after {
+  content: "";
+  width: var(--size);
+  aspect-ratio: 1;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  translate: -50% 0;
+  background: conic-gradient(
+    rgb(11, 209, 220),
+    hsl(var(--hue), 100%, 70%),
+    hsl(var(--hue), 100%, 65%),
+    transparent 65%
+  );
+  border-radius: 50%;
+  mask: radial-gradient(
+    transparent calc(((var(--size) * 0.5) - var(--border)) - 1px),
+    white calc((var(--size) * 0.5) - var(--border))
+  );
+}
+
+@keyframes custom-rcb-spin {
+  to {
+    transform: rotate(-360deg) translateY(var(--y));
+  }
+}

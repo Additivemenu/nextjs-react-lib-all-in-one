@@ -24,6 +24,10 @@ const demos = [
     title: "Demo 4: mutation observer + react chatbotify",
     path: "/demo4/",
   },
+  {
+    title: "Demo 4: useEffect + react chatbotify -> not working actually",
+    path: "/demo4-1/",
+  },
 ];
 
 const Page = () => {
