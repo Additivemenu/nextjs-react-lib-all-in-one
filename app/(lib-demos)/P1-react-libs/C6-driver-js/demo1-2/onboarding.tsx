@@ -30,7 +30,7 @@ const OnboardingDemo = () => {
     const driverInstance = driver({
       showProgress: true,
       allowClose: false,
-      popoverOffset: 2,
+      popoverOffset: 10,
       onHighlightStarted: (element, step, option) => {
         // debugger;
         // if (step.element === "#user-profile") {
@@ -75,7 +75,8 @@ const OnboardingDemo = () => {
           element: "#profile-modal",
           popover: {
             title: "Profile Settings",
-            description: "Click 'Save Changes' to continue the tour!",
+            description:
+              "Click 'Save Changes' to continue the tour! <img src='https://images.unsplash.com/photo-1608096299210-db7e38487075?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80' />",
             side: "right",
             onNextClick: (element, step) => {
               setShowDialog(false);

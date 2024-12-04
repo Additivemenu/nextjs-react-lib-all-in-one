@@ -44,13 +44,6 @@ const demos = [
       "continuing demo1-1, see if driver.js work on modal dialog (dynamically added component) and the answer is yes",
   },
   {
-    title: "Demo 1-2-1: see if work on modal without using next button",
-    path: "/demo1-2-1/",
-    style: " underline text-red-500",
-    description:
-      "continuing demo1-2-1, but hide the next button in the popover so user can only move to next step by interacting with the original page",
-  },
-  {
     title: "Demo 1-3: see if can break and resume",
     path: "/demo1-3/",
     style: " underline",
@@ -66,15 +59,9 @@ const demos = [
 ];
 
 /**
- * still a bit problematic
- *
- * need to check:
- * - if we can move to next step programmatically? - yes
- *   - !in our case, moving to next step can be triggered by a variety of events, such as clicking on a button, user drag over a node, ....
- *   - async tour might be useful in this case https://driverjs.com/docs/async-tour
- * - if the onboarding popover can disable clicking on outside of the popover? - yes
- *   - but for user drag and drop a node onto canvas, if we disable the clicking outside of the popover, the user can't drag and drop the node (only click on the node)
- * - can the element in step3, 5 be the same? - yes
+ * 
+ * seems react-joyride can support break tour in the middle and then resume back ? 
+ * 
  * 
  * challenges: depending on how we design the user onboarding flow
  *! - a challenge is that how to resume back to previous step if a state change has been made 

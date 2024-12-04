@@ -46,6 +46,16 @@ const content: ContentItem[] = [
     path: "/C6-driver-js/",
     style: "text-red-500 underline",
   },
+  {
+    title: "C6 intro.js",
+    path: "/C6-intro-js/",
+    style: "text-red-500 underline",
+  },
+  {
+    title: "C6 react joyride",
+    path: "/C6-react-joyride/",
+    style: "text-red-500 underline",
+  },
 ];
 
 export default function Home() {

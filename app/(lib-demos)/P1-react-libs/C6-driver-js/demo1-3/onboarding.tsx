@@ -235,18 +235,18 @@ const OnboardingDemo = () => {
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={() => {
-              // resume the tour
-              const newDriverInstance = driver(driverConfig);
-              setDriverObj(newDriverInstance);
-              newDriverInstance.drive(stepIndex.current);
+              // // resume the tour
+              // const newDriverInstance = driver(driverConfig);
+              // setDriverObj(newDriverInstance);
+              // newDriverInstance.drive(stepIndex.current);
 
-              // ! how to check if next step is a particular step?
-              setTimeout(() => {
-                // wait for driveObj to be updated
-                if (driverObj?.hasNextStep()) {
-                  driverObj?.moveNext();
-                }
-              }, 200);
+              // // ! how to check if next step is a particular step?
+              // setTimeout(() => {
+              //   // wait for driveObj to be updated
+              //   if (driverObj?.hasNextStep()) {
+              //     driverObj?.moveNext();
+              //   }
+              // }, 200);
             }}
           >
             click me to final!{" "}

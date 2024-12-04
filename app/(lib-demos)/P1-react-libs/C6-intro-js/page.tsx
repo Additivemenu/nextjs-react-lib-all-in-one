@@ -29,26 +29,13 @@ const demos = [
     style: " underline",
     description:
       "continuing demo1, programmatically moving to next step, instead of click on next button in popover",
-    links: [
-      {
-        name: "useMutation official doc",
-        link: "https://tanstack.com/query/latest/docs/framework/react/guides/mutations",
-      },
-    ],
   },
   {
     title: "Demo 1-2: see if work on modal",
     path: "/demo1-2/",
     style: " underline",
     description:
-      "continuing demo1-1, see if driver.js work on modal dialog (dynamically added component) and the answer is yes",
-  },
-  {
-    title: "Demo 1-2-1: see if work on modal without using next button",
-    path: "/demo1-2-1/",
-    style: " underline text-red-500",
-    description:
-      "continuing demo1-2-1, but hide the next button in the popover so user can only move to next step by interacting with the original page",
+      "continuing demo1-1, see if intro.js work on modal dialog (dynamically added component) and the answer is likely a no",
   },
   {
     title: "Demo 1-3: see if can break and resume",
