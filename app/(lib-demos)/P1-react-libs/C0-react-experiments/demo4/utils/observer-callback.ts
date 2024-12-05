@@ -1,7 +1,9 @@
+import { set } from "zod";
 import { createCustomLoader } from "./replaceLoader";
 
 export const observerCallback = (mutations: MutationRecord[]) => {
-  console.log("mutations -------------------------------------", mutations);
+  console.log("start of callback -------------------------------------");
+  console.log("mutations", mutations);
 
   // ! rcb-bot-message-container > rcb-bot-message rcb-bot-message-entry > rcb-typing-indicator
   // while this observer only captures rcb-bot-message-container as addedNodes
@@ -67,14 +69,26 @@ export const observerCallback = (mutations: MutationRecord[]) => {
     // 1. default loading spinner -> for normal conversations
     // 2. a step by step information that reveals backend tasks, which should be triggered by server event -> for chatbot api calls
 
-    // // ! DOM change here
-    // typingIndicator.style.display = "none";
-    // // Add our custom loader
-    // chatbotMessage.appendChild(createCustomLoader());
-    // // TODO: add websocket or server event trigger status change of the loader and add new task tracker?
+    // ! DOM change here
+    // TODO: add websocket or server event trigger status change of the loader and add new task tracker?
+    // TODO: when to establish the websocket connection with server?
+    // if no server-sent event, it would just be like the normal loader
 
-  
+    // simulate task tracker triggered by server-sent event
+    setTimeout(() => {
+      typingIndicator.style.display = "none";
+      chatbotMessage.style.flexDirection = "column";
+      chatbotMessage.appendChild(createCustomLoader());
+    }, 1000);
+
+    setTimeout(() => {
+      chatbotMessage.appendChild(createCustomLoader());
+    }, 2000);
+
+    setTimeout(() => {
+      chatbotMessage.appendChild(createCustomLoader());
+    }, 3000);
   });
 
-  console.log("end of callback -------------------------------------");
+  console.log("end of callback ------------");
 };

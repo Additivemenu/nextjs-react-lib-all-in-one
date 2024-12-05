@@ -9,7 +9,7 @@ export const useSimpleFlow = () => {
     loop: {
       message: async (params) => {
         if (params.userInput === "sleep") {
-          await new Promise((resolve) => setTimeout(resolve, 100000));
+          await new Promise((resolve) => setTimeout(resolve, 10000));
 
           return "Ok, have a good day!";
         }
