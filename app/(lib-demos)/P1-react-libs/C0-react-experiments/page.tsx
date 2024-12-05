@@ -28,6 +28,18 @@ const demos = [
     title: "Demo 4: useEffect + react chatbotify -> not working actually",
     path: "/demo4-1/",
   },
+  {
+    title: "Demo 5: server-sent event (SSE)",
+    path: "/demo5/",
+  },
+  {
+    title: "Demo 5-1: SSE for chat session viewer, in react",
+    path: "/demo5-1/",
+  },
+  {
+    title: "Demo 5-2: SSE for chat session viewer, but in DOM",
+    path: "/demo5-2/",
+  },
 ];
 
 const Page = () => {
