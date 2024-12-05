@@ -25,8 +25,12 @@ const demos = [
     path: "/demo4/",
   },
   {
-    title: "Demo 4: useEffect + react chatbotify -> not working actually",
+    title: "Demo 4-1: useEffect + react chatbotify -> not working actually",
     path: "/demo4-1/",
+  },
+  {
+    title: "Demo 4-2: mutation observer + react chatbotify + SSE",
+    path: "/demo4-2/",
   },
   {
     title: "Demo 5: server-sent event (SSE)",
