@@ -44,6 +44,10 @@ const demos = [
     title: "Demo 5-2: SSE for chat session viewer, but in DOM",
     path: "/demo5-2/",
   },
+  {
+    title: "Demo 5-3: SSE for long running task progress tracking (still doing)",
+    path: "/demo5-3/",
+  },
 ];
 
 const Page = () => {

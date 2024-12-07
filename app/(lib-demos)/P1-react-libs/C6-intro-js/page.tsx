@@ -33,7 +33,7 @@ const demos = [
   {
     title: "Demo 1-2: see if work on modal",
     path: "/demo1-2/",
-    style: " underline",
+    style: " underline text-red-500",
     description:
       "continuing demo1-1, see if intro.js work on modal dialog (dynamically added component) and the answer is likely a no",
   },
