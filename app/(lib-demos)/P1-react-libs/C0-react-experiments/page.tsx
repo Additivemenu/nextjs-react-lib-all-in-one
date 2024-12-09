@@ -33,6 +33,10 @@ const demos = [
     path: "/demo4-2/",
   },
   {
+    title: "Demo 4-3: mutation observer + react chatbotify + SSE + context encapsulation in ref",
+    path: "/demo4-3/",
+  },
+  {
     title: "Demo 5: server-sent event (SSE)",
     path: "/demo5/",
   },
