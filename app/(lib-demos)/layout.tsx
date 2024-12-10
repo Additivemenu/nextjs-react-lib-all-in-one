@@ -25,7 +25,7 @@ export default function RootLayout({
         <div className="h-full flex flex-col shadow-lg p-4 min-w-[var(--left-sidebar-width)] grow">
           left side bar
         </div>
-        <div className="h-full flex flex-col justify-center items-center p-6 grow-[5]">
+        <div className="h-full flex flex-col justify-center items-center py-2 grow-[5]">
           {children}
         </div>
       </div>

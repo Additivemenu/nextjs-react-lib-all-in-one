@@ -24,14 +24,20 @@ interface Demo {
   }[];
 }
 
+/**
+ * a page template
+ *
+ * @param param0
+ * @returns
+ */
 const PageWithAccordions: React.FC<PageWithAccordionsProps> = ({ demos }) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex justify-center items-center bg-gray-100">
+    <div className="h-full overflow-auto flex justify-center items-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg min-w-[500px]">
         <h1 className="text-2xl font-bold mb-6 text-center">
-          React Error Boundary Demos
+          Demos with Accordions
         </h1>
         <Accordion type="single" collapsible>
           <ul className="space-y-4">

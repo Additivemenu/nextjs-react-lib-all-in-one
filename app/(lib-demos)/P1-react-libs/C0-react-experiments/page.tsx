@@ -20,38 +20,12 @@ const demos = [
     path: "/demo3/",
   },
   {
-    title: "Demo 4: mutation observer + react chatbotify",
-    path: "/demo4/",
+    title: "Demo 4-0: mutation observer + react chatbotify",
+    path: "/demo4-0/",
   },
   {
-    title: "Demo 4-1: useEffect + react chatbotify -> not working actually",
-    path: "/demo4-1/",
-  },
-  {
-    title: "Demo 4-2: mutation observer + react chatbotify + SSE",
-    path: "/demo4-2/",
-  },
-  {
-    title:
-      "Demo 4-3: mutation observer + react chatbotify + SSE + context encapsulation in ref",
-    path: "/demo4-3/",
-  },
-  {
-    title: "Demo 5: server-sent event (SSE)",
-    path: "/demo5/",
-  },
-  {
-    title: "Demo 5-1: SSE for chat session viewer, in react",
-    path: "/demo5-1/",
-  },
-  {
-    title: "Demo 5-2: SSE for chat session viewer, but in DOM",
-    path: "/demo5-2/",
-  },
-  {
-    title:
-      "Demo 5-3: SSE for long running task progress tracking (still doing)",
-    path: "/demo5-3/",
+    title: "Demo 5-0: server-sent event (SSE)",
+    path: "/demo5-0/",
   },
 ];
 
