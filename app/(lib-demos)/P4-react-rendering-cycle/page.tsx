@@ -53,6 +53,11 @@ const content: ContentItem[] = [
     path: "/demo6/",
     style: "text-purple-500 underline",
   },
+  {
+    title: "demo7: diff between useState, useRef, and normal variable",
+    path: "/demo7/",
+    style: "text-purple-500 underline",
+  },
 ];
 
 export default function Home() {

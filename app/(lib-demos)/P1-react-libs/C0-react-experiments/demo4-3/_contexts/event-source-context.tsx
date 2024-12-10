@@ -9,6 +9,8 @@ interface EventContextValue {
 
 /**
  * ! should keep event source obj as ref, instead of state
+ *
+ * this context is a layer of encapsulation over the event source connection, we only want to keep one connection at a time
  */
 const EventContext = createContext<EventContextValue>({
   eventSourceRef: { current: null },
@@ -24,6 +26,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
   const connect = (url: string) => {
     if (eventSourceRef.current) {
       eventSourceRef.current.close();
+      styledLog("Closed existing event source connection");
     }
 
     try {

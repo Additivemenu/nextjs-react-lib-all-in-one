@@ -101,6 +101,7 @@ export const useMutationObserverCallback = () => {
       // Step2: replace the typing indicator with our custom loader
       // case1: if no server-sent event, it would just be like the normal loader
       // TODO: how to avoid build connection if it is a conversation other than chatbot api calls ?
+      // - one way is to auto close the existing connection when we want to create a new one
       // only detect this state from backend and close the connection early?
 
       // ! case2:  Set up SSE connection
