@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { usePathname } from "next/navigation";
+import PageWithAccordions from "@/components/pages/page-with-accordions";
 
 const demos = [
   {
@@ -33,7 +32,8 @@ const demos = [
     path: "/demo4-2/",
   },
   {
-    title: "Demo 4-3: mutation observer + react chatbotify + SSE + context encapsulation in ref",
+    title:
+      "Demo 4-3: mutation observer + react chatbotify + SSE + context encapsulation in ref",
     path: "/demo4-3/",
   },
   {
@@ -49,35 +49,17 @@ const demos = [
     path: "/demo5-2/",
   },
   {
-    title: "Demo 5-3: SSE for long running task progress tracking (still doing)",
+    title:
+      "Demo 5-3: SSE for long running task progress tracking (still doing)",
     path: "/demo5-3/",
   },
 ];
 
 const Page = () => {
-  const pathname = usePathname();
-  console.log(pathname);
-
   return (
-    <div className="flex justify-center items-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg min-w-[500px]">
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          React Error Boundary Demos
-        </h1>
-        <ul className="space-y-4">
-          {demos.map((demo) => (
-            <li key={demo.title}>
-              <a
-                href={pathname + demo.path}
-                className="text-blue-500 hover:underline"
-              >
-                {demo.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <>
+      <PageWithAccordions demos={demos} />
+    </>
   );
 };
 

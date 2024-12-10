@@ -1,15 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import PageWithAccordions from "@/components/pages/page-with-accordions";
 
-type ContentItem = {
-  title: string;
-  path: string;
-  style?: string;
-};
-
-const content: ContentItem[] = [
+const content = [
   {
     title: "C0: react experiments",
     path: "/C0-react-experiments/",
@@ -42,38 +35,16 @@ const content: ContentItem[] = [
     style: "text-red-500 underline",
   },
   {
-    title: "C6 driver.js",
-    path: "/C6-driver-js/",
-    style: "text-red-500 underline",
-  },
-  {
-    title: "C6 intro.js",
-    path: "/C6-intro-js/",
-    style: "text-red-500 underline",
-  },
-  {
-    title: "C6 react joyride",
-    path: "/C6-react-joyride/",
+    title: "C6 onboarding libs",
+    path: "/C6-onboarding-libs/",
     style: "text-red-500 underline",
   },
 ];
 
 export default function Home() {
-  const pathname = usePathname();
-
   return (
     <>
-      <h2 className="text-red-500">
-        {" "}
-        try to keep each page as independent as possible
-      </h2>
-      {content.map((item) => (
-        <Link key={item.title} href={pathname + item.path}>
-          <h1 className={`text-2xl font-bold ${item.style ?? ""}`}>
-            {item.title}
-          </h1>
-        </Link>
-      ))}
+      <PageWithAccordions demos={content} />
     </>
   );
 }
