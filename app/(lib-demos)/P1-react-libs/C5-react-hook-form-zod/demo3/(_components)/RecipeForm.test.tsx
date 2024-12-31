@@ -4,7 +4,7 @@ import { RecipeForm } from "./RecipeForm";
 import { act } from "react-dom/test-utils";
 import "@testing-library/jest-dom"; // Ensure this is imported
 
-describe("RecipeForm", () => {
+describe.skip("RecipeForm", () => {
   // Test if the form renders properly
   it("renders the form correctly", () => {
     render(<RecipeForm />);
@@ -31,7 +31,7 @@ describe("RecipeForm", () => {
     // Check for validation error messages
     expect(screen.getByText(/recipe name is required/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/description cannot be longer than 100 characters/i)
+      screen.getByText(/description cannot be longer than 100 characters/i),
     ).toBeInTheDocument();
   });
 

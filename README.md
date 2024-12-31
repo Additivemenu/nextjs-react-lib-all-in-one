@@ -52,7 +52,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 # Testing
 
 ## Unit test 
-Jest
+Jest setup in Next.js: https://nextjs.org/docs/app/building-your-application/testing/jest#manual-setup
+
+
 
 ## E2E test
 

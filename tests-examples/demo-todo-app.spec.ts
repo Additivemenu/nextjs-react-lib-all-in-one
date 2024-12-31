@@ -1,5 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 
+/**
+ * FIXME: where does this file come from? looks like from playwright doc tutorial
+ */
 test.beforeEach(async ({ page }) => {
   await page.goto('https://demo.playwright.dev/todomvc');
 });
