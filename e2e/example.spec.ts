@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+// this is dummy test in Playwright doc tutorial
 test('has title', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 

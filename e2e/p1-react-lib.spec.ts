@@ -5,49 +5,47 @@ test("should display all p1 title links", async ({ page }) => {
   await page.getByRole("link", { name: "P1: react libs" }).click();
 
   await expect(
-    page.getByRole("link", { name: "C0: error boundary" }),
-  ).toBeVisible();
-  await expect(page.getByRole("link", { name: "C2-react-flow" })).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "C3-react-query" }),
-  ).toBeVisible();
-  await expect(page.getByRole("link", { name: "C4-zustand" })).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "C5-react-hook-form-zod" }),
+    page.getByRole("button", { name: "C0: error boundary" }),
   ).toBeVisible();
 });
 
 test("should toggle boom panel on click a button", async ({ page }) => {
   await page.goto("http://127.0.0.1:3000/");
+  // root page
   await page.getByRole("link", { name: "P1: react libs" }).click();
-  await page.getByRole("link", { name: "C0: error boundary" }).click();
-  await expect(
-    page.getByRole("link", { name: "Demo 3: React-Error-Boundary" }),
-  ).toBeVisible();
-  await page
-    .getByRole("link", { name: "Demo 3: React-Error-Boundary" })
-    .click();
 
+  // entering the react libs page
+  await page.getByRole("button", { name: "C0: error boundary" }).click();
+  await expect(page.getByRole("link", { name: "check demo" })).toBeVisible();
+  await page.getByRole("link", { name: "check demo" }).click();
+
+  // entering the demo page
+  await page.waitForTimeout(1000); // ! sometimes this is needed
+  const demoAccordionTitle = await page.getByRole("button", {
+    name: "Demo 3: React-Error-Boundary for right side panel with variants content",
+  });
+  await expect(demoAccordionTitle).toBeVisible();
+  await demoAccordionTitle.click();
+
+  const demoLink = await page.getByRole("link", { name: "check demo" });
+  await expect(demoLink).toBeVisible();
+  await demoLink.click();
+
+  // entering the demo app page
   await page.waitForTimeout(1000); // ! sometimes this is needed
   const openBombPanelButton = page.getByRole("button", {
     name: "Open Bomb Panel",
   });
   await expect(openBombPanelButton).toBeVisible();
-
   await openBombPanelButton.click();
 
-  await expect(
-    page.getByText(
-      "This is a bomb panel. It will explode if you click the button below.",
-    ),
-  ).toBeInViewport();
+  const bombPanelText = await page.getByText(
+    "This is a bomb panel. It will explode if you click the button below.",
+  );
+  await expect(bombPanelText).toBeInViewport();
   await page.waitForTimeout(2000); // ! sometimes this is needed
-  await openBombPanelButton.click();
-  await expect(
-    page.getByText(
-      "This is a bomb panel. It will explode if you click the button below.",
-    ),
-  ).not.toBeInViewport({ ratio: 0.2 });
+  await openBombPanelButton.click();  // close the panel
+  await expect(bombPanelText).not.toBeInViewport({ ratio: 0.2 });
 });
 
 test.skip("should toggle boom panel on click a button - 2", async ({

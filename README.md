@@ -46,3 +46,24 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+
+
+# Testing
+
+## Unit test 
+Jest
+
+## E2E test
+
+Playwright
+
+see e2e tests in `./e2e`, github workflow action setup in `.github/workflows/playwright.yml`
+
+start from this: https://playwright.dev/docs/intro
+
+- basically the same as you use https://playwright.dev/docs/getting-started-vscode
+- very good get started doc, easy to follow and also cover the key concepts in playwright e2e tests:
+    - writing test with action and assertions
+    - **codegen** for auto generate test scripts
+    - run and debug test in UI mode
