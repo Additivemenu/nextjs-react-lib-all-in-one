@@ -16,6 +16,14 @@ const demos = [
     path: "/demo2/",
   },
   {
+    title: "Demo 2-1: shadcn dialog modal click through",
+    path: "/demo2-1/",
+  },
+  {
+    title: "Demo 2-2: material UI dialog modal click through",
+    path: "/demo2-2/",
+  },
+  {
     title: "Demo 3: react suspense",
     path: "/demo3/",
   },
