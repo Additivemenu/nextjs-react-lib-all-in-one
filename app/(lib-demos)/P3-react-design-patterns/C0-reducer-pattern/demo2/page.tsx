@@ -15,7 +15,13 @@ import TaskFilter from "./_components/task-filter";
 import TaskList from "./_components/task-list";
 import RedoUndo from "./_components/redo-undo";
 
-// Component
+
+/**
+ * unit tests: 
+ * https://claude.ai/chat/bf59d83b-ab14-4eab-8b99-a92e82a54dfa
+ * 
+ * @returns 
+ */
 const TaskManager: React.FC = () => {
   const methods = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),

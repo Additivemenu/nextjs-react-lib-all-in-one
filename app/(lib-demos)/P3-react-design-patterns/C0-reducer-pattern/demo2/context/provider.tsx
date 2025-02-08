@@ -15,6 +15,13 @@ interface TaskProviderProps {
   children: ReactNode;
 }
 
+/**
+ * context means lifting state, and a level of encapsulation
+ * usually packed with other hooks
+ *
+ * @param param0
+ * @returns
+ */
 export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   // lift hooks at provider level
   const [state, dispatch] = useReducer(taskReducer, initialState);

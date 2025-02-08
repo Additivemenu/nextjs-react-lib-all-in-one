@@ -71,6 +71,8 @@ const AddTaskForm = () => {
           render={({ field }) => (
             <select
               {...field}
+              aria-label="Priority"
+              name="priority"
               className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mr-2"
             >
               <option value="low">Low</option>
@@ -85,6 +87,8 @@ const AddTaskForm = () => {
           render={({ field }) => (
             <select
               {...field}
+              aria-label="Category"
+              name="category"
               className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mr-2"
             >
               <option value="work">Work</option>
@@ -101,6 +105,8 @@ const AddTaskForm = () => {
             <>
               <input
                 {...field}
+                aria-label="Due date"
+                name="dueDate"
                 type="date"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 //   onChange={(e) => field.onChange(new Date(e.target.value))}

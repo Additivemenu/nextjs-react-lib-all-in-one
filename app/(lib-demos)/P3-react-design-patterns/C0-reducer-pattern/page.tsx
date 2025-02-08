@@ -15,14 +15,16 @@ const demos = [
   },
   {
     title:
-      "Demo 2: task manager (useReducer with react-hook-form + zod + file break down)",
+      "🛡️ Demo 2: task manager (useReducer with react-hook-form + zod + file break down)",
     path: "/demo2/",
     style: "text-purple-500 underline",
+    description: "Unit tests are mostly needed for form interaction!!!",
   },
   {
     title: "Demo 3: todo list - just normal todo list with zustand",
     path: "/demo3/",
     style: "text-purple-500 underline",
+    description: "just normal todo list with zustand",
   },
   {
     title: "Demo 3-1: todo list - with sequence actions",

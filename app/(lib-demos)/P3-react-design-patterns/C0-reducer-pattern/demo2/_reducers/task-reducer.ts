@@ -9,6 +9,9 @@ import { Task, TaskState, TaskAction } from "../type";
  * 2. Separating the what (the action) from the how (the state update logic)
  * 3. Providing a clear structure for handling complex state
  * 
+ * redux, zustand store are also using this pattern
+ * essentially, it's the command pattern
+ * 
  * @param state 
  * @param action 
  * @returns 
