@@ -18,11 +18,12 @@ const demos = [
       "🛡️ Demo 2: task manager (useReducer with react-hook-form + zod + file break down)",
     path: "/demo2/",
     style: "text-purple-500 underline",
-    description: "need to refine aria-label and how to query input in jest test",
+    description:
+      "need to refine aria-label and how to query input in jest test",
   },
   {
     title:
-      "🛡️ Demo 2-1: task manager (zustand with react-hook-form + zod + file break down)",
+      "🛡️ Demo 2-1: task manager (zustand (redux devtools) with react-hook-form + zod + file break down)",
     path: "/demo2-1/",
     style: "text-purple-500 underline",
     description: "Unit tests are mostly needed for form interaction!!!",
