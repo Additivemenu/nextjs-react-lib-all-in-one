@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
-import { useTaskContext } from "../../context/context";
 import { TaskFormData } from "../../form";
+import { useTaskStore } from "../../_stores/task-store";
 
 const AddTaskForm = () => {
   const {
@@ -8,12 +8,12 @@ const AddTaskForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useFormContext<TaskFormData>(); // retrieve all hook methods
+  } = useFormContext<TaskFormData>();
 
-  const { state, dispatch } = useTaskContext(); // retrieve all hook methods
+  const addTask = useTaskStore((state) => state.addTask);
 
   const onSubmit = (data: TaskFormData) => {
-    dispatch({ type: "ADD_TASK", payload: data });
+    addTask(data);
     reset();
   };
 
@@ -33,6 +33,7 @@ const AddTaskForm = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 placeholder="Task title"
+                aria-label="title-input"
               />
               {errors.title && (
                 <span className="text-red-500 text-xs">
@@ -54,6 +55,7 @@ const AddTaskForm = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 placeholder="Description"
+                aria-label="description-input"
               />
               {errors.description && (
                 <span className="text-red-500 text-xs">
@@ -71,8 +73,7 @@ const AddTaskForm = () => {
           render={({ field }) => (
             <select
               {...field}
-              aria-label="Priority"
-              name="priority"
+              aria-label="priority-select"
               className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mr-2"
             >
               <option value="low">Low</option>
@@ -87,8 +88,7 @@ const AddTaskForm = () => {
           render={({ field }) => (
             <select
               {...field}
-              aria-label="Category"
-              name="category"
+              aria-label="category-select"
               className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mr-2"
             >
               <option value="work">Work</option>
@@ -107,10 +107,8 @@ const AddTaskForm = () => {
                 {...field}
                 aria-label="due-date-input"
                 data-testid="due-date-input"
-                name="dueDate"
                 type="date"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                //   onChange={(e) => field.onChange(new Date(e.target.value))}
+                className="due-date-input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               {errors.dueDate && (
                 <span className="text-red-500 text-xs">

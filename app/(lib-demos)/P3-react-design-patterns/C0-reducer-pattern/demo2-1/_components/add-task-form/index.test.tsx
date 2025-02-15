@@ -1,51 +1,38 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent, { UserEvent } from "@testing-library/user-event";
+import userEvent from "@testing-library/user-event";
 import { FormProvider, useForm } from "react-hook-form";
-import { TaskProvider } from "../../context/provider";
 import AddTaskForm from "./index";
-import { TaskFormData, INITIAL_FORM_VALUE } from "../../form";
+import { TaskFormData, INITIAL_FORM_VALUE, taskSchema } from "../../form";
+import { useTaskStore } from "../../_stores/task-store";
 import "@testing-library/jest-dom";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { taskSchema } from "../../form";
 
 /**
- * ! Unit test for this form component is not that easy, but this kind of tests are very common!
- *
- * @param component
- * @returns
+ * Helper function to render component with necessary providers
  */
 const renderWithProviders = (component: React.ReactNode) => {
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
     const methods = useForm<TaskFormData>({
       defaultValues: INITIAL_FORM_VALUE,
-      // ! Add validation rules
       resolver: zodResolver(taskSchema),
     });
-    return (
-      <FormProvider {...methods}>
-        <TaskProvider>{children}</TaskProvider>
-      </FormProvider>
-    );
+    return <FormProvider {...methods}>{children}</FormProvider>;
   };
 
   return render(<Wrapper>{component}</Wrapper>);
 };
 
-const setDueDateToTomorrow = async (userEvent: UserEvent) => {
-  // !Set future date -> a bit tricky
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const formattedDate = tomorrow.toISOString().split("T")[0];
-  const dueDateInput = screen.getByTestId("due-date-input");
-  await userEvent.clear(dueDateInput);
-  for (const char of formattedDate) {
-    await userEvent.type(dueDateInput, char);
-  }
-  await userEvent.tab();
-};
-
 describe("AddTaskForm", () => {
+  // Reset Zustand store before each test
+  beforeEach(() => {
+    useTaskStore.setState({
+      tasks: [],
+      filter: { status: "all", priority: "all", category: "all" },
+      history: [[]],
+      historyIndex: 0,
+    });
+  });
+
   it("should render all form fields", () => {
     renderWithProviders(<AddTaskForm />);
 
@@ -70,6 +57,8 @@ describe("AddTaskForm", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/title is required/i)).toBeInTheDocument();
+      // Verify store wasn't updated
+      expect(useTaskStore.getState().tasks).toHaveLength(0);
     });
   });
 
@@ -89,7 +78,6 @@ describe("AddTaskForm", () => {
 
     await userEvent.click(submitButton);
 
-    // Form should be reset after submission
     await waitFor(() => {
       expect(
         screen.queryByText(/due date must be in the future/i),
@@ -98,12 +86,13 @@ describe("AddTaskForm", () => {
       expect(descriptionInput).toHaveValue("Test Description");
       expect(prioritySelect).toHaveValue("high");
       expect(categorySelect).toHaveValue("work");
+      // Verify store wasn't updated
+      expect(useTaskStore.getState().tasks).toHaveLength(0);
     });
   });
 
   it("should successfully submit form with valid data", async () => {
     renderWithProviders(<AddTaskForm />);
-    const user = userEvent.setup();
 
     const titleInput = screen.getByPlaceholderText(/task title/i);
     const descriptionInput = screen.getByPlaceholderText(/description/i);
@@ -112,22 +101,77 @@ describe("AddTaskForm", () => {
     const submitButton = screen.getByRole("button", { name: /add task/i });
     const dueDateInput = screen.getByTestId("due-date-input");
 
-    await user.type(titleInput, "Test Task");
-    await user.type(descriptionInput, "Test Description");
-    await user.selectOptions(prioritySelect, "high");
-    await user.selectOptions(categorySelect, "work");
+    await userEvent.type(titleInput, "Test Task");
+    await userEvent.type(descriptionInput, "Test Description");
+    await userEvent.selectOptions(prioritySelect, "high");
+    await userEvent.selectOptions(categorySelect, "work");
 
-    await setDueDateToTomorrow(user);
+    // Set tomorrow's date
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const formattedDate = tomorrow.toISOString().split("T")[0];
+    await userEvent.clear(dueDateInput);
+    for (const char of formattedDate) {
+      await userEvent.type(dueDateInput, char);
+    }
+    await userEvent.tab();
 
-    await user.click(submitButton);
+    await userEvent.click(submitButton);
 
-    // Form should be reset after submission
+    // Verify form reset and store update
     await waitFor(() => {
+      // Check form reset
       expect(
         screen.queryByText(/due date must be in the future/i),
       ).not.toBeInTheDocument();
       expect(titleInput).toHaveValue("");
       expect(descriptionInput).toHaveValue("");
+
+      // Verify store state
+      const store = useTaskStore.getState();
+      expect(store.tasks).toHaveLength(1);
+      expect(store.tasks[0]).toMatchObject({
+        title: "Test Task",
+        description: "Test Description",
+        priority: "high",
+        category: "work",
+        completed: false,
+      });
+      // Verify history was updated
+      expect(store.history).toHaveLength(2); // Initial empty state + new task
+      expect(store.historyIndex).toBe(1);
+    });
+  });
+
+  it("should update history when adding a task", async () => {
+    renderWithProviders(<AddTaskForm />);
+
+    const titleInput = screen.getByRole("textbox", {
+      name: /title-input/i,
+    });
+    const dueDateInput = screen.getByTestId("due-date-input");
+    const submitButton = screen.getByRole("button", { name: /add task/i });
+
+    // Add task
+    await userEvent.type(titleInput, "Test Task");
+
+    // Set future date
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const formattedDate = tomorrow.toISOString().split("T")[0];
+    await userEvent.clear(dueDateInput);
+    for (const char of formattedDate) {
+      await userEvent.type(dueDateInput, char);
+    }
+    await userEvent.tab();
+
+    await userEvent.click(submitButton);
+
+    await waitFor(() => {
+      const store = useTaskStore.getState();
+      expect(store.history).toHaveLength(2);
+      expect(store.historyIndex).toBe(1);
+      expect(store.history[1]).toHaveLength(1); // New history entry with one task
     });
   });
 });

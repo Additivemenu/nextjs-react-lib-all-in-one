@@ -1,20 +1,22 @@
 import { Task, TaskState, TaskAction } from "../type";
 
 /**
- * 
+ *
  * Reducer function: this serves like a store in redux or in zustand
- * 
+ *
+ * ! note the immutability of the state in the reducer
+ *
  * benefit of using reducer pattern
  * 1. centralize state management
  * 2. Separating the what (the action) from the how (the state update logic)
  * 3. Providing a clear structure for handling complex state
- * 
+ *
  * redux, zustand store are also using this pattern
  * essentially, it's the command pattern
- * 
- * @param state 
- * @param action 
- * @returns 
+ *
+ * @param state
+ * @param action
+ * @returns
  */
 export const taskReducer = (
   state: TaskState,

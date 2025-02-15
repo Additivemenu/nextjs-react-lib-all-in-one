@@ -47,14 +47,16 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-
-
 # Testing
 
-## Unit test 
+## Unit test
+
 Jest setup in Next.js: https://nextjs.org/docs/app/building-your-application/testing/jest#manual-setup
 
-
+- better download vscode jest extension for better experience
+  - GUI for easy navigation of failed tests
+  - pin a single failed test and debug it with breakpoint
+- important to explicitly add `aria-label` and `getByRole` for testing
 
 ## E2E test
 
@@ -66,6 +68,6 @@ start from this: https://playwright.dev/docs/intro
 
 - basically the same as you use https://playwright.dev/docs/getting-started-vscode
 - very good get started doc, easy to follow and also cover the key concepts in playwright e2e tests:
-    - writing test with action and assertions
-    - **codegen** for auto generate test scripts
-    - run and debug test in UI mode
+  - writing test with action and assertions
+  - **codegen** for auto generate test scripts
+  - run and debug test in UI mode
