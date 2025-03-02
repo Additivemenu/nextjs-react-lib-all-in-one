@@ -105,33 +105,33 @@ jobs:
             fi
           done
           
-          # Escape potential special characters for GitHub Actions
-          DIFF_TEXT="${DIFF_TEXT//\%/\%25}"
-          DIFF_TEXT="${DIFF_TEXT//\}/\%7D}"
-          DIFF_TEXT="${DIFF_TEXT//\{/\%7B}"
-          DIFF_TEXT="${DIFF_TEXT//\@/\%40}"
-          DIFF_TEXT="${DIFF_TEXT//\*/\%2A}"
-          DIFF_TEXT="${DIFF_TEXT//\$/\%24}"
-          DIFF_TEXT="${DIFF_TEXT//\[/\%5B}"
-          DIFF_TEXT="${DIFF_TEXT//\]/\%5D}"
-          DIFF_TEXT="${DIFF_TEXT//\n/\%0A}"
-          DIFF_TEXT="${DIFF_TEXT//\r/\%0D}"
-          
-          echo "diff=$DIFF_TEXT" >> $GITHUB_OUTPUT
+          echo "::set-output name=diff::$DIFF_TEXT"
 
-      - name: ChatGPT code review
-        id: chatgpt-review
-        if: steps.changed-files.outputs.files != ''
-        uses: docker://ghcr.io/cirolini/chatgpt-github-actions:v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_pr_id: ${{ needs.check_comment.outputs.pr_number }}
-          openai_model: "gpt-4"
-          openai_temperature: 0.2
-          openai_max_tokens: 2048
-          prompt: |
-            You are a code reviewer. You will be given a Git diff of code changes.
+          node-version: '18'
+
+      - name: Install OpenAI SDK
+        run: npm install openai@^4.0.0
+
+      - name: Run ChatGPT code review
+        id: review
+        if: steps.changed-files.outputs.files != ''
+        uses: actions/github-script@v6
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          DIFF_TEXT: ${{ steps.diff-content.outputs.diff }}
+          CUSTOM_INSTRUCTIONS: ${{ needs.check_comment.outputs.custom_instructions }}
+        with:
+          script: |
+            const { OpenAI } = require('openai');
+            
+            const openai = new OpenAI({
+              apiKey: process.env.OPENAI_API_KEY,
+            });
+            
+            const prompt = `You are a code reviewer. You will be given a Git diff of code changes.
             Your task is to review the changes and provide constructive feedback.
             
             Focus on:
@@ -141,7 +141,7 @@ jobs:
             4. Performance issues
             5. Maintainability and readability
             
-            ${{ needs.check_comment.outputs.custom_instructions }}
+            ${process.env.CUSTOM_INSTRUCTIONS}
             
             For each issue you find, provide:
             - A clear description of the issue
@@ -156,62 +156,55 @@ jobs:
             Format your review with markdown for better readability.
             
             Here is the diff:
-            ${{ steps.diff-content.outputs.diff }}
-
-      - name: Post comment
-        uses: actions/github-script@v6
-        if: steps.chatgpt-review.outputs.response != ''
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const response = `## 🤖 ChatGPT Code Review
-
-            ${process.env.REVIEW_RESPONSE}
+            ${process.env.DIFF_TEXT}`;
             
-            ---
-            *This review was generated automatically by ChatGPT in response to @${context.payload.comment.user.login}'s request.*`;
-            
-            github.rest.issues.createComment({
-              issue_number: ${{ needs.check_comment.outputs.pr_number }},
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: response
-            });
-        env:
-          REVIEW_RESPONSE: ${{ steps.chatgpt-review.outputs.response }}
-
-      - name: Update reaction on success
-        uses: actions/github-script@v6
-        if: success() && steps.chatgpt-review.outputs.response != ''
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            // Add a ✅ reaction to indicate completion
-            await github.rest.reactions.createForIssueComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: context.payload.comment.id,
-              content: '+1'
-            });
-
-      - name: Update reaction on failure
-        uses: actions/github-script@v6
-        if: failure()
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            // Add a ❌ reaction to indicate failure
-            await github.rest.reactions.createForIssueComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: context.payload.comment.id,
-              content: '-1'
-            });
-            
-            // Post error message
-            github.rest.issues.createComment({
-              issue_number: ${{ needs.check_comment.outputs.pr_number }},
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "⚠️ Sorry, I couldn't complete the code review. Please check the GitHub Actions logs for more details."
-            });
+            try {
+              console.log('Sending request to OpenAI API...');
+              const response = await openai.chat.completions.create({
+                model: "gpt-4",
+                messages: [{ role: "user", content: prompt }],
+                temperature: 0.2,
+                max_tokens: 2048
+              });
+              
+              const reviewContent = response.choices[0].message.content;
+              console.log('Successfully received response from OpenAI API');
+              
+              // Create PR comment with the review
+              await github.rest.issues.createComment({
+                issue_number: ${{ needs.check_comment.outputs.pr_number }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🤖 ChatGPT Code Review\n\n${reviewContent}\n\n---\n*This review was generated automatically by ChatGPT in response to @${context.payload.comment.user.login}'s request.*`
+              });
+              
+              // Add success reaction to the trigger comment
+              await github.rest.reactions.createForIssueComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.payload.comment.id,
+                content: '+1'
+              });
+              
+              return { success: true };
+            } catch (error) {
+              console.error('Error calling OpenAI API:', error);
+              
+              // Add failure reaction to the trigger comment
+              await github.rest.reactions.createForIssueComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.payload.comment.id,
+                content: '-1'
+              });
+              
+              // Post error message
+              await github.rest.issues.createComment({
+                issue_number: ${{ needs.check_comment.outputs.pr_number }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "⚠️ Sorry, I couldn't complete the code review. An error occurred while processing the request."
+              });
+              
+              throw error;
+            }

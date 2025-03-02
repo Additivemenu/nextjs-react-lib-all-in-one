@@ -1,5 +1,6 @@
 "use client";
 
+import NavigationGuard from "@/components/guards/hooks/useNavigationGuard";
 import PageWithAccordions from "@/components/pages/page-with-accordions";
 
 const content = [
@@ -18,6 +19,7 @@ const content = [
 export default function Home() {
   return (
     <>
+      <NavigationGuard />
       <PageWithAccordions demos={content} />
     </>
   );
