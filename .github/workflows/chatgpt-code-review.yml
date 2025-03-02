@@ -1,0 +1,206 @@
+name: ChatGPT Code Review
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  code-review:
+    # Only run if the comment is on a PR and contains the trigger phrase
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '@chatgpt-code-review') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch PR data
+        id: pr-data
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the PR number from the issue (comment is on the PR)
+            const prNumber = context.issue.number;
+            
+            // Get the PR details
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            // Output the necessary data
+            core.setOutput('base_sha', pr.data.base.sha);
+            core.setOutput('head_sha', pr.data.head.sha);
+            core.setOutput('pr_number', pr.data.number);
+            
+            // Parse custom instructions if they exist in the comment
+            const comment = context.payload.comment.body;
+            let customInstructions = '';
+            
+            // Check if there are any specific instructions after the trigger phrase
+            if (comment.includes('@chatgpt-code-review')) {
+              const afterTrigger = comment.split('@chatgpt-code-review')[1].trim();
+              if (afterTrigger.length > 0) {
+                customInstructions = afterTrigger;
+              }
+            }
+            
+            core.setOutput('custom_instructions', customInstructions);
+      
+      - name: Fetch PR branch
+        run: |
+          git fetch origin pull/${{ steps.pr-data.outputs.pr_number }}/head:pr-${{ steps.pr-data.outputs.pr_number }}
+          git checkout pr-${{ steps.pr-data.outputs.pr_number }}
+
+      - name: Get changed files
+        id: changed-files
+        run: |
+          echo "files=$(git diff --name-only ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} | grep -E '\\.(js|ts|py|java|c|cpp|go|rb|php|cs|jsx|tsx)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      - name: Get diff content
+        id: diff-content
+        run: |
+          DIFF_TEXT=""
+          for file in ${{ steps.changed-files.outputs.files }}; do
+            if [ -f "$file" ]; then
+              echo "Processing $file"
+              FILE_DIFF=$(git diff ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} -- "$file")
+              DIFF_TEXT="$DIFF_TEXT
+              
+              File: $file
+              \`\`\`
+              $FILE_DIFF
+              \`\`\`
+              "
+            fi
+          done
+          
+          # Escape potential special characters for GitHub Actions
+          DIFF_TEXT="${DIFF_TEXT//\%/\%25}"
+          DIFF_TEXT="${DIFF_TEXT//\}/\%7D}"
+          DIFF_TEXT="${DIFF_TEXT//\{/\%7B}"
+          DIFF_TEXT="${DIFF_TEXT//\@/\%40}"
+          DIFF_TEXT="${DIFF_TEXT//\*/\%2A}"
+          DIFF_TEXT="${DIFF_TEXT//\$/\%24}"
+          DIFF_TEXT="${DIFF_TEXT//\[/\%5B}"
+          DIFF_TEXT="${DIFF_TEXT//\]/\%5D}"
+          DIFF_TEXT="${DIFF_TEXT//\n/\%0A}"
+          DIFF_TEXT="${DIFF_TEXT//\r/\%0D}"
+          
+          echo "diff=$DIFF_TEXT" >> $GITHUB_OUTPUT
+
+      - name: Add reaction to comment
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Add a 👀 reaction to indicate the request has been received
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'eyes'
+            });
+
+      - name: ChatGPT code review
+        id: chatgpt-review
+        if: steps.changed-files.outputs.files != ''
+        uses: docker://ghcr.io/cirolini/chatgpt-github-actions:v1
+        with:
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_pr_id: ${{ steps.pr-data.outputs.pr_number }}
+          openai_model: "gpt-4"
+          openai_temperature: 0.2
+          openai_max_tokens: 2048
+          prompt: |
+            You are a code reviewer. You will be given a Git diff of code changes.
+            Your task is to review the changes and provide constructive feedback.
+            
+            Focus on:
+            1. Code quality and best practices
+            2. Potential bugs or edge cases
+            3. Security vulnerabilities
+            4. Performance issues
+            5. Maintainability and readability
+            
+            ${{ steps.pr-data.outputs.custom_instructions }}
+            
+            For each issue you find, provide:
+            - A clear description of the issue
+            - The file and line number where it occurs
+            - A suggestion for how to fix it
+            - If applicable, an explanation of why your suggestion is better
+            
+            Be specific and actionable. Provide code examples when helpful.
+            If the code looks good, acknowledge good practices you observe.
+            Be courteous and professional.
+            
+            Format your review with markdown for better readability.
+            
+            Here is the diff:
+            ${{ steps.diff-content.outputs.diff }}
+
+      - name: Update reaction on success
+        uses: actions/github-script@v6
+        if: success() && steps.chatgpt-review.outputs.response != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Add a ✅ reaction to indicate completion
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1'
+            });
+
+      - name: Post comment
+        uses: actions/github-script@v6
+        if: steps.chatgpt-review.outputs.response != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const response = `## 🤖 ChatGPT Code Review
+
+            ${process.env.REVIEW_RESPONSE}
+            
+            ---
+            *This review was generated automatically by ChatGPT in response to @${context.payload.comment.user.login}'s request.*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: response
+            });
+        env:
+          REVIEW_RESPONSE: ${{ steps.chatgpt-review.outputs.response }}
+
+      - name: Update reaction on failure
+        uses: actions/github-script@v6
+        if: failure()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Add a ❌ reaction to indicate failure
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });
+            
+            // Post error message
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "⚠️ Sorry, I couldn't complete the code review. Please check the GitHub Actions logs for more details."
+            });
