@@ -7,6 +7,12 @@ interface UseCountProps {
   step?: number;
 }
 
+/**
+ * hook to manage a count value with increment, decrement and reset functionality
+ * 
+ * @param param0 
+ * @returns 
+ */
 export const useCount = ({
   initialValue = 0,
   min = Number.MIN_SAFE_INTEGER,
