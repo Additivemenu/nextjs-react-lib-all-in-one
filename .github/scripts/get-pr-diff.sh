@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Script to extract PR diff information
-# Usage: ./get-pr-diff.sh BASE_SHA HEAD_SHA
+# Usage: ./get-pr-diff.sh BASE_SHA HEAD_SHA [MAX_FILES]
 
 BASE_SHA=$1
 HEAD_SHA=$2
+MAX_FILES=$3
 OUTPUT_FILE="pr_diff.txt"
 
 echo "Comparing $BASE_SHA to $HEAD_SHA"
@@ -13,15 +14,27 @@ echo "Comparing $BASE_SHA to $HEAD_SHA"
 echo "==== FILE CHANGES WITH STATUS ===="
 git diff --name-status --diff-filter=ACMRTD $BASE_SHA $HEAD_SHA
 
-# Get all changed files
-CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRTD $BASE_SHA $HEAD_SHA)
-echo -e "\n==== ALL CHANGED FILES ===="
+# Get all changed files with their change count
+echo -e "\n==== GETTING CHANGE COUNTS ===="
+CHANGED_FILES_WITH_COUNT=$(git diff --numstat --diff-filter=ACMRTD $BASE_SHA $HEAD_SHA | sort -rn | awk '{print $1 + $2 " " $3}')
+echo "$CHANGED_FILES_WITH_COUNT"
+
+# Extract just the filenames, sorted by change count
+CHANGED_FILES=$(echo "$CHANGED_FILES_WITH_COUNT" | awk '{print $2}')
+echo -e "\n==== ALL CHANGED FILES (SORTED BY CHANGES) ===="
 echo "$CHANGED_FILES"
 
 # Filter for code files
 CODE_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(js|ts|jsx|tsx|py|java|c|cpp|go|rb|php|cs)$' || true)
 echo -e "\n==== DETECTED CODE FILES ===="
 echo "$CODE_FILES"
+
+# If MAX_FILES is specified, limit the number of files
+if [ -n "$MAX_FILES" ] && [ "$MAX_FILES" -gt 0 ]; then
+  echo -e "\n==== LIMITING TO TOP $MAX_FILES FILES ===="
+  CODE_FILES=$(echo "$CODE_FILES" | head -n "$MAX_FILES")
+  echo "$CODE_FILES"
+fi
 
 # Save the files list
 echo "files=$(echo "$CODE_FILES" | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
@@ -41,23 +54,27 @@ if [ -n "$CODE_FILES" ]; then
     FILE_STATUS=$(echo "$FILE_STATUSES" | grep -E "^[ACMRTD]\s+$file$" | cut -f1)
     echo "Processing $file (Status: $FILE_STATUS)"
     
+    # Get number of changes for this file
+    CHANGES=$(echo "$CHANGED_FILES_WITH_COUNT" | grep "$file" | awk '{print $1}')
+    echo "Number of changes: $CHANGES"
+    
     # Handle file based on its status
     if [ "$FILE_STATUS" = "A" ]; then
       # Added (new) file - get content from PR branch
       echo "Getting content of new file: $file"
-      FILE_DIFF="# NEW FILE\n\n$(cat $file)"
+      FILE_DIFF="# NEW FILE (Changes: $CHANGES)\n\n$(cat $file)"
     elif [ "$FILE_STATUS" = "D" ]; then
       # Deleted file - get content from base branch
       echo "Getting content of deleted file: $file"
-      FILE_DIFF="# DELETED FILE\n\n$(git show $BASE_SHA:$file || echo 'Could not retrieve content of deleted file')"
+      FILE_DIFF="# DELETED FILE (Changes: $CHANGES)\n\n$(git show $BASE_SHA:$file || echo 'Could not retrieve content of deleted file')"
     elif [ "$FILE_STATUS" = "M" ] || [ "$FILE_STATUS" = "R" ] || [ "$FILE_STATUS" = "T" ]; then
       # Modified, renamed, or changed type - get diff
       echo "Getting diff for modified file: $file"
-      FILE_DIFF="$(git diff $BASE_SHA $HEAD_SHA -- $file)"
+      FILE_DIFF="# MODIFIED FILE (Changes: $CHANGES)\n\n$(git diff $BASE_SHA $HEAD_SHA -- $file)"
     else
       # Other cases (copy, etc.) - get diff
       echo "Getting diff for file: $file"
-      FILE_DIFF="$(git diff $BASE_SHA $HEAD_SHA -- $file || cat $file)"
+      FILE_DIFF="# OTHER CHANGE (Changes: $CHANGES)\n\n$(git diff $BASE_SHA $HEAD_SHA -- $file || cat $file)"
     fi
     
     # Add the file diff to the overall diff text with proper formatting

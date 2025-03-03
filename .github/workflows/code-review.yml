@@ -2,8 +2,8 @@ name: ChatGPT Code Review
 
 # This workflow is a simple example of how to use the ChatGPT Code Review action.
 # It is designed to be used in a PR comment to trigger a code review.
-# 
-# having this file structure: 
+#
+# having this file structure:
 # .github/
 # ├── workflows/
 # │   └── chatgpt-code-review.yml
@@ -35,6 +35,7 @@ jobs:
       should_run: ${{ steps.check.outputs.should_run }}
       pr_number: ${{ steps.check.outputs.pr_number }}
       custom_instructions: ${{ steps.check.outputs.custom_instructions }}
+      max_files: ${{ steps.check.outputs.max_files }}
     steps:
       - id: check
         run: |
@@ -43,6 +44,7 @@ jobs:
             echo "should_run=true" >> $GITHUB_OUTPUT
             echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
             echo "custom_instructions=" >> $GITHUB_OUTPUT
+            echo "max_files=0" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "issue_comment" ]]; then
             PR_NUMBER="${{ github.event.issue.number }}"
             COMMENT="${{ github.event.comment.body }}"
@@ -51,6 +53,13 @@ jobs:
               echo "Triggered via issue_comment with '@chatgpt-code-review'"
               echo "should_run=true" >> $GITHUB_OUTPUT
               echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+              
+              # Extract max files if specified
+              if [[ "$COMMENT" =~ "top"[[:space:]]*([0-9]+)[[:space:]]*"files" ]]; then
+                echo "max_files=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+              else
+                echo "max_files=0" >> $GITHUB_OUTPUT
+              fi
               
               # Extract any text after the trigger as custom instructions
               CUSTOM_INSTRUCTIONS=$(echo "$COMMENT" | sed -n 's/.*@chatgpt-code-review\s*\(.*\)/\1/p')
@@ -124,7 +133,7 @@ jobs:
       - name: Get PR diff
         id: diff
         run: |
-          .github/scripts/get-pr-diff.sh ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }}
+          .github/scripts/get-pr-diff.sh ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} ${{ needs.check_comment.outputs.max_files }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
