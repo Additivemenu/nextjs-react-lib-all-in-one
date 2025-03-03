@@ -123,6 +123,7 @@ jobs:
 
       - name: Fetch PR branch
         run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git fetch origin pull/${{ needs.check_comment.outputs.pr_number }}/head:pr-${{ needs.check_comment.outputs.pr_number }}
           git checkout pr-${{ needs.check_comment.outputs.pr_number }}
 
@@ -133,7 +134,16 @@ jobs:
       - name: Get PR diff
         id: diff
         run: |
+          # Ensure we have both base and head commits
+          git fetch origin ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }}
+
+          # Run the diff script and capture its output
           .github/scripts/get-pr-diff.sh ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} ${{ needs.check_comment.outputs.max_files }}
+
+          # Read the diff file and set it as output
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          cat pr_diff.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
