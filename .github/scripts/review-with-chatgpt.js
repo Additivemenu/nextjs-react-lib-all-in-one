@@ -56,10 +56,10 @@ async function runCodeReview() {
 
     console.log("Sending request to OpenAI API...");
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4o-mini", // 100 times cheaper than gpt-4
       messages: [{ role: "user", content: prompt }],
       temperature: 0.2,
-      max_tokens: 8192,
+      max_tokens: 128000,
     });
 
     const reviewContent = response.choices[0].message.content;
