@@ -85,7 +85,13 @@ jobs:
       - name: Get changed files
         id: changed-files
         run: |
-          echo "files=$(git diff --name-only ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} | grep -E '\\.(js|ts|py|java|c|cpp|go|rb|php|cs|jsx|tsx)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          # Get both changed and added files between the base and head SHAs
+          # The --diff-filter=ACMRT ensures we get added (A), copied (C), modified (M), renamed (R), and type-changed (T) files
+          echo "files=$(git diff --name-only --diff-filter=ACMRT ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} | grep -E '\\.(js|ts|jsx|tsx|py|java|c|cpp|go|rb|php|cs)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          
+          # Debug output to see what files were detected
+          echo "Detected changed files:"
+          git diff --name-only --diff-filter=ACMRT ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} | grep -E '\\.(js|ts|jsx|tsx|py|java|c|cpp|go|rb|php|cs)$'
 
       - name: Get diff content
         id: diff-content
