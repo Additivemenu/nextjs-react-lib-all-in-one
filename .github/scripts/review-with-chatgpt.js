@@ -59,7 +59,7 @@ async function runCodeReview() {
       model: "gpt-4",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.2,
-      max_tokens: 4096,
+      max_tokens: 8192,
     });
 
     const reviewContent = response.choices[0].message.content;
