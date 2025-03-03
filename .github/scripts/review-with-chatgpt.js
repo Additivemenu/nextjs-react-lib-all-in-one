@@ -48,7 +48,8 @@ async function runCodeReview() {
     - If the issue is not a big deal, you can use a ✅ emoji.
     - If the issue is a big deal, you can use a ❌ emoji.
     - If the issue is a suggestion, you can use a 💡 emoji.
-
+    - e.g. an issue header is like this: - [ ] ❌ issue description
+    - e.g. a suggestion header is like this: - [ ] 💡 suggestion description
 
     Here is the diff:
     ${diffText}`;
