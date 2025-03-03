@@ -3,12 +3,23 @@ name: ChatGPT Code Review
 on:
   issue_comment:
     types: [created]
+  
+  # This enables the workflow to be manually triggered with custom inputs
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+      use_pr_workflow:
+        description: 'Use workflow file from PR branch (true/false)'
+        required: false
+        default: 'true'
 
 jobs:
   check_comment:
     runs-on: ubuntu-latest
-    # Make sure we're only running on PR comments with our trigger phrase
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '@chatgpt-code-review') }}
+    # Only run if the comment is on a PR and contains the trigger phrase
+    if: ${{ (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@chatgpt-code-review')) || github.event_name == 'workflow_dispatch' }}
     outputs:
       should_run: ${{ steps.check.outputs.should_run }}
       pr_number: ${{ steps.check.outputs.pr_number }}
@@ -16,20 +27,30 @@ jobs:
     steps:
       - id: check
         run: |
-          PR_NUMBER="${{ github.event.issue.number }}"
-          COMMENT="${{ github.event.comment.body }}"
-          
-          if [[ "$COMMENT" == *"@chatgpt-code-review"* ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "Triggered via workflow_dispatch"
             echo "should_run=true" >> $GITHUB_OUTPUT
-            echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+            echo "custom_instructions=" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "issue_comment" ]]; then
+            PR_NUMBER="${{ github.event.issue.number }}"
+            COMMENT="${{ github.event.comment.body }}"
             
-            # Extract any text after the trigger as custom instructions
-            CUSTOM_INSTRUCTIONS=$(echo "$COMMENT" | sed -n 's/.*@chatgpt-code-review\s*\(.*\)/\1/p')
-            # Escape newlines for GitHub Actions
-            CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//'%'/'%25'}"
-            CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//$'\n'/'%0A'}"
-            CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//$'\r'/'%0D'}"
-            echo "custom_instructions=$CUSTOM_INSTRUCTIONS" >> $GITHUB_OUTPUT
+            if [[ "$COMMENT" == *"@chatgpt-code-review"* ]]; then
+              echo "Triggered via issue_comment with '@chatgpt-code-review'"
+              echo "should_run=true" >> $GITHUB_OUTPUT
+              echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+              
+              # Extract any text after the trigger as custom instructions
+              CUSTOM_INSTRUCTIONS=$(echo "$COMMENT" | sed -n 's/.*@chatgpt-code-review\s*\(.*\)/\1/p')
+              # Escape newlines for GitHub Actions
+              CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//'%'/'%25'}"
+              CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//$'\n'/'%0A'}"
+              CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//$'\r'/'%0D'}"
+              echo "custom_instructions=$CUSTOM_INSTRUCTIONS" >> $GITHUB_OUTPUT
+            else
+              echo "should_run=false" >> $GITHUB_OUTPUT
+            fi
           else
             echo "should_run=false" >> $GITHUB_OUTPUT
           fi
@@ -43,6 +64,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Add initial reaction
+        if: ${{ github.event_name == 'issue_comment' }}
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -76,6 +98,8 @@ jobs:
             // Output the necessary data
             core.setOutput('base_sha', pr.data.base.sha);
             core.setOutput('head_sha', pr.data.head.sha);
+            core.setOutput('base_ref', pr.data.base.ref);
+            core.setOutput('head_ref', pr.data.head.ref);
       
       - name: Fetch PR branch
         run: |
@@ -85,33 +109,91 @@ jobs:
       - name: Get changed files
         id: changed-files
         run: |
-          # Get both changed and added files between the base and head SHAs
-          # The --diff-filter=ACMRT ensures we get added (A), copied (C), modified (M), renamed (R), and type-changed (T) files
-          echo "files=$(git diff --name-only --diff-filter=ACMRT ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} | grep -E '\\.(js|ts|jsx|tsx|py|java|c|cpp|go|rb|php|cs)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "PR #${{ needs.check_comment.outputs.pr_number }}: Comparing ${{ steps.pr-data.outputs.base_ref }} (${{ steps.pr-data.outputs.base_sha }}) to ${{ steps.pr-data.outputs.head_ref }} (${{ steps.pr-data.outputs.head_sha }})"
           
-          # Debug output to see what files were detected
-          echo "Detected changed files:"
-          git diff --name-only --diff-filter=ACMRT ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} | grep -E '\\.(js|ts|jsx|tsx|py|java|c|cpp|go|rb|php|cs)$'
+          # Make sure we have both the base and head commits
+          git fetch origin ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }}
+          
+          echo "==== FILE CHANGES WITH STATUS ===="
+          # A=Added, M=Modified, D=Deleted, R=Renamed, etc.
+          git diff --name-status --diff-filter=ACMRTD ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }}
+          
+          # Get all changed files first (including added, modified, deleted, etc.)
+          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRTD ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }})
+          echo -e "\n==== ALL CHANGED FILES ===="
+          echo "$CHANGED_FILES"
+          
+          # Then filter for code files (make grep succeed even if no matches are found)
+          CODE_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(js|ts|jsx|tsx|py|java|c|cpp|go|rb|php|cs)$' || true)
+          echo -e "\n==== DETECTED CODE FILES ===="
+          echo "$CODE_FILES"
+          
+          # Save the filtered files list as output
+          echo "files=$(echo "$CODE_FILES" | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "all_files=$(echo "$CHANGED_FILES" | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
       - name: Get diff content
         id: diff-content
         run: |
           DIFF_TEXT=""
-          for file in ${{ steps.changed-files.outputs.files }}; do
-            if [ -f "$file" ]; then
-              echo "Processing $file"
-              FILE_DIFF=$(git diff ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} -- "$file")
-              DIFF_TEXT="$DIFF_TEXT
-              
-              File: $file
-              \`\`\`
-              $FILE_DIFF
-              \`\`\`
-              "
-            fi
-          done
           
-          echo "::set-output name=diff::$DIFF_TEXT"
+          # Check if there are any code files to process
+          if [ -n "${{ steps.changed-files.outputs.files }}" ]; then
+            echo "Processing code files..."
+            
+            # Get the statuses of all files
+            FILE_STATUSES=$(git diff --name-status --diff-filter=ACMRTD ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }})
+            
+            # Process each file
+            for file in ${{ steps.changed-files.outputs.files }}; do
+              # Get file status (A=Added, M=Modified, D=Deleted, etc.)
+              FILE_STATUS=$(echo "$FILE_STATUSES" | grep -E "^[ACMRTD]\s+$file$" | cut -f1)
+              echo "Processing $file (Status: $FILE_STATUS)"
+              
+              # Handle file based on its status
+              if [ "$FILE_STATUS" = "A" ]; then
+                # Added (new) file - get content from PR branch
+                echo "Getting content of new file: $file"
+                FILE_DIFF="# NEW FILE\n\n$(cat $file)"
+              elif [ "$FILE_STATUS" = "D" ]; then
+                # Deleted file - get content from base branch
+                echo "Getting content of deleted file: $file"
+                FILE_DIFF="# DELETED FILE\n\n$(git show ${{ steps.pr-data.outputs.base_sha }}:$file || echo 'Could not retrieve content of deleted file')"
+              elif [ "$FILE_STATUS" = "M" ] || [ "$FILE_STATUS" = "R" ] || [ "$FILE_STATUS" = "T" ]; then
+                # Modified, renamed, or changed type - get diff
+                echo "Getting diff for modified file: $file"
+                FILE_DIFF="$(git diff ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} -- $file)"
+              else
+                # Other cases (copy, etc.) - get diff
+                echo "Getting diff for file: $file"
+                FILE_DIFF="$(git diff ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }} -- $file || cat $file)"
+              fi
+              
+              # Add the file diff to the overall diff text with proper formatting
+              DIFF_TEXT="${DIFF_TEXT}
+
+              File: ${file}
+              \`\`\`
+              ${FILE_DIFF}
+              \`\`\`"
+              done
+          else
+            echo "No matching code files were changed in this PR."
+            
+            # List all changes for context
+            DIFF_TEXT="No code files matching the filter were found in this PR. Here are all changed files:
+
+            $(git diff --name-status --diff-filter=ACMRTD ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }})"
+          fi
+          
+          # Write the diff to a file for debugging
+          echo "$DIFF_TEXT" > pr_diff.txt
+          echo "Saved diff content to pr_diff.txt ($(wc -l pr_diff.txt | awk '{print $1}') lines)"
+          
+          # Use the newer GITHUB_OUTPUT syntax with heredoc for multi-line output
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$DIFF_TEXT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -123,7 +205,7 @@ jobs:
 
       - name: Run ChatGPT code review
         id: review
-        if: steps.changed-files.outputs.files != ''
+        if: ${{ success() }}
         uses: actions/github-script@v6
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -181,28 +263,32 @@ jobs:
                 issue_number: ${{ needs.check_comment.outputs.pr_number }},
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `## 🤖 ChatGPT Code Review\n\n${reviewContent}\n\n---\n*This review was generated automatically by ChatGPT in response to @${context.payload.comment.user.login}'s request.*`
+                body: `## 🤖 ChatGPT Code Review\n\n${reviewContent}\n\n---\n*This review was generated automatically by ChatGPT in response to @${context.payload.comment?.user?.login || 'user'}'s request.*`
               });
               
-              // Add success reaction to the trigger comment
-              await github.rest.reactions.createForIssueComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: context.payload.comment.id,
-                content: '+1'
-              });
+              // Add success reaction if this was triggered by a comment
+              if (context.payload.comment) {
+                await github.rest.reactions.createForIssueComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: context.payload.comment.id,
+                  content: '+1'
+                });
+              }
               
               return { success: true };
             } catch (error) {
               console.error('Error calling OpenAI API:', error);
               
-              // Add failure reaction to the trigger comment
-              await github.rest.reactions.createForIssueComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: context.payload.comment.id,
-                content: '-1'
-              });
+              // Add failure reaction if this was triggered by a comment
+              if (context.payload.comment) {
+                await github.rest.reactions.createForIssueComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: context.payload.comment.id,
+                  content: '-1'
+                });
+              }
               
               // Post error message
               await github.rest.issues.createComment({
