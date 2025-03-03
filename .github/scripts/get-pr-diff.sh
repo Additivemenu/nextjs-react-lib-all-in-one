@@ -60,28 +60,30 @@ if [ -n "$CODE_FILES" ]; then
     
     # Handle file based on its status
     if [ "$FILE_STATUS" = "A" ]; then
-      # Added (new) file - get content from PR branch
+      # Added (new) file - show full file content with diff markers
       echo "Getting content of new file: $file"
-      FILE_DIFF="# NEW FILE (Changes: $CHANGES)\n\n$(cat $file)"
+      FILE_CONTENT=$(cat "$file")
+      FILE_DIFF=$(echo -e "# NEW FILE (Changes: $CHANGES)\n\n$FILE_CONTENT" | sed 's/^/+ /')
     elif [ "$FILE_STATUS" = "D" ]; then
-      # Deleted file - get content from base branch
+      # Deleted file - show what was deleted with diff markers
       echo "Getting content of deleted file: $file"
-      FILE_DIFF="# DELETED FILE (Changes: $CHANGES)\n\n$(git show $BASE_SHA:$file || echo 'Could not retrieve content of deleted file')"
+      FILE_CONTENT=$(git show "$BASE_SHA:$file" 2>/dev/null || echo "Could not retrieve content of deleted file")
+      FILE_DIFF=$(echo -e "# DELETED FILE (Changes: $CHANGES)\n\n$FILE_CONTENT" | sed 's/^/- /')
     elif [ "$FILE_STATUS" = "M" ] || [ "$FILE_STATUS" = "R" ] || [ "$FILE_STATUS" = "T" ]; then
-      # Modified, renamed, or changed type - get diff
+      # Modified file - get proper diff with context
       echo "Getting diff for modified file: $file"
-      FILE_DIFF="# MODIFIED FILE (Changes: $CHANGES)\n\n$(git diff $BASE_SHA $HEAD_SHA -- $file)"
+      FILE_DIFF=$(echo -e "# MODIFIED FILE (Changes: $CHANGES)\n"; git diff --patch --unified=3 "$BASE_SHA" "$HEAD_SHA" -- "$file")
     else
-      # Other cases (copy, etc.) - get diff
+      # Other cases - get proper diff with context
       echo "Getting diff for file: $file"
-      FILE_DIFF="# OTHER CHANGE (Changes: $CHANGES)\n\n$(git diff $BASE_SHA $HEAD_SHA -- $file || cat $file)"
+      FILE_DIFF=$(echo -e "# OTHER CHANGE (Changes: $CHANGES)\n"; git diff --patch --unified=3 "$BASE_SHA" "$HEAD_SHA" -- "$file")
     fi
     
     # Add the file diff to the overall diff text with proper formatting
     DIFF_TEXT="${DIFF_TEXT}
 
 File: ${file}
-\`\`\`
+\`\`\`diff
 ${FILE_DIFF}
 \`\`\`"
   done
