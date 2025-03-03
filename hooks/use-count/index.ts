@@ -10,8 +10,11 @@ interface UseCountProps {
 /**
  * hook to manage a count value with increment, decrement and reset functionality
  * 
- * @param param0 
- * @returns 
+ * @param initialValue - the initial value of the count
+ * @param min - the minimum value of the count
+ * @param max - the maximum value of the count
+ * @param step - the step value of the count
+ * @returns the count value, the increment function, the decrement function, the reset function and the setCount function
  */
 export const useCount = ({
   initialValue = 0,
