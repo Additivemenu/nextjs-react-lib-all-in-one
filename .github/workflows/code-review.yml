@@ -1,0 +1,151 @@
+name: ChatGPT Code Review
+
+# This workflow is a simple example of how to use the ChatGPT Code Review action.
+# It is designed to be used in a PR comment to trigger a code review.
+# 
+# having this file structure: 
+# .github/
+# ├── workflows/
+# │   └── chatgpt-code-review.yml
+# ├── scripts/
+# │   ├── get-pr-diff.sh
+# │   └── review-with-chatgpt.js
+
+on:
+  issue_comment:
+    types: [created]
+
+  # This enables the workflow to be manually triggered with custom inputs
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to review"
+        required: true
+      use_pr_workflow:
+        description: "Use workflow file from PR branch (true/false)"
+        required: false
+        default: "true"
+
+jobs:
+  check_comment:
+    runs-on: ubuntu-latest
+    # Only run if the comment is on a PR and contains the trigger phrase
+    if: ${{ (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@chatgpt-code-review')) || github.event_name == 'workflow_dispatch' }}
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+      pr_number: ${{ steps.check.outputs.pr_number }}
+      custom_instructions: ${{ steps.check.outputs.custom_instructions }}
+    steps:
+      - id: check
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "Triggered via workflow_dispatch"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+            echo "custom_instructions=" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "issue_comment" ]]; then
+            PR_NUMBER="${{ github.event.issue.number }}"
+            COMMENT="${{ github.event.comment.body }}"
+            
+            if [[ "$COMMENT" == *"@chatgpt-code-review"* ]]; then
+              echo "Triggered via issue_comment with '@chatgpt-code-review'"
+              echo "should_run=true" >> $GITHUB_OUTPUT
+              echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+              
+              # Extract any text after the trigger as custom instructions
+              CUSTOM_INSTRUCTIONS=$(echo "$COMMENT" | sed -n 's/.*@chatgpt-code-review\s*\(.*\)/\1/p')
+              # Escape newlines for GitHub Actions
+              CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//'%'/'%25'}"
+              CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//$'\n'/'%0A'}"
+              CUSTOM_INSTRUCTIONS="${CUSTOM_INSTRUCTIONS//$'\r'/'%0D'}"
+              echo "custom_instructions=$CUSTOM_INSTRUCTIONS" >> $GITHUB_OUTPUT
+            else
+              echo "should_run=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+  code-review:
+    needs: check_comment
+    if: ${{ needs.check_comment.outputs.should_run == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Add initial reaction
+        if: ${{ github.event_name == 'issue_comment' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Add a 👀 reaction to indicate the request has been received
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'eyes'
+            });
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch PR data
+        id: pr-data
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the PR details
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: ${{ needs.check_comment.outputs.pr_number }}
+            });
+
+            // Output the necessary data
+            core.setOutput('base_sha', pr.data.base.sha);
+            core.setOutput('head_sha', pr.data.head.sha);
+            core.setOutput('base_ref', pr.data.base.ref);
+            core.setOutput('head_ref', pr.data.head.ref);
+
+      - name: Fetch PR branch
+        run: |
+          git fetch origin pull/${{ needs.check_comment.outputs.pr_number }}/head:pr-${{ needs.check_comment.outputs.pr_number }}
+          git checkout pr-${{ needs.check_comment.outputs.pr_number }}
+
+      - name: Make scripts executable
+        run: |
+          chmod +x .github/scripts/get-pr-diff.sh
+
+      - name: Get PR diff
+        id: diff
+        run: |
+          .github/scripts/get-pr-diff.sh ${{ steps.pr-data.outputs.base_sha }} ${{ steps.pr-data.outputs.head_sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install Dependencies
+        run: |
+          cd .github/scripts
+          npm install openai @actions/core @actions/github
+
+      - name: Run ChatGPT code review
+        if: ${{ success() }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIFF_TEXT: ${{ steps.diff.outputs.diff }}
+          CUSTOM_INSTRUCTIONS: ${{ needs.check_comment.outputs.custom_instructions }}
+          PR_NUMBER: ${{ needs.check_comment.outputs.pr_number }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          COMMENT_USERNAME: ${{ github.event.comment.user.login }}
+        run: |
+          cd .github/scripts
+          node review-with-chatgpt.js
