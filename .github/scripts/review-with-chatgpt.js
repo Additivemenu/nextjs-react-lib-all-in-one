@@ -36,7 +36,8 @@ async function runCodeReview() {
     For each issue you find, provide:
     - A clear description of the issue
     - The file and line number where it occurs
-    - A suggestion for how to fix it
+    - The code snippets to show the issue and potentially how to fix it (if applicable)
+    - A suggestion for how to fix it (if applicable)
     - If applicable, an explanation of why your suggestion is better
 
     Be specific and actionable. Provide code examples when helpful.
@@ -44,7 +45,8 @@ async function runCodeReview() {
     Be courteous and professional.
 
     Format your review with markdown for better readability.
-    - In Issues wise, you should add a checkbox for each issue you find so that the user can check them off to keep track of the issues.
+    - The Issues should be grouped by file.
+    - In each issue, you should add a checkbox for each issue you find so that the user can check them off to keep track of the issues.
     - If the issue is not a big deal, you can use a ✅ emoji.
     - If the issue is a big deal, you can use a ❌ emoji.
     - If the issue is a suggestion, you can use a 💡 emoji.
