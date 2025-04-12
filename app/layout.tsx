@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { useRouter } from "next/navigation";
 import { PHProvider } from "./providers";
 import dynamic from "next/dynamic";
 

@@ -26,12 +26,12 @@ const ModalPlaceholder: React.FC = () => {
   const visibleModalIds = Object.keys(context.store).filter(
     (id) =>
       !!context.store[id] &&
-      (context.store[id].visible || context.store[id].delayVisible)
+      (context.store[id].visible || context.store[id].delayVisible),
   );
   visibleModalIds.forEach((id) => {
     if (!MODAL_REGISTRY[id] && !ALREADY_MOUNTED[id]) {
       warn(
-        `No modal found for id: ${id}. Please check the id or if it is registered or declared via JSX.`
+        `No modal found for id: ${id}. Please check the id or if it is registered or declared via JSX.`,
       );
       return;
     }
@@ -48,7 +48,11 @@ const ModalPlaceholder: React.FC = () => {
   return (
     <>
       {toRender.map((t) => (
-        <Dialog key={t.id} defaultCloseCallback={closeCallbackForId(t.id)} open>
+        <Dialog
+          key={t.id}
+          defaultCloseCallback={closeCallbackForId(t.id)}
+          open={true}
+        >
           <t.comp id={t.id} {...t.props} />
         </Dialog>
       ))}
@@ -67,7 +71,7 @@ const Provider: React.FC<ProviderProps> = ({ manualPlaceholder, children }) => {
   return (
     <ModalContext.Provider value={{ store, dispatch }}>
       {children}
-      {!manualPlaceholder && <ModalPlaceholder />}
+      {/* {!manualPlaceholder && <ModalPlaceholder />} */}
     </ModalContext.Provider>
   );
 };

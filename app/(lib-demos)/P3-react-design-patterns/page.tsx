@@ -14,6 +14,11 @@ const content = [
     path: "/C1-observer-pattern/",
     style: "text-purple-500 underline",
   },
+  {
+    title: "C3: modal manager",
+    path: "/C3-modal-manager/",
+    style: "text-purple-500 underline",
+  },
 ];
 
 export default function Home() {
