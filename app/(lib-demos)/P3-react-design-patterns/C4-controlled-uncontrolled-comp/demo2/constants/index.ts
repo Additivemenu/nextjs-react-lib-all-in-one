@@ -1,4 +1,4 @@
-import { CurrencyMap } from "./types";
+import { CurrencyMap } from "../types";
 
 export const currencies: CurrencyMap = {
   USD: { symbol: "$", name: "US Dollar" },

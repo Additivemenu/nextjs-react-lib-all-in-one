@@ -13,7 +13,7 @@ const demos = [
     title: "Demo 2: currency input - custom formatting",
     path: "/demo2/",
     description:
-      "custom formatting in controlled component - regex application",
+      "custom formatting in controlled component - regex application, text input vs. number input",
   },
 ];
 

@@ -15,7 +15,7 @@ export default function CurrencyInputDemo(): JSX.Element {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     //! triggered on every keystroke
     const inputValue: string = e.target.value;
-    
+
     // note we are using a text input element, so inputValue is not necessarily a number string
     //! Remove currency symbol and commas to get just digits (display value --> raw value)
     const rawValue: string = parseToPureNumber(inputValue);
