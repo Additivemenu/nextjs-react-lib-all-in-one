@@ -19,6 +19,11 @@ const content = [
     path: "/C3-modal-manager/",
     style: "text-purple-500 underline",
   },
+  {
+    title: "C4: controlled & uncontrolled",
+    path: "/C4-controlled-uncontrolled-comp/",
+    style: "text-blue-500 underline",
+  },
 ];
 
 export default function Home() {
