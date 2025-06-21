@@ -39,6 +39,12 @@
     ]
   },
   {
+    "name": "Markdown",
+    "path": "/markdown",
+    "hasPage": true,
+    "children": []
+  },
+  {
     "name": "React Design Patterns",
     "path": "/P3-react-design-patterns",
     "hasPage": true,
@@ -526,6 +532,12 @@
             "children": []
           }
         ]
+      },
+      {
+        "name": "React Markdown",
+        "path": "/P1-react-libs/C7-react-markdown",
+        "hasPage": true,
+        "children": []
       },
       {
         "name": "React Query",

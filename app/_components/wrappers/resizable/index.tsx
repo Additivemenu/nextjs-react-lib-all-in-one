@@ -6,7 +6,7 @@ import React, {
   CSSProperties,
 } from "react";
 
-interface Dimensions {
+export interface Dimensions {
   width: number;
   height: number;
 }
@@ -234,5 +234,3 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
     </div>
   );
 };
-
-
