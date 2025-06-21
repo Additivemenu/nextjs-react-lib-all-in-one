@@ -8,6 +8,11 @@ const content = [
     path: "/C1-chatbot/",
     style: "text-red-500 underline",
   },
+  {
+    title: "C3: resizable",
+    path: "/C3-resizable/",
+    style: "text-red-500 underline",
+  },
 ];
 
 export default function Home() {

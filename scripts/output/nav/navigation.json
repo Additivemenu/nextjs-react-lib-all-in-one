@@ -3,7 +3,14 @@
     "name": "Functional Demo",
     "path": "/P0-functional-demo",
     "hasPage": true,
-    "children": []
+    "children": [
+      {
+        "name": "Resizable",
+        "path": "/P0-functional-demo/C3-resizable",
+        "hasPage": true,
+        "children": []
+      }
+    ]
   },
   {
     "name": "Js Libs",
