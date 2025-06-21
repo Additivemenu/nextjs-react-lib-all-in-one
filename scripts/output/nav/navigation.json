@@ -1,0 +1,642 @@
+[
+  {
+    "name": "Functional Demo",
+    "path": "/P0-functional-demo",
+    "hasPage": true,
+    "children": []
+  },
+  {
+    "name": "Js Libs",
+    "path": "/P2-js-libs",
+    "hasPage": true,
+    "children": [
+      {
+        "name": "XLSX",
+        "path": "/P2-js-libs/XLSX",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P2-js-libs/XLSX/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo1 1",
+            "path": "/P2-js-libs/XLSX/demo1-1",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "React Design Patterns",
+    "path": "/P3-react-design-patterns",
+    "hasPage": true,
+    "children": [
+      {
+        "name": "Controlled Uncontrolled Comp",
+        "path": "/P3-react-design-patterns/C4-controlled-uncontrolled-comp",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P3-react-design-patterns/C4-controlled-uncontrolled-comp/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2",
+            "path": "/P3-react-design-patterns/C4-controlled-uncontrolled-comp/demo2",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "CreatePortal",
+        "path": "/P3-react-design-patterns/C5-createPortal",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo 1",
+            "path": "/P3-react-design-patterns/C5-createPortal/demo-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo 2",
+            "path": "/P3-react-design-patterns/C5-createPortal/demo-2",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "Modal Manager",
+        "path": "/P3-react-design-patterns/C3-modal-manager",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Observer Pattern",
+        "path": "/P3-react-design-patterns/C1-observer-pattern",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P3-react-design-patterns/C1-observer-pattern/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2",
+            "path": "/P3-react-design-patterns/C1-observer-pattern/demo2",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "Reducer Pattern",
+        "path": "/P3-react-design-patterns/C0-reducer-pattern",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo1 1",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo1-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2 1",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo2-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2 1 Copy",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo2-1 copy",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2 1 Copy 2",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo2-1 copy 2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo3",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3 1",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo3-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3 2",
+            "path": "/P3-react-design-patterns/C0-reducer-pattern/demo3-2",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "State Pattern",
+        "path": "/P3-react-design-patterns/C2-state-pattern",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P3-react-design-patterns/C2-state-pattern/demo1",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "React Libs",
+    "path": "/P1-react-libs",
+    "hasPage": true,
+    "children": [
+      {
+        "name": "Error Boundary",
+        "path": "/P1-react-libs/C0-error-boundary",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P1-react-libs/C0-error-boundary/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2",
+            "path": "/P1-react-libs/C0-error-boundary/demo2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3",
+            "path": "/P1-react-libs/C0-error-boundary/demo3",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "Framer Motion",
+        "path": "/P1-react-libs/C1-framer-motion",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Onboarding Libs",
+        "path": "/P1-react-libs/C6-onboarding-libs",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Driver Js",
+            "path": "/P1-react-libs/C6-onboarding-libs/C6-driver-js",
+            "hasPage": true,
+            "children": [
+              {
+                "name": "Demo1",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-driver-js/demo1",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo1 1",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-driver-js/demo1-1",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo1 2",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-driver-js/demo1-2",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo1 2 1",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-driver-js/demo1-2-1",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo1 3",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-driver-js/demo1-3",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo2",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-driver-js/demo2",
+                "hasPage": true,
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "Intro Js",
+            "path": "/P1-react-libs/C6-onboarding-libs/C6-intro-js",
+            "hasPage": true,
+            "children": [
+              {
+                "name": "Demo1",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-intro-js/demo1",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo1 1",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-intro-js/demo1-1",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo1 2",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-intro-js/demo1-2",
+                "hasPage": true,
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "React Joyride",
+            "path": "/P1-react-libs/C6-onboarding-libs/C6-react-joyride",
+            "hasPage": true,
+            "children": [
+              {
+                "name": "Demo1",
+                "path": "/P1-react-libs/C6-onboarding-libs/C6-react-joyride/demo1",
+                "hasPage": true,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "React Experiments",
+        "path": "/P1-react-libs/C0-react-experiments",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo0",
+            "path": "/P1-react-libs/C0-react-experiments/demo0",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo1",
+            "path": "/P1-react-libs/C0-react-experiments/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2",
+            "path": "/P1-react-libs/C0-react-experiments/demo2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2 1",
+            "path": "/P1-react-libs/C0-react-experiments/demo2-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2 2",
+            "path": "/P1-react-libs/C0-react-experiments/demo2-2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo4 0",
+            "path": "/P1-react-libs/C0-react-experiments/demo4-0",
+            "hasPage": true,
+            "children": [
+              {
+                "name": "Demo4",
+                "path": "/P1-react-libs/C0-react-experiments/demo4-0/demo4",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo4 1",
+                "path": "/P1-react-libs/C0-react-experiments/demo4-0/demo4-1",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo4 2",
+                "path": "/P1-react-libs/C0-react-experiments/demo4-0/demo4-2",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo4 3",
+                "path": "/P1-react-libs/C0-react-experiments/demo4-0/demo4-3",
+                "hasPage": true,
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "Demo5 0",
+            "path": "/P1-react-libs/C0-react-experiments/demo5-0",
+            "hasPage": true,
+            "children": [
+              {
+                "name": "Demo5",
+                "path": "/P1-react-libs/C0-react-experiments/demo5-0/demo5",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo5 1",
+                "path": "/P1-react-libs/C0-react-experiments/demo5-0/demo5-1",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo5 2",
+                "path": "/P1-react-libs/C0-react-experiments/demo5-0/demo5-2",
+                "hasPage": true,
+                "children": []
+              },
+              {
+                "name": "Demo5 3",
+                "path": "/P1-react-libs/C0-react-experiments/demo5-0/demo5-3",
+                "hasPage": true,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "React Flow",
+        "path": "/P1-react-libs/C2-react-flow",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo2",
+            "path": "/P1-react-libs/C2-react-flow/demo2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3",
+            "path": "/P1-react-libs/C2-react-flow/demo3",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3 1",
+            "path": "/P1-react-libs/C2-react-flow/demo3-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo4 1",
+            "path": "/P1-react-libs/C2-react-flow/demo4-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo4 2",
+            "path": "/P1-react-libs/C2-react-flow/demo4-2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo6",
+            "path": "/P1-react-libs/C2-react-flow/demo6",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo7",
+            "path": "/P1-react-libs/C2-react-flow/demo7",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo8",
+            "path": "/P1-react-libs/C2-react-flow/demo8",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "React Hook Form Zod",
+        "path": "/P1-react-libs/C5-react-hook-form-zod",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo3",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo4",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo4",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo5",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo5",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo6 1",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo6-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo6 2",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo6-2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo6 3",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo6-3",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo7",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo7",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo7 2",
+            "path": "/P1-react-libs/C5-react-hook-form-zod/demo7-2",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "React Query",
+        "path": "/P1-react-libs/C3-react-query",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P1-react-libs/C3-react-query/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo1 1",
+            "path": "/P1-react-libs/C3-react-query/demo1-1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2 1",
+            "path": "/P1-react-libs/C3-react-query/demo2-1",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "Zustand",
+        "path": "/P1-react-libs/C4-zustand",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P1-react-libs/C4-zustand/demo1",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2",
+            "path": "/P1-react-libs/C4-zustand/demo2",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo3",
+            "path": "/P1-react-libs/C4-zustand/demo3",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo4",
+            "path": "/P1-react-libs/C4-zustand/demo4",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "React Rendering Cycle",
+    "path": "/P4-react-rendering-cycle",
+    "hasPage": true,
+    "children": [
+      {
+        "name": "Demo0",
+        "path": "/P4-react-rendering-cycle/demo0",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo0 1",
+        "path": "/P4-react-rendering-cycle/demo0-1",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo1",
+        "path": "/P4-react-rendering-cycle/demo1",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo2",
+        "path": "/P4-react-rendering-cycle/demo2",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo3",
+        "path": "/P4-react-rendering-cycle/demo3",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo4",
+        "path": "/P4-react-rendering-cycle/demo4",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo5",
+        "path": "/P4-react-rendering-cycle/demo5",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo6",
+        "path": "/P4-react-rendering-cycle/demo6",
+        "hasPage": true,
+        "children": []
+      },
+      {
+        "name": "Demo7",
+        "path": "/P4-react-rendering-cycle/demo7",
+        "hasPage": true,
+        "children": []
+      }
+    ]
+  }
+]

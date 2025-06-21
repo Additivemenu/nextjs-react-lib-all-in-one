@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "pnpm run generate-nav && next dev",
+    "build": "pnpm run generate-nav && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --verbose",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "generate-nav": "tsx scripts/generate-nav.ts"
   },
   "dependencies": {
     "@emotion/core": "^11.0.0",
@@ -73,6 +74,7 @@
     "postcss": "^8.4.45",
     "tailwindcss": "^3.4.10",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }

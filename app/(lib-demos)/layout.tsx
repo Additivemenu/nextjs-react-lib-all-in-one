@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import Sidebar from "../_components/side-bars/side-bar";
 
 export default function RootLayout({
   children,
@@ -23,7 +24,7 @@ export default function RootLayout({
       </nav>
       <div className="relative h-main-content w-full flex">
         <div className="h-full flex flex-col shadow-lg p-4 min-w-[var(--left-sidebar-width)] grow">
-          left side bar
+          <Sidebar />
         </div>
         <div className="h-full flex flex-col justify-center items-center py-2 grow-[5]">
           {children}
