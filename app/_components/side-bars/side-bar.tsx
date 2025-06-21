@@ -20,7 +20,7 @@ interface NavItemProps {
 }
 
 function NavItem({ item, level = 0 }: NavItemProps) {
-  const [isOpen, setIsOpen] = useState(level < 2); // Auto-expand first 2 levels
+  const [isOpen, setIsOpen] = useState(level < 0); // Auto-expand first 0 levels
   const pathname = usePathname();
   const hasChildren = item.children && item.children.length > 0;
   const isActive = pathname === item.path;
@@ -30,16 +30,22 @@ function NavItem({ item, level = 0 }: NavItemProps) {
   return (
     <div style={{ paddingLeft: `${paddingLeft}px` }}>
       {item.hasPage ? (
-        <Link
-          href={item.path}
-          className={`block py-2 px-3 rounded mb-1 transition-colors ${
-            isActive
-              ? "bg-blue-600 text-white"
-              : "hover:bg-gray-700 text-gray-300"
-          }`}
-        >
-          <span className="flex items-center">📄 {item.name}</span>
-        </Link>
+        <div className={``}>
+          <Link
+            href={item.path}
+            onClick={() => setIsOpen(!isOpen)}
+            className={`w-full py-2 px-3 rounded mb-1 transition-colors flex items-center ${
+              isActive
+                ? "bg-blue-600 text-white"
+                : "hover:bg-gray-700 text-gray-300"
+            }`}
+          >
+            <span className="flex items-center">📄 {item.name}</span>
+            {hasChildren && (
+              <span className="ml-auto text-xs">{isOpen ? "▼" : "▶"}</span>
+            )}
+          </Link>
+        </div>
       ) : (
         <button
           onClick={() => setIsOpen(!isOpen)}
