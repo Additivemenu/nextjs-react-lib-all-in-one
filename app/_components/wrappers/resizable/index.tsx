@@ -6,12 +6,12 @@ import React, {
   CSSProperties,
 } from "react";
 
-export interface Dimensions {
+interface Dimensions {
   width: number;
   height: number;
 }
 
-export interface ResizableWrapperProps {
+interface ResizableWrapperProps {
   children: ReactNode;
   initialWidth?: number;
   initialHeight?: number;
@@ -36,32 +36,6 @@ interface ResizeHandleProps {
   ) => void;
 }
 
-const ResizeHandle: React.FC<ResizeHandleProps> = ({
-  direction,
-  className: handleClassName,
-  children,
-  onMouseDown,
-}) => (
-  <div
-    className={`absolute ${handleClassName} group cursor-${
-      direction === "both"
-        ? "nw-resize"
-        : direction === "width"
-        ? "ew-resize"
-        : "ns-resize"
-    } flex items-center justify-center transition-all duration-200 hover:bg-blue-500 hover:bg-opacity-20`}
-    onMouseDown={(e) => onMouseDown(e, direction)}
-  >
-    {children}
-  </div>
-);
-
-/**
- * A wrapper component that allows the user to resize the container.
- *! unusual case where we handle some effects inside a callback function instead of a useEffect hook
- * @param param0
- * @returns
- */
 export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
   children,
   initialWidth = 300,
@@ -74,7 +48,6 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
   style = {},
   onResize = () => {},
 }) => {
-  //! controls the dimensions of the container
   const [dimensions, setDimensions] = useState<Dimensions>({
     width: initialWidth,
     height: initialHeight,
@@ -87,42 +60,30 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
   const startPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const startDimensions = useRef<Dimensions>({ width: 0, height: 0 });
 
-  //! mouse down -> initialize the resizing set up
-  const handleMouseDown = (
-    e: React.MouseEvent<HTMLDivElement>,
-    direction: ResizeDirection,
-  ) => {
-    e.preventDefault();
-    setIsResizing(true);
-    setResizeDirection(direction);
+  // Use refs to store current values for event handlers
+  const currentStateRef = useRef({
+    isResizing: false,
+    resizeDirection: null as ResizeDirection | null,
+    minWidth,
+    maxWidth,
+    minHeight,
+    maxHeight,
+    onResize,
+  });
 
-    startPos.current = { x: e.clientX, y: e.clientY };
-    startDimensions.current = { ...dimensions };
-
-    //! note when registering event listeners, need to make sure they refer to the latest
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-
-    const cursor =
-      direction === "both"
-        ? "nw-resize"
-        : direction === "width"
-        ? "ew-resize"
-        : "ns-resize";
-    document.body.style.cursor = cursor;
-    document.body.style.userSelect = "none";
-
-    console.log(
-      "mouse down",
-      direction,
-      startPos.current,
-      startDimensions.current,
-    );
+  // Update ref whenever values change
+  currentStateRef.current = {
+    isResizing,
+    resizeDirection,
+    minWidth,
+    maxWidth,
+    minHeight,
+    maxHeight,
+    onResize,
   };
 
-  //! mouse move -> resizing process
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isResizing) return;
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!currentStateRef.current.isResizing) return;
 
     const deltaX = e.clientX - startPos.current.x;
     const deltaY = e.clientY - startPos.current.y;
@@ -130,22 +91,23 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
     let newWidth = startDimensions.current.width;
     let newHeight = startDimensions.current.height;
 
-    console.log("mouse move", deltaX, deltaY, resizeDirection);
+    const {
+      resizeDirection,
+      minWidth,
+      maxWidth,
+      minHeight,
+      maxHeight,
+      onResize,
+    } = currentStateRef.current;
 
-    if (
-      resizeDirection === "width"
-      //  || resizeDirection === "both"
-    ) {
+    if (resizeDirection === "width" || resizeDirection === "both") {
       newWidth = Math.max(
         minWidth,
         Math.min(maxWidth, startDimensions.current.width + deltaX),
       );
     }
 
-    if (
-      resizeDirection === "height"
-      // || resizeDirection === "both"
-    ) {
+    if (resizeDirection === "height" || resizeDirection === "both") {
       newHeight = Math.max(
         minHeight,
         Math.min(maxHeight, startDimensions.current.height + deltaY),
@@ -155,19 +117,60 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
     const newDimensions: Dimensions = { width: newWidth, height: newHeight };
     setDimensions(newDimensions);
     onResize(newDimensions);
-  };
+  }, []);
 
-  //! mouse up -> clear up
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsResizing(false);
     setResizeDirection(null);
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
     document.body.style.cursor = "";
     document.body.style.userSelect = "";
+  }, [handleMouseMove]);
 
-    console.log("mouse up");
-  };
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>, direction: ResizeDirection) => {
+      e.preventDefault();
+      setIsResizing(true);
+      setResizeDirection(direction);
+
+      startPos.current = { x: e.clientX, y: e.clientY };
+      startDimensions.current = { ...dimensions };
+
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+
+      const cursor =
+        direction === "both"
+          ? "nw-resize"
+          : direction === "width"
+          ? "ew-resize"
+          : "ns-resize";
+      document.body.style.cursor = cursor;
+      document.body.style.userSelect = "none";
+    },
+    [dimensions, handleMouseMove, handleMouseUp],
+  );
+
+  const ResizeHandle: React.FC<ResizeHandleProps> = ({
+    direction,
+    className: handleClassName,
+    children,
+    onMouseDown,
+  }) => (
+    <div
+      className={`absolute ${handleClassName} group cursor-${
+        direction === "both"
+          ? "nw-resize"
+          : direction === "width"
+          ? "ew-resize"
+          : "ns-resize"
+      } flex items-center justify-center transition-all duration-200 hover:bg-blue-500 hover:bg-opacity-20`}
+      onMouseDown={(e) => onMouseDown(e, direction)}
+    >
+      {children}
+    </div>
+  );
 
   return (
     <div
@@ -231,3 +234,5 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
     </div>
   );
 };
+
+
