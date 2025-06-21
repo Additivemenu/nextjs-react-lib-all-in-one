@@ -24,6 +24,13 @@ const content = [
     path: "/C4-controlled-uncontrolled-comp/",
     style: "text-blue-500 underline",
   },
+  {
+    title: "C5: createPortal",
+    path: "/C5-createPortal/",
+    style: "text-blue-500 underline",
+    description:
+      "A demo of the createPortal function, which is used to render a component in a different part of the DOM.",
+  },
 ];
 
 export default function Home() {
