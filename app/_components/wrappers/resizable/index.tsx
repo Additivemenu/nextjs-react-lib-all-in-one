@@ -58,6 +58,7 @@ const ResizeHandle: React.FC<ResizeHandleProps> = ({
 
 /**
  * A wrapper component that allows the user to resize the container.
+ *! unusual case where we handle some effects inside a callback function instead of a useEffect hook
  * @param param0
  * @returns
  */
@@ -87,87 +88,77 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
   const startDimensions = useRef<Dimensions>({ width: 0, height: 0 });
 
   //! mouse down -> initialize the resizing set up
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>, direction: ResizeDirection) => {
-      e.preventDefault();
-      setIsResizing(true);
-      setResizeDirection(direction);
+  const handleMouseDown = (
+    e: React.MouseEvent<HTMLDivElement>,
+    direction: ResizeDirection,
+  ) => {
+    e.preventDefault();
+    setIsResizing(true);
+    setResizeDirection(direction);
 
-      startPos.current = { x: e.clientX, y: e.clientY };
-      startDimensions.current = { ...dimensions };
+    startPos.current = { x: e.clientX, y: e.clientY };
+    startDimensions.current = { ...dimensions };
 
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+    //! note when registering event listeners, need to make sure they refer to the latest
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
 
-      const cursor =
-        direction === "both"
-          ? "nw-resize"
-          : direction === "width"
-          ? "ew-resize"
-          : "ns-resize";
-      document.body.style.cursor = cursor;
-      document.body.style.userSelect = "none";
+    const cursor =
+      direction === "both"
+        ? "nw-resize"
+        : direction === "width"
+        ? "ew-resize"
+        : "ns-resize";
+    document.body.style.cursor = cursor;
+    document.body.style.userSelect = "none";
 
-      console.log(
-        "mouse down",
-        direction,
-        startPos.current,
-        startDimensions.current,
-      );
-    },
-    [dimensions],
-  );
+    console.log(
+      "mouse down",
+      direction,
+      startPos.current,
+      startDimensions.current,
+    );
+  };
 
   //! mouse move -> resizing process
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!isResizing) return;
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isResizing) return;
 
-      const deltaX = e.clientX - startPos.current.x;
-      const deltaY = e.clientY - startPos.current.y;
+    const deltaX = e.clientX - startPos.current.x;
+    const deltaY = e.clientY - startPos.current.y;
 
-      let newWidth = startDimensions.current.width;
-      let newHeight = startDimensions.current.height;
+    let newWidth = startDimensions.current.width;
+    let newHeight = startDimensions.current.height;
 
-      console.log("mouse move", deltaX, deltaY, resizeDirection);
+    console.log("mouse move", deltaX, deltaY, resizeDirection);
 
-      if (
-        resizeDirection === "width"
-        //  || resizeDirection === "both"
-      ) {
-        newWidth = Math.max(
-          minWidth,
-          Math.min(maxWidth, startDimensions.current.width + deltaX),
-        );
-      }
+    if (
+      resizeDirection === "width"
+      //  || resizeDirection === "both"
+    ) {
+      newWidth = Math.max(
+        minWidth,
+        Math.min(maxWidth, startDimensions.current.width + deltaX),
+      );
+    }
 
-      if (
-        resizeDirection === "height"
-        // || resizeDirection === "both"
-      ) {
-        newHeight = Math.max(
-          minHeight,
-          Math.min(maxHeight, startDimensions.current.height + deltaY),
-        );
-      }
+    if (
+      resizeDirection === "height"
+      // || resizeDirection === "both"
+    ) {
+      newHeight = Math.max(
+        minHeight,
+        Math.min(maxHeight, startDimensions.current.height + deltaY),
+      );
+    }
 
-      const newDimensions: Dimensions = { width: newWidth, height: newHeight };
-      setDimensions(newDimensions);
-      onResize(newDimensions);
-    },
-    [
-      isResizing,
-      resizeDirection,
-      minWidth,
-      maxWidth,
-      minHeight,
-      maxHeight,
-      onResize,
-    ],
-  );
+    const newDimensions: Dimensions = { width: newWidth, height: newHeight };
+    setDimensions(newDimensions);
+    onResize(newDimensions);
+  };
 
   //! mouse up -> clear up
-  const handleMouseUp = useCallback(() => {
+  const handleMouseUp = () => {
     setIsResizing(false);
     setResizeDirection(null);
     document.removeEventListener("mousemove", handleMouseMove);
@@ -176,7 +167,7 @@ export const ResizableWrapper: React.FC<ResizableWrapperProps> = ({
     document.body.style.userSelect = "";
 
     console.log("mouse up");
-  }, [handleMouseMove]);
+  };
 
   return (
     <div
