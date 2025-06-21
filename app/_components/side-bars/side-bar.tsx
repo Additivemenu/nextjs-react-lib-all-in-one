@@ -70,7 +70,7 @@ function NavItem({ item, level = 0 }: NavItemProps) {
 export default function Sidebar() {
   if (!navigation || navigation.length === 0) {
     return (
-      <div className="w-64 bg-gray-900 text-white p-4 h-full overflow-y-auto border-r border-gray-700">
+      <div className="w-full bg-gray-900 text-white p-4 h-full overflow-y-auto border-r border-gray-700">
         <h2 className="text-xl font-bold mb-6 text-white">React Demos</h2>
         <p className="text-gray-400">
           No navigation found. Run `npm run generate-nav` first.
@@ -80,7 +80,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="w-64 bg-gray-900 text-white p-4 h-full overflow-y-auto border-r border-gray-700">
+    <div className="w-full bg-gray-900 text-white p-4 h-full overflow-y-auto border-r border-gray-700">
       <h2 className="text-xl font-bold mb-6 text-white">React Demos</h2>
       <nav className="space-y-1">
         {navigation.map((item, index) => (

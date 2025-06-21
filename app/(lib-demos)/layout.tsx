@@ -23,7 +23,7 @@ export default function RootLayout({
         </button>
       </nav>
       <div className="relative h-main-content w-full flex">
-        <div className="h-full flex flex-col shadow-lg p-4 min-w-[var(--left-sidebar-width)] grow">
+        <div className="h-full flex flex-col shadow-lg min-w-[var(--left-sidebar-width)] grow">
           <Sidebar />
         </div>
         <div className="h-full flex flex-col justify-center items-center py-2 grow-[5]">
