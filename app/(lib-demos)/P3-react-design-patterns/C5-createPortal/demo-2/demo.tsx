@@ -11,6 +11,8 @@ import {
   type ConfirmModalProps,
   type FormModalProps,
 } from "./modals";
+import SimpleModalTrigger from "@/app/_components/modals/simple-modal";
+import { MarkdownViewer } from "@/components/viewers/markdown-view";
 
 // Demo Component
 export const ModalDemo: React.FC = () => {
@@ -123,9 +125,25 @@ export const ModalDemo: React.FC = () => {
     });
   };
 
+  //! experimental
+  const currentFilePath = __filename;
+  console.log("currentFilePath", currentFilePath);
+  const relativePath = currentFilePath.replace(process.cwd(), "");
+  console.log("relativePath", relativePath);
+  const readmePath =
+    "(lib-demos)/P3-react-design-patterns/C5-createPortal/demo-2/readme.md";
+
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Stacked Modal Manager Demo</h1>
+      <h1 className="text-3xl font-bold mb-2">Stacked Modal Manager Demo</h1>
+      <SimpleModalTrigger
+        triggerText="see notes"
+        modal={{
+          title: "Simple Modal",
+          content: <MarkdownViewer filePath={readmePath} />,
+        }}
+      />
+      <div className="h-0.5 bg-gray-200 mt-2 mb-4" />
 
       <div className="mb-6">
         <p className="text-gray-600 mb-4">

@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 interface MarkdownViewerProps {
-  filePath?: string;
+  filePath?: string | (() => string);
   content?: string;
 }
 
