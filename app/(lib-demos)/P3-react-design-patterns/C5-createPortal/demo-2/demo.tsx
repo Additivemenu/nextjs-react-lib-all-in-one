@@ -13,6 +13,7 @@ import {
 } from "./modals";
 import SimpleModalTrigger from "@/app/_components/modals/simple-modal";
 import { MarkdownViewer } from "@/components/viewers/markdown-view";
+import { readmePath } from "./readme-path";
 
 // Demo Component
 export const ModalDemo: React.FC = () => {
@@ -124,14 +125,6 @@ export const ModalDemo: React.FC = () => {
       ),
     });
   };
-
-  //! experimental
-  const currentFilePath = __filename;
-  console.log("currentFilePath", currentFilePath);
-  const relativePath = currentFilePath.replace(process.cwd(), "");
-  console.log("relativePath", relativePath);
-  const readmePath =
-    "(lib-demos)/P3-react-design-patterns/C5-createPortal/demo-2/readme.md";
 
   return (
     <div className="p-8">

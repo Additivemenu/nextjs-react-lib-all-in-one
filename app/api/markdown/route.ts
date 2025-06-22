@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Use app directory as the base path since files are in app/(lib-demos)
-    const basePath = join(process.cwd(), "app");
+    const basePath = join(process.cwd(), ""); //! based in project root directory, but you can also use "app"
     const filePath = join(basePath, normalizedPath);
 
     // Additional security check: ensure the resolved path is still under allowed directories

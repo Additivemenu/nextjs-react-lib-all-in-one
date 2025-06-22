@@ -10,6 +10,10 @@ import TaskFilter from "./_components/task-filter";
 import TaskList from "./_components/task-list";
 import RedoUndo from "./_components/redo-undo";
 
+import { readmePath } from "./readme-path";
+import SimpleModalTrigger from "@/app/_components/modals/simple-modal";
+import { MarkdownViewer } from "@/components/viewers/markdown-view";
+
 /**
  *
  *
@@ -35,6 +39,14 @@ const TaskManager: React.FC = () => {
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Task Manager (react-hook-form + zustand)
         </h1>
+        <SimpleModalTrigger
+          triggerText="see notes"
+          modal={{
+            title: "Simple Modal",
+            content: <MarkdownViewer filePath={readmePath} />,
+          }}
+        />
+        <div className="h-0.5 bg-gray-200 mt-2 mb-4" />
 
         <AddTaskForm />
         <TaskFilter />
