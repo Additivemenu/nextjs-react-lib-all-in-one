@@ -6,10 +6,9 @@ import { runDispatch } from "../reducer";
 import { ModalKey } from "../types";
 import { getModalId } from "../utils";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
 // @ts-expect-error
 export function hide<T>(modal: ModalKey): Promise<T>;
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function hide(modal: string | React.FC<unknown>) {
   const modalId = getModalId(modal);
   runDispatch(hideModalAction(modalId));

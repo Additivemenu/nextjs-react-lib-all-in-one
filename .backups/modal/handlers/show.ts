@@ -19,14 +19,12 @@ export function show<T>(
 ): Promise<T>;
 export function show<T, P>(modal: string, args: P): Promise<T>;
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function show(
   modal: ModalKey,
   args?: ModalArgs<React.FC<Record<string, unknown>>> | Record<string, unknown>,
 ) {
   const modalId = getModalId(modal);
   if (typeof modal !== "string" && !MODAL_REGISTRY[modalId]) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     register(modalId, modal, args);
   }

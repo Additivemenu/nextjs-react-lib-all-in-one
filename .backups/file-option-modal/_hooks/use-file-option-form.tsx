@@ -13,11 +13,8 @@ import {
 
 import { getNewInitialFormValues } from "./get-init-form-values";
 
-
 export function useFileOptionForm(fileToUpload: File) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<Error | null>(null);
 
   const uploadInStore = useGetUploadInStore(fileToUpload!);

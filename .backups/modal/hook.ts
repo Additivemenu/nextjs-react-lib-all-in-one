@@ -20,7 +20,6 @@ export function useModal<C, P extends Partial<ModalArgs<React.FC<C>>>>(
   show: (args?: P) => Promise<unknown>;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useModal(
   modal?: ModalKey,
   args?: Partial<ModalArgs<unknown>>,
@@ -42,7 +41,6 @@ export function useModal(
   // If use a component directly, register it.
   useEffect(() => {
     if (isUseComponent && !MODAL_REGISTRY[mid]) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       register(mid, modal, args);
     }

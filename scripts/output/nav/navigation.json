@@ -88,12 +88,6 @@
         ]
       },
       {
-        "name": "Modal Manager",
-        "path": "/P3-react-design-patterns/C3-modal-manager",
-        "hasPage": true,
-        "children": []
-      },
-      {
         "name": "Observer Pattern",
         "path": "/P3-react-design-patterns/C1-observer-pattern",
         "hasPage": true,

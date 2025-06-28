@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 
-import debounce from "lodash/debounce";
+import _ from "lodash";
 import Image from "next/image";
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -16,7 +16,7 @@ const HeaderRow = () => {
   const { isReadingHeader } = useFileOptionModalContext();
 
   const debouncedOnChange = useCallback(
-    debounce((value: number, onChange: (value: number) => void) => {
+    _.debounce((value: number, onChange: (value: number) => void) => {
       onChange(value);
     }, 800), // 500ms delay
     [], // Empty dependencies array since we want this to be created only once

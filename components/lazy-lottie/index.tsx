@@ -24,7 +24,6 @@ export function LazyLottie<T extends Record<string, unknown>>(
     getAnimationData,
     id,
     loadingComponent = "default",
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ref,
     ...props
   }: LottieProps<T> & LazyLottieOptions) {
