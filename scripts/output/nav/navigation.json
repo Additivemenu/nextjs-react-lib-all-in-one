@@ -179,6 +179,19 @@
             "children": []
           }
         ]
+      },
+      {
+        "name": "Event",
+        "path": "/P3-react-design-patterns/C6-event",
+        "hasPage": false,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P3-react-design-patterns/C6-event/demo1",
+            "hasPage": true,
+            "children": []
+          }
+        ]
       }
     ]
   },
