@@ -25,12 +25,20 @@ const CustomDiv: React.FC<CustomDivProps> = ({ onSelect }) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    // Custom keyboard event handling logic
-    console.log("Custom Div Key Down", event);
-    onSelect?.({
-      event,
-      payload: { message: "Custom Div Key Down" },
-    });
+    // Detect Cmd + any key
+    if (event.metaKey) {
+      console.log(`Cmd + ${event.key} pressed`, event);
+      onSelect?.({
+        event,
+        payload: { message: `Cmd + ${event.key} pressed` },
+      });
+    } else {
+      console.log("Custom Div Key Down", event);
+      onSelect?.({
+        event,
+        payload: { message: "Custom Div Key Down" },
+      });
+    }
   };
 
   return (

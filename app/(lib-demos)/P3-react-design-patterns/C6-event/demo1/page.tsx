@@ -28,17 +28,38 @@ const Page = () => {
               // cast event to KeyboardEvent
               event = event as React.KeyboardEvent<HTMLDivElement>;
 
-              alert(
-                "Handling keydown event in parent component" +
-                  "\n ctrl:" +
-                  event.ctrlKey +
-                  "\n shift:" +
-                  event.shiftKey +
-                  "\n alt:" +
-                  event.altKey +
-                  "\n key:" +
-                  event.key,
-              );
+              if (event.ctrlKey || event.shiftKey || event.altKey) {
+                if (
+                  !["control", "shift", "alt", "meta"].includes(
+                    event.key.toLowerCase(),
+                  )
+                ) {
+                  // exclude simple key presses like ctrl, shift, alt
+                  console.warn(
+                    "Handling composite keydown event in parent component" +
+                      "\n ctrl:" +
+                      event.ctrlKey +
+                      "\n shift:" +
+                      event.shiftKey +
+                      "\n alt:" +
+                      event.altKey +
+                      "\n key:" +
+                      event.key,
+                  );
+                }
+              } else {
+                console.log(
+                  "Handling simple keydown event in parent component" +
+                    "\n ctrl:" +
+                    event.ctrlKey +
+                    "\n shift:" +
+                    event.shiftKey +
+                    "\n alt:" +
+                    event.altKey +
+                    "\n key:" +
+                    event.key,
+                );
+              }
             }
           }}
         />
