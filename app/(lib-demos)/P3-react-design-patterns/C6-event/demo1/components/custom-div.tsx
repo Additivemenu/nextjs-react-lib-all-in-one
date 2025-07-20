@@ -24,21 +24,13 @@ const CustomDiv: React.FC<CustomDivProps> = ({ onSelect }) => {
     });
   };
 
+  // Higher order function to handle keydown events
+  // we lift onSelect logic into parent component to gain more flexibility and flexibility in parent component
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    // Detect Cmd + any key
-    if (event.metaKey) {
-      console.log(`Cmd + ${event.key} pressed`, event);
-      onSelect?.({
-        event,
-        payload: { message: `Cmd + ${event.key} pressed` },
-      });
-    } else {
-      console.log("Custom Div Key Down", event);
-      onSelect?.({
-        event,
-        payload: { message: "Custom Div Key Down" },
-      });
-    }
+    onSelect?.({
+      event,
+      payload: { message: "Custom Div Key Down" },
+    });
   };
 
   return (

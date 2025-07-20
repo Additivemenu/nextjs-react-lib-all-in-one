@@ -1,0 +1,1 @@
+Comparing to demo1, `custom-div.tsx` uses native event listener and ref, instead of react synthetic event

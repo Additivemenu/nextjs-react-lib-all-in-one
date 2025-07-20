@@ -190,6 +190,12 @@
             "path": "/P3-react-design-patterns/C6-event/demo1",
             "hasPage": true,
             "children": []
+          },
+          {
+            "name": "Demo1 1",
+            "path": "/P3-react-design-patterns/C6-event/demo1-1",
+            "hasPage": true,
+            "children": []
           }
         ]
       }
