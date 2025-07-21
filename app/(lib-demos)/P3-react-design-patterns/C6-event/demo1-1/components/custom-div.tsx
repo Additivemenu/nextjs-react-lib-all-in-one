@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import "./styles.css";
 
 interface CustomDivProps {
   onSelect?: ({
@@ -30,6 +31,7 @@ const CustomDiv: React.FC<CustomDivProps> = ({ onSelect }) => {
       });
     };
 
+    //! ?? when is the divRef gets a value in react component lifecycle?
     const div = divRef.current;
     if (div) {
       div.addEventListener("click", handleClick);
@@ -49,7 +51,7 @@ const CustomDiv: React.FC<CustomDivProps> = ({ onSelect }) => {
     <div
       ref={divRef}
       tabIndex={0}
-      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      className="menu-item px-4 py-2 bg-blue-500 text-white rounded"
     >
       Native Click Me
     </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import "./styles.css";
 
 interface CustomDivProps {
   onSelect?: ({
@@ -38,7 +39,7 @@ const CustomDiv: React.FC<CustomDivProps> = ({ onSelect }) => {
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0} // Make div focusable so that it can receive keyboard events
-      className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+      className="menu-item px-4 py-2 bg-green-500 text-white rounded"
     >
       Click Me
     </div>

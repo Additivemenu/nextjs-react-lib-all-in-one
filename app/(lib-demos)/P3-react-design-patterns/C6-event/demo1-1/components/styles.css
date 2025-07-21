@@ -1,0 +1,6 @@
+.menu-item:focus {
+  outline: 2px solid #f00; /* Custom outline */
+  background: #fff; /* Custom background */
+  color: #000; /* Custom text color */
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Optional shadow */
+}
