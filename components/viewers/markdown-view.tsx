@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 interface MarkdownViewerProps {
-  filePath?: string | (() => string);
+  filePath?: string | (() => string); // used for constructing the API URL to fetch markdown content
   content?: string;
 }
 

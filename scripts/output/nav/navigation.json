@@ -647,14 +647,14 @@
     "hasPage": true,
     "children": [
       {
-        "name": "Demo0",
-        "path": "/P4-react-rendering-cycle/demo0",
+        "name": "Demo0 Strict Mode UseEffect",
+        "path": "/P4-react-rendering-cycle/demo0-strict-mode-useEffect",
         "hasPage": true,
         "children": []
       },
       {
-        "name": "Demo0 1",
-        "path": "/P4-react-rendering-cycle/demo0-1",
+        "name": "Demo0.1 Order Of Async Code Exe",
+        "path": "/P4-react-rendering-cycle/demo0.1-order-of-async-code-exe",
         "hasPage": true,
         "children": []
       },
@@ -671,32 +671,32 @@
         "children": []
       },
       {
-        "name": "Demo3",
-        "path": "/P4-react-rendering-cycle/demo3",
+        "name": "Demo3 Simple UseEffect",
+        "path": "/P4-react-rendering-cycle/demo3-simple-useEffect",
         "hasPage": true,
         "children": []
       },
       {
-        "name": "Demo4",
-        "path": "/P4-react-rendering-cycle/demo4",
+        "name": "Demo4 React Hook Form Initial Form Values",
+        "path": "/P4-react-rendering-cycle/demo4-react-hook-form-initial-form-values",
         "hasPage": true,
         "children": []
       },
       {
-        "name": "Demo5",
-        "path": "/P4-react-rendering-cycle/demo5",
+        "name": "Demo5 UseEffect UseMemo UseCallback",
+        "path": "/P4-react-rendering-cycle/demo5-useEffect-useMemo-useCallback",
         "hasPage": true,
         "children": []
       },
       {
-        "name": "Demo6",
-        "path": "/P4-react-rendering-cycle/demo6",
+        "name": "Demo6 Async Await Modal Open Close",
+        "path": "/P4-react-rendering-cycle/demo6-async-await-modal-open-close",
         "hasPage": true,
         "children": []
       },
       {
-        "name": "Demo7",
-        "path": "/P4-react-rendering-cycle/demo7",
+        "name": "Demo7 UseState UseRef Plain Variable Comparison",
+        "path": "/P4-react-rendering-cycle/demo7-useState-useRef-plain-variable-comparison",
         "hasPage": true,
         "children": []
       }
