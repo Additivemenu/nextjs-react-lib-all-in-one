@@ -59,6 +59,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 # in-app readme.md
 
+all right, just found an easier way to check the notes: construct url that goes to github readme
++ but we still need to get the path of the readme file in the project!
++ and you can reference other readme in this case!
+
 simulate similar effect like in Docusaurus, but got limitations
 
 - the md file cannot referencing to other md file
@@ -69,14 +73,17 @@ simulate similar effect like in Docusaurus, but got limitations
 Two ways to see the readme.md content:
 
 - embedded within the page
+
   - see React Libs > Ag Grid
+
   ```ts
   import { readmePath } from "./readme-path";
   import { MarkdownViewer } from "@/components/viewers/markdown-view";
 
   // in the React component
-  <MarkdownViewer filePath={readmePath} />
+  <MarkdownViewer filePath={readmePath} />;
   ```
+
 - displayed in a modal
 
   - see React Design Pattern > CreatePortal > Demo2

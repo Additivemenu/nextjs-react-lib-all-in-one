@@ -31,6 +31,7 @@ TODO:
 
 - 绘制一个流程图, 包含 render > commit > effect 以及 React FC 中各类 callback 对应的执行阶段
 - question: 为什么 React 的 state update callback (callback in the setState())和 effect 会比手动注册的 micro-task 更早被执行?
+  - [doc](./docs/react-vs-microtask.md)
 - question: async await 之后的代码也算 Micro-task 吗?
 
 ## React FC 中 callback 的分类
