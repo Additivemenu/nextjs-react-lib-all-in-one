@@ -1,7 +1,6 @@
 // components/Sidebar.tsx
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { NavigationItem } from "@/scripts/generate-nav";
 import NavItem from "./components/nav-item";
@@ -22,14 +21,14 @@ try {
  */
 export default function Sidebar() {
   const pathname = usePathname();
-
-  const expandedKeys = useCallback(
-    () => getExpandedKeys(navigation, pathname),
-    [pathname],
-  );
+  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    // TODO: auto expand sidebar items based on current path
+    // Auto expand sidebar items based on current path
+    const keysToExpand = getExpandedKeys(navigation, pathname);
+    console.log("Current pathname:", pathname);
+    console.log("Keys to expand:", keysToExpand);
+    setExpandedKeys(new Set(keysToExpand));
   }, [pathname]);
 
   if (!navigation || navigation.length === 0) {
@@ -48,7 +47,22 @@ export default function Sidebar() {
       <h2 className="text-xl font-bold mb-6 text-white">React Demos</h2>
       <nav className="space-y-1">
         {navigation.map((item, index) => (
-          <NavItem key={`root-${index}`} item={item} />
+          <NavItem
+            key={`root-${index}`}
+            item={item}
+            expandedKeys={expandedKeys}
+            onToggleExpand={(itemPath: string) => {
+              setExpandedKeys((prev) => {
+                const newSet = new Set(prev);
+                if (newSet.has(itemPath)) {
+                  newSet.delete(itemPath);
+                } else {
+                  newSet.add(itemPath);
+                }
+                return newSet;
+              });
+            }}
+          />
         ))}
       </nav>
     </div>

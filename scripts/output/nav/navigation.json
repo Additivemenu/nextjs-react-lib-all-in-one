@@ -15,6 +15,12 @@
         "path": "/P0-functional-demo/C3-resizable",
         "hasPage": true,
         "children": []
+      },
+      {
+        "name": "C4 Nav Item",
+        "path": "/P0-functional-demo/C4-nav-item",
+        "hasPage": true,
+        "children": []
       }
     ]
   },
