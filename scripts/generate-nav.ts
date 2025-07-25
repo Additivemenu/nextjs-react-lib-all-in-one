@@ -11,12 +11,16 @@ export interface NavigationItem {
 
 function formatName(name: string): string {
   // Handle special naming patterns like "P1-react-libs", "C0-error-boundary"
-  return name
-    .replace(/^[A-Z]\d+-/, "") // Remove prefixes like "P1-", "C0-"
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+  return name.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
 }
 
+/**
+ * recursively generates navigation structure from the Next.js app directory.
+ * @param dir
+ * @param basePath
+ * @param currentDepth
+ * @returns
+ */
 function generateNavigation(
   dir: string = "app",
   basePath: string = "",

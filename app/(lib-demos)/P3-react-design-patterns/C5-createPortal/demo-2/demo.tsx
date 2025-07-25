@@ -11,9 +11,8 @@ import {
   type ConfirmModalProps,
   type FormModalProps,
 } from "./modals";
-import SimpleModalTrigger from "@/app/_components/modals/simple-modal";
-import { MarkdownViewer } from "@/components/viewers/markdown-view";
 import { readmePath } from "./readme-path";
+import ReadmeLink from "@/components/links/ReadmeLink";
 
 // Demo Component
 export const ModalDemo: React.FC = () => {
@@ -129,13 +128,8 @@ export const ModalDemo: React.FC = () => {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-2">Stacked Modal Manager Demo</h1>
-      <SimpleModalTrigger
-        triggerText="see notes"
-        modal={{
-          title: "Simple Modal",
-          content: <MarkdownViewer filePath={readmePath} />,
-        }}
-      />
+      <ReadmeLink readmePath={readmePath} />
+
       <div className="h-0.5 bg-gray-200 mt-2 mb-4" />
 
       <div className="mb-6">
