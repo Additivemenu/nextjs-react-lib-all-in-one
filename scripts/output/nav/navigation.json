@@ -88,6 +88,12 @@
         ]
       },
       {
+        "name": "ForwardRef UseImperative",
+        "path": "/P3-react-design-patterns/C7-forwardRef-useImperative",
+        "hasPage": true,
+        "children": []
+      },
+      {
         "name": "Observer Pattern",
         "path": "/P3-react-design-patterns/C1-observer-pattern",
         "hasPage": true,
