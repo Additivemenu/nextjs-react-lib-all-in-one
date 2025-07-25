@@ -1,6 +1,30 @@
 # React useImperativeHandle vs Lifting State Up
 
-## Understanding useImperativeHandle
+## Best Practices
+
+### Do:
+
+- Expose only the minimum necessary methods
+- Use descriptive method names
+- Include proper TypeScript types
+- Document the imperative API clearly
+- Consider if lifting state up would be simpler first
+
+### Don't:
+
+- Expose internal state directly
+- Use for general component communication
+- Overuse - prefer declarative patterns when possible
+- Forget to handle edge cases (component unmounting, etc.)
+
+## Summary
+
+- **Default choice**: Lift state up for most scenarios
+- **Special cases**: Use useImperativeHandle for imperative methods and specific control patterns
+- **Your VideoPlayer example**: Classic and valid use case for useImperativeHandle
+- **Remember**: It's an escape hatch - use sparingly and purposefully
+
+# Understanding useImperativeHandle
 
 ### What it does
 
@@ -32,11 +56,46 @@
 
 > **React Documentation Quote**: "Imperative code using refs should be avoided in most cases. However, sometimes it's necessary to expose imperative methods to the parent component."
 
-[Usage in UI Libraries vs Application Code](./docs/usage-in-UI-lib-vs-app-code.md)
+### Code Example
 
-## When to Use useImperativeHandle
+```jsx
+// Child component with useImperativeHandle
+const VideoPlayer = forwardRef((props, ref) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(1);
 
-### Valid Use Cases
+  useImperativeHandle(ref, () => ({
+    play: () => setIsPlaying(true),
+    pause: () => setIsPlaying(false),
+    setVolume: (vol) => setVolume(vol),
+    getStatus: () => ({ isPlaying, volume }),
+  }));
+
+  return <video {...props} />;
+});
+
+// Parent component
+const App = () => {
+  const videoRef = useRef();
+
+  const handlePlay = () => videoRef.current?.play();
+  const handlePause = () => videoRef.current?.pause();
+
+  return (
+    <div>
+      <VideoPlayer ref={videoRef} src="video.mp4" />
+      <button onClick={handlePlay}>Play</button>
+      <button onClick={handlePause}>Pause</button>
+    </div>
+  );
+};
+```
+
+## :white_check_mark: When to Use useImperativeHandle
+
+Valid Use Cases: 
+
+:white_check_mark: [Usage in UI Libraries vs Application Code](./docs/usage-in-UI-lib-vs-app-code.md)
 
 1. **Focus, Selection, or Media Controls**
 
@@ -74,43 +133,6 @@
 - Managing imperative actions rather than reactive state
 - Working with media controls, focus management, or third-party integrations
 
-## Code Example
-
-```jsx
-// Child component with useImperativeHandle
-const VideoPlayer = forwardRef((props, ref) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(1);
-
-  useImperativeHandle(ref, () => ({
-    play: () => setIsPlaying(true),
-    pause: () => setIsPlaying(false),
-    setVolume: (vol) => setVolume(vol),
-    getStatus: () => ({ isPlaying, volume }),
-  }));
-
-  return <video {...props} />;
-});
-
-// Parent component
-const App = () => {
-  const videoRef = useRef();
-
-  const handlePlay = () => videoRef.current?.play();
-  const handlePause = () => videoRef.current?.pause();
-
-  return (
-    <div>
-      <VideoPlayer ref={videoRef} src="video.mp4" />
-      <button onClick={handlePlay}>Play</button>
-      <button onClick={handlePause}>Pause</button>
-    </div>
-  );
-};
-```
-
-## Important Considerations
-
 ### Potential Drawbacks
 
 - **Breaks React's declarative paradigm** - introduces imperative code
@@ -130,27 +152,3 @@ const App = () => {
 2. **Custom Hooks** - For sharing stateful logic
 3. **Context API** - For deeply nested state sharing
 4. **State Management Libraries** - Redux, Zustand for complex state
-
-## Best Practices
-
-### Do:
-
-- Expose only the minimum necessary methods
-- Use descriptive method names
-- Include proper TypeScript types
-- Document the imperative API clearly
-- Consider if lifting state up would be simpler first
-
-### Don't:
-
-- Expose internal state directly
-- Use for general component communication
-- Overuse - prefer declarative patterns when possible
-- Forget to handle edge cases (component unmounting, etc.)
-
-## Summary
-
-- **Default choice**: Lift state up for most scenarios
-- **Special cases**: Use useImperativeHandle for imperative methods and specific control patterns
-- **Your VideoPlayer example**: Classic and valid use case for useImperativeHandle
-- **Remember**: It's an escape hatch - use sparingly and purposefully
