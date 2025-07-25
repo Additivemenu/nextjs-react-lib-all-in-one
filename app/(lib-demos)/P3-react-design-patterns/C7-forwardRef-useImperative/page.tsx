@@ -7,6 +7,8 @@ import React, {
   useRef,
 } from "react";
 import { VideoPlayer, type VideoPlayerHandle } from "./components/video-player";
+import ReadmeLink from "@/components/links/ReadmeLink";
+import { readmePath } from "./readme-path";
 
 // Interface for the status object
 interface PlayerStatus {
@@ -21,6 +23,7 @@ const MediaController: React.FC = () => {
   const [status, setStatus] = useState<PlayerStatus | null>(null);
 
   const handlePlay = (): void => {
+    //! child api enabled by useImperativeHandle
     videoPlayerRef.current?.play();
   };
 
@@ -58,6 +61,9 @@ const MediaController: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
       <h2 className="text-2xl font-bold text-center">Media Controller Demo</h2>
+      <ReadmeLink readmePath={readmePath} />
+
+      {/* Video Player component */}
 
       {/* Child component with ref */}
       <VideoPlayer ref={videoPlayerRef} />
