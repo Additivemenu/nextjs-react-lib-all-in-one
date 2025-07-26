@@ -186,13 +186,15 @@ const Component = () => {
 
 你的分类完全正确！这是理解 React 执行模型和副作用管理的关键框架。
 
-## re-render !== re-invoke useEffect
+# React component re-render !== re-invoke useEffect
 
 好的！我们来梳理完整的流程，包括 **`useEffect` 的 cleanup 函数**，当一个 state 变化时，React 的完整连锁反应如下：
 
 ---
 
 ### **1. State 变化触发更新**
+
+注意这里只是 React state 变化, 触发 React component 的 re-rendering 流程, 还没到浏览器的 reflow/repaint那步
 
 ```jsx
 const [count, setCount] = useState(0);
@@ -203,6 +205,8 @@ setCount(1); // 触发重新渲染
 
 ### **2. Render 阶段（计算新 Virtual DOM）**
 
+对应 React Fiber 架构中的 scheduler(决定何时做), reconciler(决定做什么 - React Diffing 算法, 双 fiber tree (前缓存和后缓存)), 这个阶段纯纯在用浏览器主渲染线程跑 js 代码
+
 - React 调用组件函数，生成新的 JSX（**此时 DOM 还未更新**）。
 - 如果组件有子组件，递归执行相同过程。
 - **注意**：此阶段可能被高优先级任务中断（React 18 并发模式）。
@@ -210,6 +214,8 @@ setCount(1); // 触发重新渲染
 ---
 
 ### **3. Commit 阶段（更新真实 DOM）**
+
+对应 React Fiber 架构中的 renderer(拿 reconciler 给的 VDOM blueprint, 真正去更新 DOM tree, 这会进而触发浏览器的渲染管线对 DOM 的更新作出反应)
 
 1. **Before Mutation**（突变前）：
    - 执行 `useLayoutEffect` 的 cleanup 函数（如果依赖项变化）。
@@ -223,6 +229,8 @@ setCount(1); // 触发重新渲染
 ---
 
 ### **4. Effect 阶段（异步执行副作用）**
+
+在浏览器的 paint 完成之后,
 
 1. **Cleanup 上一次的 Effect**（如果依赖项变化）：
    ```jsx
@@ -289,3 +297,117 @@ useEffect(() => {
 ---
 
 通过这种机制，React 确保了副作用的**安全管理和资源释放**，避免内存泄漏或竞态条件！
+
+# DOM 更新 !== 浏览器绘制
+
+完全正确！这是两个完全不同的概念，很多人容易混淆：
+
+## DOM 更新 vs 浏览器绘制
+
+### 1. DOM 更新（JavaScript 层面）
+```javascript
+// 这些操作只是更新了 DOM 树的数据结构
+element.innerHTML = 'new content';
+element.style.color = 'red';
+element.appendChild(newNode);
+
+// 此时：
+// ✅ DOM 树已经被修改
+// ❌ 用户还看不到变化（屏幕上还是旧的）
+```
+
+### 2. 浏览器绘制（渲染引擎层面）
+DOM 更新后，浏览器需要经过完整的渲染管线：
+
+```
+DOM 更新 → Style → Layout → Paint → Composite → 显示到屏幕
+         ↑                                    ↑
+      JS 操作完成                          用户看到变化
+```
+
+## React 中的精确时序
+
+```javascript
+function MyComponent() {
+  const [count, setCount] = useState(0);
+  
+  useLayoutEffect(() => {
+    console.log('1. DOM 已更新，但浏览器还未绘制');
+    // 此时可以同步读取最新的 DOM 尺寸
+    const height = document.getElementById('my-div').offsetHeight;
+    // 但用户屏幕上还是旧的内容！
+  });
+  
+  useEffect(() => {
+    console.log('2. 浏览器已经绘制完成');
+    // 此时用户已经看到了最新的 UI
+    // 适合执行不影响布局的副作用
+  });
+  
+  return <div id="my-div">{count}</div>;
+}
+```
+
+## 实际执行流程
+
+```
+用户点击按钮 setCount(1)
+     ↓
+React Render 阶段（计算新 VDOM）
+     ↓
+React Commit 阶段：
+├─ DOM 更新：div.textContent = "1"  ← DOM 树已变化
+├─ useLayoutEffect 执行             ← 可读取新 DOM，但屏幕还是旧的
+     ↓
+浏览器渲染管线：
+├─ Style Calculation
+├─ Layout (Reflow)  
+├─ Paint (Repaint)
+├─ Composite                        ← 屏幕显示新内容
+     ↓
+useEffect 异步执行                   ← 用户已经看到变化
+```
+
+## 为什么这样设计？
+
+### useLayoutEffect 的使用场景：
+```javascript
+function MeasureExample() {
+  const [height, setHeight] = useState(0);
+  
+  useLayoutEffect(() => {
+    // 需要在浏览器绘制前同步测量
+    const element = document.getElementById('content');
+    const newHeight = element.scrollHeight;
+    
+    if (newHeight !== height) {
+      setHeight(newHeight); // 触发重新渲染，避免闪烁
+    }
+  });
+  
+  return (
+    <div>
+      <div id="content" style={{ height: `${height}px` }}>
+        动态内容...
+      </div>
+    </div>
+  );
+}
+```
+
+### useEffect 的使用场景：
+```javascript
+function LogExample() {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    // 在用户看到变化后，异步执行不影响 UI 的操作
+    analytics.track('count_changed', { count });
+    localStorage.setItem('count', count);
+  }, [count]);
+  
+  return <div>{count}</div>;
+}
+```
+
+所以你的理解完全正确：**DOM 更新是数据层面的变化，浏览器绘制是视觉层面的呈现**，React 巧妙地利用了这个时间差来优化用户体验！
