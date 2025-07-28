@@ -1,13 +1,13 @@
 "use client";
 
-import ReadmeLink from "@/components/links/ReadmeLink";
+import LinkButton from "@/components/links/LinkButton";
 import React from "react";
 import { readmePath } from "./readme-path";
 
 const Page = () => {
   return (
     <div>
-      <ReadmeLink readmePath={readmePath} />
+      <LinkButton filePath={readmePath} />
     </div>
   );
 };

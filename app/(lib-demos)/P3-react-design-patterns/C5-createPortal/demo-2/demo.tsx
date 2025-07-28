@@ -12,7 +12,7 @@ import {
   type FormModalProps,
 } from "./modals";
 import { readmePath } from "./readme-path";
-import ReadmeLink from "@/components/links/ReadmeLink";
+import LinkButton from "@/components/links/LinkButton";
 
 // Demo Component
 export const ModalDemo: React.FC = () => {
@@ -128,7 +128,7 @@ export const ModalDemo: React.FC = () => {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-2">Stacked Modal Manager Demo</h1>
-      <ReadmeLink readmePath={readmePath} />
+      <LinkButton filePath={readmePath} />
 
       <div className="h-0.5 bg-gray-200 mt-2 mb-4" />
 
