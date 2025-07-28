@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import SimpleModalTrigger from "@/app/_components/modals/simple-modal";
-import { MarkdownViewer } from "@/components/viewers/markdown-view";
 import { readmePath } from "./readme-path";
-import { generateReadmeURL } from "@/lib/utils";
+import LinkButton from "@/components/links/LinkButton";
 /**
  * order from observation:
  *
@@ -72,14 +70,7 @@ const Page = () => {
 
   return (
     <>
-      <a
-        className="text-blue-500 hover:underline"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={generateReadmeURL(readmePath)}
-      >
-        link to notes
-      </a>
+      <LinkButton filePath={readmePath} />
       <div className="flex flex-col gap-2">
         <button
           onClick={handleClick}
