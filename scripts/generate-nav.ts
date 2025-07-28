@@ -121,6 +121,9 @@ if (!fs.existsSync(libDir)) {
   fs.mkdirSync(libDir, { recursive: true });
 }
 
+// ensures the alphabetical order of navigation items by its path
+navigation.sort((a, b) => a.path.localeCompare(b.path));
+
 fs.writeFileSync(
   "scripts/output/nav/navigation.json",
   JSON.stringify(navigation, null, 2),

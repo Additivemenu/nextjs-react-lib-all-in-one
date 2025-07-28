@@ -25,6 +25,26 @@
     ]
   },
   {
+    "name": "P0 HTML CSS JS Demo",
+    "path": "/P0-HTML-CSS-JS-demo",
+    "hasPage": false,
+    "children": [
+      {
+        "name": "Css",
+        "path": "/P0-HTML-CSS-JS-demo/css",
+        "hasPage": false,
+        "children": [
+          {
+            "name": "01 Css Pseudo Class",
+            "path": "/P0-HTML-CSS-JS-demo/css/01-css-pseudo-class",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
     "name": "P1 React Libs",
     "path": "/P1-react-libs",
     "hasPage": true,
