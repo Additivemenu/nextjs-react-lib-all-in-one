@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Million Item Menu Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="menu-container">
+      <div class="header">
+        <div class="title">🚀 Million Item Menu</div>
+        <div class="subtitle">Virtual scrolling demo with 1,000,000 items</div>
+      </div>
+
+      <div class="search-section">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search through 1 million items..."
+          id="searchInput"
+        />
+        <div class="stats">
+          <span id="itemCount">Loading items...</span>
+          <span id="renderTime">Render time: 0ms</span>
+        </div>
+      </div>
+
+      <!-- the virtual list container: items will be rendered here -->
+      <div class="virtual-list" id="virtualList">
+        <div class="loading">
+          <div class="spinner"></div>
+          Generating 1 million items...
+        </div>
+      </div>
+
+      <div class="performance-info">
+        Only rendering ~30 visible items • Scroll smoothly through millions •
+        Try searching!
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

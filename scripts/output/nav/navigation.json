@@ -41,6 +41,19 @@
             "children": []
           }
         ]
+      },
+      {
+        "name": "Js",
+        "path": "/P0-HTML-CSS-JS-demo/js",
+        "hasPage": false,
+        "children": [
+          {
+            "name": "07 Virtual Menu",
+            "path": "/P0-HTML-CSS-JS-demo/js/07-virtual-menu",
+            "hasPage": true,
+            "children": []
+          }
+        ]
       }
     ]
   },
