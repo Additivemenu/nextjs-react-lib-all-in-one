@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getGitHubUrl(filePath: string): string {
   const baseURL =
-    "https://github.com/Additivemenu/nextjs-react-lib-all-in-one/blob/main/";
+    "https://github.com/Additivemenu/nextjs-react-lib-all-in-one/blob/main";
 
   return `${baseURL}/${filePath}`;
 }

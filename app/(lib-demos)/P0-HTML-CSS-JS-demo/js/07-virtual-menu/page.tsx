@@ -4,6 +4,7 @@ import LinkButton from "@/components/links/LinkButton";
 import React from "react";
 import { readmePath } from "./readme-path";
 import { usePathname } from "next/navigation";
+import PageToolbar from "@/app/_components/toolbars/page-toolbar";
 
 const Page = () => {
   const pathname = usePathname();
@@ -12,8 +13,7 @@ const Page = () => {
 
   return (
     <div className="h-full w-full">
-      <LinkButton filePath={readmePath} />
-      <LinkButton filePath={htmlFilePath} label="source code" />
+      <PageToolbar readmePath={readmePath} htmlFilePath={htmlFilePath} />
       {/* https://github.com/Additivemenu/nextjs-react-lib-all-in-one/blob/main/public/demos/css/01-css-pseudo-class/index.html */}
       <iframe
         src={htmlFilePath.replace("/public", "")}
