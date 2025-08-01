@@ -47,7 +47,7 @@ const App: React.FC = () => {
       className="ag-theme-quartz"
       style={{
         height: "600px",
-        width: "100%",
+        width: "80%",
         display: "flex",
         flexDirection: "column",
       }}

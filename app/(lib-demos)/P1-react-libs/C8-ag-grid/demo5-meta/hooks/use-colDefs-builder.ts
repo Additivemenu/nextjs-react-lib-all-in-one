@@ -29,38 +29,32 @@ export const useColDefsBuilders = () => {
         checkboxSelection: true,
         headerCheckboxSelection: true,
         width: 60,
-        // Pinned to the left so it's always visible
+        //! Pinned to the left so it's always visible
         pinned: "left",
-        // Not editable, sortable, or filterable
         editable: false,
         sortable: false,
         filter: false,
       },
       {
-        // 'make' column with text filter
         field: "make",
-        // Enable sorting on this column
         sortable: true,
         // Use the standard text filter
         filter: "agTextColumnFilter",
-        // Make this column editable
         editable: true,
       },
       {
-        // 'model' column
         field: "model",
         sortable: true,
         filter: "agTextColumnFilter",
         editable: true,
       },
       {
-        // 'price' column with number filter and value formatter
         field: "price",
         sortable: true,
         // Use the standard number filter
         filter: "agNumberColumnFilter",
         editable: true,
-        // Formats the number as currency
+        //! Formats the number as currency
         valueFormatter: (params: ValueFormatterParams) => {
           return "$" + params.value.toLocaleString();
         },
@@ -76,11 +70,9 @@ export const useColDefsBuilders = () => {
         filter: false,
       },
       {
-        // 'availableDate' column with date filter
         field: "availableDate",
         headerName: "Available From",
         sortable: true,
-        // Use the standard date filter
         filter: "agDateColumnFilter",
         // Filter params to show a 'YYYY-MM-DD' placeholder
         filterParams: {
@@ -94,7 +86,6 @@ export const useColDefsBuilders = () => {
         editable: true,
       },
       {
-        // 'country' column using a custom React component for rendering
         field: "country",
         sortable: true,
         filter: "agTextColumnFilter",
