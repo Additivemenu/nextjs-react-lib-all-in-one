@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* AG Grid CSS - Import globally for consistent styling */
+/* @import "ag-grid-community/styles/ag-grid.css";
+@import "ag-grid-community/styles/ag-theme-quartz.css"; */
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -99,7 +103,6 @@
   --top-nav-height: 4rem;
   --left-sidebar-width: 16rem;
 }
-
 
 /*below are old settings before we use shadcn UI lib*/
 

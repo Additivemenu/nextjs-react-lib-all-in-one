@@ -2,8 +2,6 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 import { rowData as fakeRowData } from "./row-data";
 import { useColDefsBuilders } from "./hooks/use-colDefs-builder";
@@ -46,7 +44,7 @@ const App: React.FC = () => {
 
   return (
     <div
-      //   className="ag-theme-quartz"
+      className="ag-theme-quartz"
       style={{
         height: "600px",
         width: "100%",
