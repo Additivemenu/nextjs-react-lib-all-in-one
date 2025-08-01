@@ -1,0 +1,120 @@
+/* Enhanced AG Grid Styles */
+
+/* Tesla highlight */
+.highlight-tesla {
+  background-color: #ff6b6b !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* Price range styling */
+.price-high {
+  background-color: #ff9999 !important;
+  color: #8b0000 !important;
+  font-weight: bold;
+}
+
+.price-medium {
+  background-color: #ffffcc !important;
+  color: #b8860b !important;
+}
+
+.price-low {
+  background-color: #ccffcc !important;
+  color: #006400 !important;
+}
+
+/* Electric vehicle styling */
+.electric-true {
+  background-color: #90ee90 !important;
+  color: #006400 !important;
+}
+
+.electric-false {
+  background-color: #ffe4e1 !important;
+  color: #8b0000 !important;
+}
+
+/* Custom toolbar styling improvements */
+.custom-grid-toolbar {
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-bottom: 2px solid #dee2e6;
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.custom-grid-toolbar h1 {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.custom-grid-toolbar p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Enhanced button styling */
+.toolbar-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.toolbar-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Search input styling */
+.quick-filter-input {
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.quick-filter-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.quick-filter-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Row hover effects */
+.ag-theme-quartz .ag-row-hover {
+  background-color: rgba(103, 126, 234, 0.1) !important;
+}
+
+/* Custom pagination styling */
+.ag-theme-quartz .ag-paging-panel {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-top: 2px solid #dee2e6;
+}
+
+/* Selected row styling */
+.ag-theme-quartz .ag-row-selected {
+  background-color: rgba(103, 126, 234, 0.2) !important;
+}
+
+/* Header styling */
+.ag-theme-quartz .ag-header {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-bottom: 2px solid #dee2e6;
+}
+
+.ag-theme-quartz .ag-header-cell {
+  font-weight: 600;
+}
