@@ -1,5 +1,6 @@
 "use client";
 
+import { readmePath } from "./readme-path";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 // Register all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -7,6 +8,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import { useState } from "react";
 import type { ColDef } from "ag-grid-community"; // Import ColDef type
+import PageToolbar from "@/app/_components/toolbars/page-toolbar";
 
 export default function Page() {
   // Row Data: The data to be displayed.
@@ -28,12 +30,15 @@ export default function Page() {
   };
   return (
     // Data Grid will fill the size of the parent container
-    <div style={{ width: 800, height: 500 }}>
-      <AgGridReact
-        rowData={rowData}
-        columnDefs={colDefs}
-        defaultColDef={defaultColDef}
-      />
-    </div>
+    <>
+      <PageToolbar readmePath={readmePath} />
+      <div style={{ width: 800, height: 500 }}>
+        <AgGridReact
+          rowData={rowData}
+          columnDefs={colDefs}
+          defaultColDef={defaultColDef}
+        />
+      </div>
+    </>
   );
 }

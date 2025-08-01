@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
+import { readmePath } from "./readme-path";
 import { AgGridReact } from "ag-grid-react";
 import "./styles.css";
 import {
@@ -14,6 +15,7 @@ import {
   RowClassRules,
   RowSelectionOptions,
 } from "ag-grid-community";
+import PageToolbar from "@/app/_components/toolbars/page-toolbar";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const ragCellClassRules: CellClassRules = {
@@ -79,6 +81,7 @@ const Page = () => {
 
   return (
     <div style={containerStyle}>
+      <PageToolbar readmePath={readmePath} />
       <div style={gridStyle}>
         <AgGridReact
           ref={gridRef}

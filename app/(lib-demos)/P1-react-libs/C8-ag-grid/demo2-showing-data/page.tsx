@@ -2,10 +2,11 @@
 
 import React, { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-
+import { readmePath } from "./readme-path";
 import type { ColDef, ColGroupDef, ValueGetterParams } from "ag-grid-community";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
+import PageToolbar from "@/app/_components/toolbars/page-toolbar";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -50,6 +51,7 @@ export default function Page() {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
+      <PageToolbar readmePath={readmePath} />
       <div style={{ width: "100%", height: "100%" }}>
         <AgGridReact rowData={rowData} columnDefs={columnDefs} />
       </div>

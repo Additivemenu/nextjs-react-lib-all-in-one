@@ -1,11 +1,12 @@
 "use client";
 import React, { useMemo, useState } from "react";
-
+import { readmePath } from "./readme-path";
 import type { ColDef, RowSelectionOptions } from "ag-grid-community";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 
 import { TABLE_DATA } from "./fake-data";
+import PageToolbar from "@/app/_components/toolbars/page-toolbar";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -71,17 +72,20 @@ const Page = () => {
   }, []);
 
   return (
-    <div style={{ height: "600px", width: "80%" }}>
-      <AgGridReact
-        rowData={rowData}
-        columnDefs={columnDefs}
-        defaultColDef={defaultColDef}
-        rowSelection={rowSelection}
-        pagination={true}
-        paginationPageSize={10}
-        paginationPageSizeSelector={[10, 25, 50]}
-      />
-    </div>
+    <>
+      <PageToolbar readmePath={readmePath} />
+      <div style={{ height: "600px", width: "80%" }}>
+        <AgGridReact
+          rowData={rowData}
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          rowSelection={rowSelection}
+          pagination={true}
+          paginationPageSize={10}
+          paginationPageSizeSelector={[10, 25, 50]}
+        />
+      </div>
+    </>
   );
 };
 
