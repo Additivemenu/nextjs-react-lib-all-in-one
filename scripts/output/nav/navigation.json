@@ -492,6 +492,12 @@
             "path": "/P1-react-libs/C8-ag-grid/demo4-theme-styling",
             "hasPage": true,
             "children": []
+          },
+          {
+            "name": "Demo5 Meta",
+            "path": "/P1-react-libs/C8-ag-grid/demo5-meta",
+            "hasPage": true,
+            "children": []
           }
         ]
       }
