@@ -185,7 +185,7 @@ export const createColumnDefs = (): ColDef[] => [
     comparator: (valueA: number, valueB: number) => valueA - valueB,
   },
   {
-    // Advanced column demonstrating params.api usage
+    //! Advanced column demonstrating params.api usage
     field: "actions",
     headerName: "Actions",
     width: 120,
@@ -205,7 +205,7 @@ export const createColumnDefs = (): ColDef[] => [
     },
   },
   {
-    // Advanced column demonstrating params.context usage
+    //! Advanced column demonstrating params.context usage
     field: "budgetAnalysis",
     headerName: "Budget Impact",
     width: 140,

@@ -1,17 +1,18 @@
 This repo builds a Next.js based application with TypeScript, Tailwind CSS, and a custom theme. It is used for me to learn and experiment with these technologies and patterns:
+
 - HTML, CSS, and vanilla JavaScript demos
 - some javascript libraries
 - some open source React libraries
-    - React Tanstack Query
-    - React Hook Form & Zod
-    - AG Grid
-    - Framer Motion
+  - React Tanstack Query
+  - React Hook Form & Zod
+  - AG Grid
+  - Framer Motion
 - React api and patterns
-    - reducer patterns
-    - controlled vs uncontrolled components
-    - createPortal
-    - forwardRef and useImperativeHandle
-    - React events
+  - reducer patterns
+  - controlled vs uncontrolled components
+  - createPortal
+  - forwardRef and useImperativeHandle
+  - React events
 - React components and hooks life cycles
 - Next.js features
 - TypeScript features
@@ -23,5 +24,11 @@ Often times I will ask you to help me with writing code for a specific demo or e
 
 When you are working on this repo, please keep the following in mind:
 - Follow the coding standards and best practices for TypeScript, React, and Tailwind CSS.
+- For React code: 
+  - Follow React's Unidirectional Data Flow: data flows down, events bubble up.
+  - Follow SOLID principles and design patterns where applicable.
+    - but don't over-engineer the code, keep it simple and easy to understand.
+      - e.g. decompose complex components into smaller components (but don't overdo it, keep the number of components manageable).
+    - Use hooks to encapsulate logic and state management.
+    - where applicable, use reducer patterns to manage complex state.
 - When you add new demo or modify existing ones, make sure to document them in the readme.md file of the corresponding page.
-
