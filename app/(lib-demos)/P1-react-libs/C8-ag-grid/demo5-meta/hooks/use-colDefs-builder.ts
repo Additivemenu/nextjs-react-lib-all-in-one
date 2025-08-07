@@ -103,7 +103,7 @@ export const useColDefsBuilders = () => {
         comparator: (valueA: number, valueB: number) => valueA - valueB,
       },
       {
-        // 'electric' column with enhanced styling
+        //! 'electric' column with enhanced styling
         field: "electric",
         headerName: "Electric Vehicle",
         sortable: true,
