@@ -25,7 +25,7 @@ const App: React.FC = () => {
   // Quick filter text for global search
   const [quickFilterText, setQuickFilterText] = useState("");
 
-  // Column Definitions: Defines the columns to be displayed.
+  //! Column Definitions: Defines the columns to be displayed.
   const { colDefs, defaultColDef } = useColDefsBuilders();
 
   // Grid ready callback
