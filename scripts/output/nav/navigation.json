@@ -11,6 +11,12 @@
     "hasPage": true,
     "children": [
       {
+        "name": "C2 Spreadsheet Upload",
+        "path": "/P0-functional-demo/C2-spreadsheet-upload",
+        "hasPage": true,
+        "children": []
+      },
+      {
         "name": "C3 Resizable",
         "path": "/P0-functional-demo/C3-resizable",
         "hasPage": true,
