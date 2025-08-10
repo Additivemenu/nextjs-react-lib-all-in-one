@@ -43,7 +43,8 @@ export default function SpreadsheetUploadPage() {
   const cellRangeValue = form.watch("cellRange") || "";
 
   // Custom hooks for handling different aspects of the application
-  const { handleFileChange } = useFileUpload(dispatch);
+  // Using first row as headers (defaultHeaderRow = 0)
+  const { handleFileChange } = useFileUpload(dispatch, 0);
   const { handleUpdateSelection, handleClearSelection } = useRangeSelection(
     state,
     dispatch,
@@ -104,7 +105,7 @@ export default function SpreadsheetUploadPage() {
           {state.data.length > 0 && (
             <>
               <SpreadsheetGrid
-                rowData={state.data}  //! dynamic
+                rowData={state.data} //! dynamic
                 columnDefs={state.columnDefs} // ! this is also dynamic!
                 selectedCellRefs={state.selectedCellRefs}
               />

@@ -1,6 +1,6 @@
 import { toast } from "sonner";
-import { processFile } from "../../utils/file-processor";
-import { SpreadsheetAction } from "../../types";
+import { processFile } from "../utils/file-processor";
+import { SpreadsheetAction } from "../types";
 
 export const useFileUpload = (
   dispatch: React.Dispatch<SpreadsheetAction>,
