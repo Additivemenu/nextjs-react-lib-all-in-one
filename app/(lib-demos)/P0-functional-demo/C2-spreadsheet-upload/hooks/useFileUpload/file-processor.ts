@@ -51,6 +51,7 @@ export const processSpreadsheetFile = (
 export const processFile = async (
   file: File,
 ): Promise<{ data: any[]; columnDefs: ColDef[] }> => {
+  //! wrap event-driven paradigm into a promise for better async handling
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -73,7 +74,7 @@ export const processFile = async (
           throw new Error("File is empty");
         }
 
-        // Create column definitions
+        //! Create column definitions, as we are load data dynamically
         const maxColumns = Math.max(
           ...(jsonData as any[][]).map((row) => row.length),
         );

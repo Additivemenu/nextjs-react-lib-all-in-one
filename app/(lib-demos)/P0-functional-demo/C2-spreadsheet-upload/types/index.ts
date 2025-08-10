@@ -13,6 +13,7 @@ export interface CellReference {
 }
 
 // Spreadsheet state types
+// critical to figure out data structure for state management (even for OOP as well)
 export interface SpreadsheetState {
   data: any[];
   columnDefs: ColDef[]; // as the column def is dynamic, we keep it a state here

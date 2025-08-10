@@ -1,3 +1,3 @@
 export * from "./useFileUpload";
 export * from "./useRangeSelection";
-export * from "./useDataOperations";
+export * from "./useDataOperation";

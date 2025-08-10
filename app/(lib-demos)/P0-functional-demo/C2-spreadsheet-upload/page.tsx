@@ -85,7 +85,7 @@ export default function SpreadsheetUploadPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FileUploadSection
               register={form.register}
-              handleFileChange={handleFileChange}
+              onFileChange={handleFileChange}
               errors={form.formState.errors}
             />
 
@@ -104,8 +104,8 @@ export default function SpreadsheetUploadPage() {
           {state.data.length > 0 && (
             <>
               <SpreadsheetGrid
-                rowData={state.data}
-                columnDefs={state.columnDefs}
+                rowData={state.data}  //! dynamic
+                columnDefs={state.columnDefs} // ! this is also dynamic!
                 selectedCellRefs={state.selectedCellRefs}
               />
 

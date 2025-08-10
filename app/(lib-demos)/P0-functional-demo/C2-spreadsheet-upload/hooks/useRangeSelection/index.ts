@@ -1,6 +1,14 @@
 import { UseFormSetValue } from "react-hook-form";
-import { parseRange, getCellRange, scrollToCell } from "../utils/excel-helpers";
-import { SpreadsheetState, SpreadsheetAction, UploadFormData } from "../types";
+import {
+  parseRange,
+  getCellRange,
+  scrollToCell,
+} from "../../utils/excel-helpers";
+import {
+  SpreadsheetState,
+  SpreadsheetAction,
+  UploadFormData,
+} from "../../types";
 
 export const useRangeSelection = (
   state: SpreadsheetState,

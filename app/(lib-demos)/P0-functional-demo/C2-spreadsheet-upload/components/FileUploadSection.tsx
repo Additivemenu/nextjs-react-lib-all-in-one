@@ -5,15 +5,20 @@ import { FieldError } from "react-hook-form";
 
 interface FileUploadSectionProps {
   register: any;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   errors: {
     file?: FieldError | any;
   };
 }
 
+/**
+ * component for file selection and client-side data loading
+ * @param param0 
+ * @returns 
+ */
 export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
   register,
-  handleFileChange,
+  onFileChange,
   errors,
 }) => {
   return (
@@ -26,7 +31,7 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
         type="file"
         accept=".csv,.xlsx,.xls"
         {...register("file")}
-        onChange={handleFileChange}
+        onChange={onFileChange}
         className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
       />
       {errors.file && (
