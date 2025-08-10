@@ -22,6 +22,7 @@ export interface SpreadsheetState {
 }
 
 // Action types for reducer
+// discriminated union type for actions
 export type SpreadsheetAction =
   | { type: "SET_DATA"; payload: { data: any[]; columnDefs: ColDef[] } }
   | {

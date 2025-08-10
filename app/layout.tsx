@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { PHProvider } from "./providers";
+import { Toaster } from "sonner";
 import dynamic from "next/dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,6 +29,7 @@ export default function RootLayout({
           <main className="h-screen flex flex-col items-center justify-between">
             {children}
           </main>
+          <Toaster />
         </body>
       </PHProvider>
     </html>
