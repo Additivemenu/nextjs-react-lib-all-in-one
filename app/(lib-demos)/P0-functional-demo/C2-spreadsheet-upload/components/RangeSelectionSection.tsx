@@ -55,7 +55,7 @@ export const RangeSelectionSection: React.FC<RangeSelectionSectionProps> = ({
         </Button>
       </div>
       {errors.cellRange && (
-        <Alert className="mt-2">
+        <Alert className="mt-2 text-red-500">
           <AlertDescription>{errors.cellRange.message}</AlertDescription>
         </Alert>
       )}
