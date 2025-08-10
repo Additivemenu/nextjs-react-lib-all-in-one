@@ -1,11 +1,20 @@
 import { SpreadsheetState, SpreadsheetAction } from "../types";
 
-// Initial state
+// Initial state for the spreadsheet application
 export const initialSpreadsheetState: SpreadsheetState = {
+  // Raw data from uploaded file (array of row objects)
   data: [],
+
+  // AG Grid column definitions for rendering the spreadsheet
   columnDefs: [],
+
+  // Filtered data based on selected range (subset of 'data')
   selectedData: [],
+
+  // String representation of selected range (e.g. "A1:C10", "B2:D5")
   selectedRange: "",
+
+  // Array of individual cell references for highlighting (e.g. [{row: 0, col: 0}, {row: 0, col: 1}])
   selectedCellRefs: [],
 };
 

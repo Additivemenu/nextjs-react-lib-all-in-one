@@ -24,7 +24,7 @@ export const SpreadsheetGrid: React.FC<SpreadsheetGridProps> = ({
       (col) => col.field === params.colDef.field,
     );
 
-    // Check if this cell is in the selected range
+    //! Check if this cell is in the selected range
     const isSelected = selectedCellRefs.some(
       (ref) => ref.row === rowIndex && ref.col === colIndex,
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -33,18 +33,16 @@ export default function SpreadsheetUploadPage() {
     spreadsheetReducer,
     initialSpreadsheetState,
   );
-  const [rangeInput, setRangeInput] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<UploadFormData>({
+  const form = useForm<UploadFormData>({
     resolver: zodResolver(uploadFormSchema),
+    defaultValues: {
+      cellRange: "",
+    },
   });
 
-  const isValidRange = rangeInput ? parseRange(rangeInput) !== null : false;
+  // Watch the cellRange field to get its current value
+  const cellRangeValue = form.watch("cellRange") || "";
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -79,14 +77,23 @@ export default function SpreadsheetUploadPage() {
   };
 
   const onSubmit = (data: UploadFormData) => {
-    // Form submission is handled by file change
-    console.log("Form submitted", data);
+    // Handle complete form submission with both file and range
+    console.log("Form submitted with data:", {
+      file: data.file?.[0]?.name,
+      cellRange: data.cellRange,
+    });
+
+    // If there's a cell range and data is loaded, update selection
+    if (data.cellRange?.trim() && state.data.length > 0) {
+      handleUpdateSelection();
+    }
   };
 
+  //! core
   const handleUpdateSelection = () => {
-    if (!isValidRange || !rangeInput.trim()) return;
+    if (!cellRangeValue?.trim()) return;
 
-    const cellRefs = parseRange(rangeInput);
+    const cellRefs = parseRange(cellRangeValue);
     if (!cellRefs) return;
 
     const result = getCellRange(state.data, state.columnDefs, cellRefs);
@@ -114,7 +121,7 @@ export default function SpreadsheetUploadPage() {
         cellRefs: [],
       },
     });
-    setRangeInput("");
+    form.setValue("cellRange", "");
   };
 
   const handleCopyData = () => {
@@ -170,25 +177,27 @@ export default function SpreadsheetUploadPage() {
         </CardHeader>
 
         <CardContent className="space-y-6">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FileUploadSection
-              register={register}
+              register={form.register}
               handleFileChange={handleFileChange}
-              errors={errors}
+              errors={form.formState.errors}
             />
+
+            {state.data.length > 0 && (
+              <RangeSelectionSection
+                register={form.register}
+                errors={form.formState.errors}
+                onUpdateSelection={handleUpdateSelection}
+                onClearSelection={handleClearSelection}
+                hasSelection={state.selectedData.length > 0}
+                cellRangeValue={cellRangeValue}
+              />
+            )}
           </form>
 
           {state.data.length > 0 && (
             <>
-              <RangeSelectionSection
-                rangeInput={rangeInput}
-                setRangeInput={setRangeInput}
-                isValidRange={isValidRange}
-                onUpdateSelection={handleUpdateSelection}
-                onClearSelection={handleClearSelection}
-                hasSelection={state.selectedData.length > 0}
-              />
-
               <SpreadsheetGrid
                 rowData={state.data}
                 columnDefs={state.columnDefs}
