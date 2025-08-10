@@ -2,45 +2,6 @@ import { CellReference } from "../types";
 import { ColDef } from "ag-grid-community";
 import { CellRange } from "./cell-range";
 
-// Helper function to convert column index to Excel column letter
-export const getColumnLetter = (index: number): string => {
-  let result = "";
-  while (index >= 0) {
-    result = String.fromCharCode(65 + (index % 26)) + result;
-    index = Math.floor(index / 26) - 1;
-  }
-  return result;
-};
-
-// Helper function to convert Excel column letter to index
-export const getColumnIndex = (letter: string): number => {
-  let result = 0;
-  for (let i = 0; i < letter.length; i++) {
-    result = result * 26 + (letter.charCodeAt(i) - 64);
-  }
-  return result - 1;
-};
-
-// Helper function to convert column letter to number (0-based)
-export const columnToNumber = (col: string): number => {
-  let result = 0;
-  for (let i = 0; i < col.length; i++) {
-    result = result * 26 + (col.charCodeAt(i) - "A".charCodeAt(0) + 1);
-  }
-  return result - 1; // Convert to 0-based index
-};
-
-// Helper function to parse cell reference like "A1"
-export const parseCellReference = (cellRef: string): CellReference | null => {
-  const match = cellRef.match(/^([A-Z]+)(\d+)$/);
-  if (!match) return null;
-
-  const col = getColumnIndex(match[1]);
-  const row = parseInt(match[2]) - 1; // Convert to 0-based index
-
-  return { row, col };
-};
-
 /**
  * Parse a range string like "A1:C3" or "A1" into cell references
  * @param range The range string to parse e.g. "A1:C10", "B2:D5"

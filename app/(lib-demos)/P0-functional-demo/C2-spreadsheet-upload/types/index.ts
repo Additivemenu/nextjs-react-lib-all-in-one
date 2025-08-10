@@ -12,14 +12,17 @@ export interface CellReference {
   col: number;
 }
 
-// Spreadsheet state types
+//! Spreadsheet state types
 // critical to figure out data structure for state management (even for OOP as well)
 export interface SpreadsheetState {
-  data: any[];
-  columnDefs: ColDef[]; // as the column def is dynamic, we keep it a state here
-  selectedData: any[];
-  selectedRange: string;
-  selectedCellRefs: CellReference[];
+  // 📊 Core Spreadsheet Data
+  data: any[]; // Raw rows from uploaded file
+  columnDefs: ColDef[]; // Dynamic column definitions for AG Grid
+
+  // 🎯 Selection State
+  selectedData: any[]; // Filtered data from range selection
+  selectedRange: string; // Human-readable range (e.g., "A1:C10")
+  selectedCellRefs: CellReference[]; // Individual cell coordinates for highlighting
 }
 
 // Action types for reducer
