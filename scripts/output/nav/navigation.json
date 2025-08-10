@@ -762,6 +762,12 @@
         "path": "/P4-react-rendering-cycle/demo7-useState-useRef-plain-variable-comparison",
         "hasPage": true,
         "children": []
+      },
+      {
+        "name": "Demo8 UseMemo Sync With Source State",
+        "path": "/P4-react-rendering-cycle/demo8-useMemo-sync-with-source-state",
+        "hasPage": true,
+        "children": []
       }
     ]
   }
