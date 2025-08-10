@@ -1,6 +1,6 @@
 import { SpreadsheetState, SpreadsheetAction } from "../types";
 
-// Initial state for the spreadsheet application
+// Initial state for the spreadsheet application (Source Data Only)
 export const initialSpreadsheetState: SpreadsheetState = {
   // Raw data from uploaded file (array of row objects)
   data: [],
@@ -8,17 +8,14 @@ export const initialSpreadsheetState: SpreadsheetState = {
   // AG Grid column definitions for rendering the spreadsheet
   columnDefs: [],
 
-  // Filtered data based on selected range (subset of 'data')
-  selectedData: [],
-
-  // String representation of selected range (e.g. "A1:C10", "B2:D5")
+  // String representation of selected range (e.g. "A1:C10", "B2:D5") - SOURCE
   selectedRange: "",
 
-  // Array of individual cell references for highlighting (e.g. [{row: 0, col: 0}, {row: 0, col: 1}])
-  selectedCellRefs: [],
+  // Note: selectedData and selectedCellRefs are now computed on-demand
+  // rather than stored in state to prevent redundancy and state inconsistency
 };
 
-// Reducer
+// Reducer (Simplified - only manages source data)
 export function spreadsheetReducer(
   state: SpreadsheetState,
   action: SpreadsheetAction,
@@ -29,16 +26,12 @@ export function spreadsheetReducer(
         ...state,
         data: action.payload.data,
         columnDefs: action.payload.columnDefs,
-        selectedData: [],
-        selectedRange: "",
-        selectedCellRefs: [],
+        selectedRange: "", // Clear selection when new data is loaded
       };
-    case "SET_SELECTION":
+    case "SET_SELECTED_RANGE":
       return {
         ...state,
-        selectedData: action.payload.data,
         selectedRange: action.payload.range,
-        selectedCellRefs: action.payload.cellRefs,
       };
     case "CLEAR_DATA":
       return initialSpreadsheetState;

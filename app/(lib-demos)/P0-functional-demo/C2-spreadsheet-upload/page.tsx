@@ -24,13 +24,22 @@ import {
   spreadsheetReducer,
   initialSpreadsheetState,
 } from "./reducers/spreadsheet-reducer";
-import { useFileUpload, useRangeSelection, useDataOperations } from "./hooks";
+import {
+  useFileUpload,
+  useRangeSelection,
+  useDataOperations,
+  useSpreadsheetSelectors,
+} from "./hooks";
 
 export default function SpreadsheetUploadPage() {
   const [state, dispatch] = useReducer(
     spreadsheetReducer,
     initialSpreadsheetState,
   );
+
+  // 🔄 Compute derived state from source state
+  const { selectedCellRefs, selectedData, selectedRangeDescription } =
+    useSpreadsheetSelectors(state);
 
   const form = useForm<UploadFormData>({
     resolver: zodResolver(uploadFormSchema),
@@ -50,9 +59,7 @@ export default function SpreadsheetUploadPage() {
     dispatch,
     form.setValue,
   );
-  const { handleCopyData, handleDownloadData } = useDataOperations(
-    state.selectedData,
-  );
+  const { handleCopyData, handleDownloadData } = useDataOperations();
 
   const onSubmit = (data: UploadFormData) => {
     // Handle complete form submission with both file and range
@@ -70,6 +77,11 @@ export default function SpreadsheetUploadPage() {
   // Wrapper functions for the hook handlers
   const onUpdateSelection = () => handleUpdateSelection(cellRangeValue);
   const onClearSelection = () => handleClearSelection();
+
+  // Wrapper functions for data operations with derived state
+  const onCopyData = () => handleCopyData(selectedData);
+  const onDownloadData = () =>
+    handleDownloadData(selectedData, selectedRangeDescription);
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -96,7 +108,7 @@ export default function SpreadsheetUploadPage() {
                 errors={form.formState.errors}
                 onUpdateSelection={onUpdateSelection}
                 onClearSelection={onClearSelection}
-                hasSelection={state.selectedData.length > 0}
+                hasSelection={selectedData.length > 0}
                 cellRangeValue={cellRangeValue}
               />
             )}
@@ -107,14 +119,14 @@ export default function SpreadsheetUploadPage() {
               <SpreadsheetGrid
                 rowData={state.data} //! dynamic
                 columnDefs={state.columnDefs} // ! this is also dynamic!
-                selectedCellRefs={state.selectedCellRefs}
+                selectedCellRefs={selectedCellRefs}
               />
 
               <SelectedDataDisplay
-                selectedData={state.selectedData}
-                selectedRange={state.selectedRange}
-                onCopyData={handleCopyData}
-                onDownloadData={handleDownloadData}
+                selectedData={selectedData}
+                selectedRange={selectedRangeDescription}
+                onCopyData={onCopyData}
+                onDownloadData={onDownloadData}
               />
             </>
           )}

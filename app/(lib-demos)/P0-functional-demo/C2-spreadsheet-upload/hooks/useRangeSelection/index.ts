@@ -1,9 +1,5 @@
 import { UseFormSetValue } from "react-hook-form";
-import {
-  parseRange,
-  getCellRange,
-  scrollToCell,
-} from "../../utils/excel-helpers";
+import { parseRange, scrollToCell } from "../../utils/excel-helpers";
 import {
   SpreadsheetState,
   SpreadsheetAction,
@@ -16,19 +12,23 @@ export const useRangeSelection = (
   setValue: UseFormSetValue<UploadFormData>,
 ) => {
   const handleUpdateSelection = (cellRangeValue: string) => {
-    if (!cellRangeValue?.trim()) return;
+    if (!cellRangeValue?.trim()) {
+      // Clear selection if empty range
+      dispatch({
+        type: "SET_SELECTED_RANGE",
+        payload: { range: "" },
+      });
+      return;
+    }
 
+    // Validate range before setting
     const cellRefs = parseRange(cellRangeValue);
-    if (!cellRefs) return;
+    if (!cellRefs) return; // Invalid range, don't update state
 
-    const result = getCellRange(state.data, state.columnDefs, cellRefs);
+    // Update source state - derived state will be computed automatically
     dispatch({
-      type: "SET_SELECTION",
-      payload: {
-        data: result.data,
-        range: result.range,
-        cellRefs: cellRefs,
-      },
+      type: "SET_SELECTED_RANGE",
+      payload: { range: cellRangeValue },
     });
 
     // Scroll to the first cell in the range
@@ -39,12 +39,8 @@ export const useRangeSelection = (
 
   const handleClearSelection = () => {
     dispatch({
-      type: "SET_SELECTION",
-      payload: {
-        data: [],
-        range: "",
-        cellRefs: [],
-      },
+      type: "SET_SELECTED_RANGE",
+      payload: { range: "" },
     });
     setValue("cellRange", "");
   };
