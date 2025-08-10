@@ -17,10 +17,14 @@ export interface SpreadsheetState {
   columnDefs: ColDef[];
   selectedData: any[];
   selectedRange: string;
+  selectedCellRefs: CellReference[];
 }
 
 // Action types for reducer
 export type SpreadsheetAction =
   | { type: "SET_DATA"; payload: { data: any[]; columnDefs: ColDef[] } }
-  | { type: "SET_SELECTION"; payload: { data: any[]; range: string } }
+  | {
+      type: "SET_SELECTION";
+      payload: { data: any[]; range: string; cellRefs: CellReference[] };
+    }
   | { type: "CLEAR_DATA" };

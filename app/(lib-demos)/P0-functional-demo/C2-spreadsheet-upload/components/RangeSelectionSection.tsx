@@ -23,7 +23,8 @@ export const RangeSelectionSection: React.FC<RangeSelectionSectionProps> = ({
   return (
     <div className="mb-4">
       <label htmlFor="range" className="block text-sm font-medium mb-2">
-        Select Cell Range (e.g., A1:C10 or A1)
+        Select Cell Range (e.g., A1:C10 or A1) - Enter range manually to select
+        data
       </label>
       <div className="flex gap-2">
         <Input

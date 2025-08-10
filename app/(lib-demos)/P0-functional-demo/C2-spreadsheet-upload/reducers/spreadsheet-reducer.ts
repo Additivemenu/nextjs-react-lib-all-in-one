@@ -6,6 +6,7 @@ export const initialSpreadsheetState: SpreadsheetState = {
   columnDefs: [],
   selectedData: [],
   selectedRange: "",
+  selectedCellRefs: [],
 };
 
 // Reducer
@@ -21,12 +22,14 @@ export function spreadsheetReducer(
         columnDefs: action.payload.columnDefs,
         selectedData: [],
         selectedRange: "",
+        selectedCellRefs: [],
       };
     case "SET_SELECTION":
       return {
         ...state,
         selectedData: action.payload.data,
         selectedRange: action.payload.range,
+        selectedCellRefs: action.payload.cellRefs,
       };
     case "CLEAR_DATA":
       return initialSpreadsheetState;
