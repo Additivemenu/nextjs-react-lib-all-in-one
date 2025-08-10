@@ -49,6 +49,7 @@ data + selectedCellRefs → getCellRange() → selectedData + description
 ## Key Design Principles:
 
 - **State-First Design**: Data structure designed before UI components
+  -  :white_check_mark: [the derived states ARE computed synchronously in the same render cycle as the source state changes](./docs/derived-states.md)
 - **Derived State**: Avoid storing redundant data that can be computed
 - **Single Source of Truth**: All spreadsheet data lives in one place
 - **Components Consume State**: Components don't manage state, only display it
@@ -58,3 +59,5 @@ data + selectedCellRefs → getCellRange() → selectedData + description
 - **useSpreadsheetSelectors**: Hook that computes derived state with memoization
 - **CellRange**: Class-based range parsing and validation
 - **Modular Hooks**: Separated concerns (file upload, range selection, data operations)
+
+

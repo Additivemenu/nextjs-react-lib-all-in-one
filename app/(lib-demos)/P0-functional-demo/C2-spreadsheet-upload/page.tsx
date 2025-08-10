@@ -30,6 +30,8 @@ import {
   useDataOperations,
   useSpreadsheetSelectors,
 } from "./hooks";
+import PageToolbar from "@/app/_components/toolbars/page-toolbar";
+import { readmePath } from "./readme-path";
 
 export default function SpreadsheetUploadPage() {
   const [state, dispatch] = useReducer(
@@ -86,6 +88,8 @@ export default function SpreadsheetUploadPage() {
   return (
     <div className="container mx-auto py-8 px-4">
       <Card>
+        <PageToolbar readmePath={readmePath} />
+
         <CardHeader>
           <CardTitle>Spreadsheet Upload & Range Selection</CardTitle>
           <CardDescription>
