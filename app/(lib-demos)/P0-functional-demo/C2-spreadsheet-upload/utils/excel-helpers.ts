@@ -1,5 +1,6 @@
 import { CellReference } from "../types";
 import { ColDef } from "ag-grid-community";
+import { CellRange } from "./cell-range";
 
 // Helper function to convert column index to Excel column letter
 export const getColumnLetter = (index: number): string => {
@@ -75,93 +76,14 @@ export const parseCellReference = (cellRef: string): CellReference | null => {
  * at position 0 in the grid. This means user input "A1" actually selects grid column 1.
  */
 export const parseRange = (range: string): CellReference[] | null => {
-  const cellPattern = /^([A-Z]+)(\d+)$/;
-  const rangePattern = /^([A-Z]+)(\d+):([A-Z]+)(\d+)$/;
-  const columnPattern = /^([A-Z]+):([A-Z]+)$/;
-  const rowPattern = /^(\d+):(\d+)$/;
+  // Use the new CellRange class for parsing and validation
+  const cellRange = CellRange.createWithOffset(range);
 
-  // Transform range to offset column indices to account for row index column
-  // e.g. "A1:C10" will be converted to "B1:D10" if the leftmost column is "A"
-  const transformRange = (inputRange: string): string => {
-    // Single cell pattern (e.g., A1 -> B1)
-    const singleCellMatch = inputRange.match(/^([A-Z]+)(\d+)$/);
-    if (singleCellMatch) {
-      const [, col, row] = singleCellMatch;
-      const newCol = String.fromCharCode(col.charCodeAt(0) + 1); // A->B, B->C, etc.
-      return `${newCol}${row}`;
-    }
-
-    // Range pattern (e.g., A1:C10 -> B1:D10)
-    const rangeMatch = inputRange.match(/^([A-Z]+)(\d+):([A-Z]+)(\d+)$/);
-    if (rangeMatch) {
-      const [, startCol, startRow, endCol, endRow] = rangeMatch;
-      const newStartCol = String.fromCharCode(startCol.charCodeAt(0) + 1);
-      const newEndCol = String.fromCharCode(endCol.charCodeAt(0) + 1);
-      return `${newStartCol}${startRow}:${newEndCol}${endRow}`;
-    }
-
-    // Column range pattern (e.g., A:C -> B:D)
-    const colRangeMatch = inputRange.match(/^([A-Z]+):([A-Z]+)$/);
-    if (colRangeMatch) {
-      const [, startCol, endCol] = colRangeMatch;
-      const newStartCol = String.fromCharCode(startCol.charCodeAt(0) + 1);
-      const newEndCol = String.fromCharCode(endCol.charCodeAt(0) + 1);
-      return `${newStartCol}:${newEndCol}`;
-    }
-
-    // Row ranges don't need transformation
-    return inputRange;
-  };
-
-  // Transform the input range to account for row index column
-  const transformedRange = transformRange(range);
-
-  // Single cell (e.g., A1)
-  const cellMatch = transformedRange.match(cellPattern);
-  if (cellMatch) {
-    const [, col, row] = cellMatch;
-    return [{ col: columnToNumber(col), row: parseInt(row) - 1 }];
+  if (!cellRange.isValid()) {
+    return null;
   }
 
-  // Range (e.g., A1:C3)
-  const rangeMatch = transformedRange.match(rangePattern);
-  if (rangeMatch) {
-    const [, startCol, startRow, endCol, endRow] = rangeMatch;
-    const startColNum = columnToNumber(startCol);
-    const endColNum = columnToNumber(endCol);
-    const startRowNum = parseInt(startRow) - 1;
-    const endRowNum = parseInt(endRow) - 1;
-
-    const references: CellReference[] = [];
-    for (let row = startRowNum; row <= endRowNum; row++) {
-      for (let col = startColNum; col <= endColNum; col++) {
-        references.push({ col: col, row });
-      }
-    }
-    return references;
-  }
-
-  // Column range (e.g., A:C)
-  const columnMatch = transformedRange.match(columnPattern);
-  if (columnMatch) {
-    const [, startCol, endCol] = columnMatch;
-    return [
-      { col: columnToNumber(startCol), row: -1 },
-      { col: columnToNumber(endCol), row: -1 },
-    ];
-  }
-
-  // Row range (e.g., 1:3)
-  const rowMatch = transformedRange.match(rowPattern);
-  if (rowMatch) {
-    const [, startRow, endRow] = rowMatch;
-    return [
-      { col: -1, row: parseInt(startRow) - 1 },
-      { col: -1, row: parseInt(endRow) - 1 },
-    ];
-  }
-
-  return null;
+  return cellRange.toCellReferences();
 };
 
 /**
