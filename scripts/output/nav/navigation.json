@@ -712,6 +712,12 @@
             "path": "/P3-react-design-patterns/C8-suspense/demo1-meta",
             "hasPage": true,
             "children": []
+          },
+          {
+            "name": "Demo2 Use Hook Data Source",
+            "path": "/P3-react-design-patterns/C8-suspense/demo2-use-hook-data-source",
+            "hasPage": true,
+            "children": []
           }
         ]
       }
