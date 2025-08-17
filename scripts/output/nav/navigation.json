@@ -684,12 +684,6 @@
         "children": []
       },
       {
-        "name": "C8 Suspense",
-        "path": "/P3-react-design-patterns/C8-suspense",
-        "hasPage": true,
-        "children": []
-      },
-      {
         "name": "C6 Event",
         "path": "/P3-react-design-patterns/C6-event",
         "hasPage": false,
@@ -703,6 +697,19 @@
           {
             "name": "Demo1 1",
             "path": "/P3-react-design-patterns/C6-event/demo1-1",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "C8 Suspense",
+        "path": "/P3-react-design-patterns/C8-suspense",
+        "hasPage": false,
+        "children": [
+          {
+            "name": "Demo1 Meta",
+            "path": "/P3-react-design-patterns/C8-suspense/demo1-meta",
             "hasPage": true,
             "children": []
           }

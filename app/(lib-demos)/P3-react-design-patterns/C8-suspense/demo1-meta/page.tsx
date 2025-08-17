@@ -5,6 +5,8 @@ import { ErrorBoundary } from "./components/error-boundary";
 import { DemoControls } from "./components/demo-controls";
 import { LoadingSkeletons } from "./components/loading-skeletons";
 import { KeyConcepts } from "./components/key-concepts";
+import PageToolbar from "@/app/_components/toolbars/page-toolbar";
+import { readmePath } from "./readme-path";
 
 // React.lazy() - This is what activates Suspense!
 const LazyUserProfile = lazy(() => import("./components/lazy-user-profile"));
@@ -25,6 +27,7 @@ export default function SuspensePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
+      <PageToolbar readmePath={readmePath} />
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
