@@ -684,6 +684,12 @@
         "children": []
       },
       {
+        "name": "C8 Suspense",
+        "path": "/P3-react-design-patterns/C8-suspense",
+        "hasPage": true,
+        "children": []
+      },
+      {
         "name": "C6 Event",
         "path": "/P3-react-design-patterns/C6-event",
         "hasPage": false,
