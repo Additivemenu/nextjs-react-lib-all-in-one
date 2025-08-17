@@ -67,9 +67,10 @@ export default function SuspensePage() {
           <div>
             <h2 className="text-xl font-semibold mb-4">Lazy User Profile</h2>
             <ErrorBoundary>
-              <Suspense fallback={<LoadingSkeletons.UserProfile />}>
+              {/* <Suspense fallback={<LoadingSkeletons.UserProfile />}> */}
+                {/* FIXME: well, it's still fetching data and manage loading state manually in the demo */}
                 <LazyUserProfile userId={userId} />
-              </Suspense>
+              {/* </Suspense> */}
             </ErrorBoundary>
           </div>
 
@@ -77,9 +78,10 @@ export default function SuspensePage() {
           <div>
             <h2 className="text-xl font-semibold mb-4">Lazy User Posts</h2>
             <ErrorBoundary>
-              <Suspense fallback={<LoadingSkeletons.UserPosts />}>
+              {/* <Suspense fallback={<LoadingSkeletons.UserPosts />}> */}
+                {/* FIXME: well, it's still fetching data and manage loading state manually in the demo */}
                 <LazyUserPosts userId={userId} />
-              </Suspense>
+              {/* </Suspense> */}
             </ErrorBoundary>
           </div>
         </div>
