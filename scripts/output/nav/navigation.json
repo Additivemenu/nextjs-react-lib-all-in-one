@@ -11,6 +11,12 @@
     "hasPage": true,
     "children": [
       {
+        "name": "C1 Chatbot",
+        "path": "/P0-functional-demo/C1-chatbot",
+        "hasPage": true,
+        "children": []
+      },
+      {
         "name": "C2 Spreadsheet Upload",
         "path": "/P0-functional-demo/C2-spreadsheet-upload",
         "hasPage": true,
