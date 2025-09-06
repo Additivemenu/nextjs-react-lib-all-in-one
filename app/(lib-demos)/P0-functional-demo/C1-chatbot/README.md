@@ -33,12 +33,19 @@ C1-chatbot/
 ├── page.tsx                 # Main page component
 ├── types.ts                 # TypeScript type definitions
 ├── contexts/
-│   └── ChatContext.tsx      # Global chat state management
+│   ├── ChatContext.tsx      # Chat provider and context hooks
+│   ├── chatReducer.ts       # Chat state reducer logic
+│   └── index.ts            # Context exports
 ├── components/
 │   ├── ChatInterface.tsx    # Main chat UI container
 │   ├── MessageBubble.tsx    # Individual message display
 │   ├── ChatInput.tsx        # Message input with auto-resize
 │   ├── TypingIndicator.tsx  # Loading animation
+│   ├── ChatActions.tsx      # Chat management controls
+│   └── index.ts            # Component exports
+├── utils/
+│   ├── mockAI.ts           # AI response simulation
+│   └── index.ts            # Utility exports
 │   └── ChatActions.tsx      # Chat management controls
 └── utils/
     └── mockAI.ts            # AI response simulation
@@ -54,9 +61,11 @@ C1-chatbot/
 
 ### 2. Context + Reducer Pattern
 
-- Centralized state management with `useReducer`
-- Predictable state updates through action dispatchers
-- Easy to test and debug state changes
+- **Centralized state management** with `useReducer`
+- **Separated reducer logic** in `contexts/chatReducer.ts` for better maintainability
+- **Predictable state updates** through typed action dispatchers
+- **Easy to test and debug** with isolated reducer functions
+- **Action types**: `ADD_MESSAGE`, `SET_TYPING`, `DELETE_MESSAGE`, etc.
 
 ### 3. Component Composition
 
