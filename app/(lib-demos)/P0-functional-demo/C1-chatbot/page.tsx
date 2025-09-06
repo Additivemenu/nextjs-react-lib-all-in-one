@@ -16,7 +16,7 @@ export default function ChatbotPage() {
   ]);
 
   return (
-    <div className="h-full bg-background">
+    <div className="h-fit bg-background border border-border rounded-lg shadow-sm">
       <ChatProvider initialMessages={messages}>
         <div className="container mx-auto max-w-4xl">
           <header className="border-b border-border p-4">
