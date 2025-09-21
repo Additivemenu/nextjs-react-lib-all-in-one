@@ -1,48 +1,79 @@
 import React from "react";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { FieldError } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 
 interface FileUploadSectionProps {
-  register: any;
+  register?: UseFormRegister<any>;
   onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  errors: {
-    file?: FieldError | any;
-  };
+  onHeaderRowChange?: (headerRowIndex: number) => void;
+  errors: FieldErrors<any>;
+  hasData?: boolean;
+  headerRowIndex?: number;
 }
 
 /**
  * component for file selection and client-side data loading
- * @param param0 
- * @returns 
+ * @param param0
+ * @returns
  */
-export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
+export function FileUploadSection({
   register,
   onFileChange,
+  onHeaderRowChange,
   errors,
-}) => {
+  hasData = false,
+  headerRowIndex = 0,
+}: FileUploadSectionProps) {
   return (
-    <div>
-      <label htmlFor="file" className="block text-sm font-medium mb-2">
-        Select File (CSV or Excel)
-      </label>
-      <Input
-        id="file"
-        type="file"
-        accept=".csv,.xlsx,.xls"
-        {...register("file")}
-        onChange={onFileChange}
-        className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-      />
-      {errors.file && (
-        <Alert className="mt-2">
-          <AlertDescription>
-            {typeof errors.file.message === "string"
-              ? errors.file.message
-              : "Please select a valid file"}
-          </AlertDescription>
-        </Alert>
+    <div className="space-y-4">
+      <div>
+        <label htmlFor="file-upload" className="text-sm font-medium">
+          Upload Spreadsheet
+        </label>
+        <Input
+          id="file-upload"
+          type="file"
+          accept=".csv,.xlsx,.xls"
+          onChange={onFileChange}
+        />
+        {errors.file && (
+          <p className="text-sm text-red-500 mt-1">
+            {String(errors.file?.message || "File is required")}
+          </p>
+        )}
+      </div>
+
+      {hasData && (
+        <div className="flex gap-4 items-end">
+          <div className="flex-1">
+            <label htmlFor="header-row-index" className="text-sm font-medium">
+              Header Row Index
+            </label>
+            <Input
+              id="header-row-index"
+              type="number"
+              min="0"
+              placeholder="0"
+              value={headerRowIndex}
+              onChange={(e) => {
+                const value = parseInt(e.target.value) || 0;
+                onHeaderRowChange?.(value);
+              }}
+            />
+            {errors.headerRowIndex && (
+              <p className="text-sm text-red-500 mt-1">
+                {String(
+                  errors.headerRowIndex?.message || "Invalid header row index",
+                )}
+              </p>
+            )}
+            <p className="text-xs text-gray-500 mt-1">
+              Row index that contains column headers (0-based)
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );
-};
+}

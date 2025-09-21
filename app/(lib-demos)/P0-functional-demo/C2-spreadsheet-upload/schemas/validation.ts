@@ -5,37 +5,20 @@ import { CellRange } from "../utils/cell-range";
 export const uploadFormSchema = z.object({
   file: z
     .any()
-    .refine((files) => files?.length > 0, "Please select a file")
-    .refine((files) => {
-      const file = files?.[0];
-      return (
-        file &&
-        (file.type === "text/csv" ||
-          file.type === "application/vnd.ms-excel" ||
-          file.type ===
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-      );
-    }, "Only CSV and Excel files are allowed"),
-  cellRange: z
-    .string()
     .optional()
-    .refine(
-      (range) => {
-        if (!range || range.trim() === "") return true; // Allow empty range
-
-        const validation = CellRange.validate(range);
-        return validation.isValid;
-      },
-      (range) => {
-        if (!range || range.trim() === "")
-          return { message: "Range is required" };
-
-        const validation = CellRange.validate(range);
-        return {
-          message:
-            validation.errorMessage ||
-            "Invalid range format. Use formats like A1, A1:C10, A:C, or 1:3. For ranges, ensure top-left cell comes before bottom-right cell.",
-        };
-      },
-    ),
+    .refine((files) => !files || files?.[0], "File is required when provided")
+    .refine((files) => {
+      if (!files || !files[0]) return true; // Allow empty for optional
+      const file = files[0];
+      return [
+        "text/csv",
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      ].includes(file.type);
+    }, "Only CSV and Excel files are supported"),
+  cellRange: z.string().optional(),
+  headerRowIndex: z
+    .number()
+    .min(0, "Header row index must be 0 or greater")
+    .default(0),
 });

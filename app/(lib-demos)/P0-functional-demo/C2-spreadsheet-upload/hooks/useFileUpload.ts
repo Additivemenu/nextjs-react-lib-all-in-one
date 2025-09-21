@@ -1,46 +1,56 @@
 import { toast } from "sonner";
-import { processFile } from "../utils/file-processor";
-import { SpreadsheetAction } from "../types";
+// import { readFileAsArrayBuffer } from "../utils/file-reader";
+import { SpreadsheetAction  } from "../types";
+
+import { ChangeEvent, Dispatch } from "react";
+// import { SpreadsheetAction } from "../reducers/spreadsheet-reducer";
 
 export const useFileUpload = (
-  dispatch: React.Dispatch<SpreadsheetAction>,
-  defaultHeaderRow: number = -1, // -1: auto-generate, 0: first row, 1: second row, etc.
+  dispatch: Dispatch<SpreadsheetAction>,
+  headerRowIndex: number = 0,
 ) => {
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     try {
-      toast.loading("Processing file...");
+      // Clear any previous data
+      dispatch({ type: "SET_DATA", payload: { data: [], columnDefs: [] } });
 
-      //! bottleneck here, as it reads the file and processes it
-      const result = await processFile(file, defaultHeaderRow);
+      // Import file processing utility
+      const { processFileWithHeader } = await import("../utils/file-processor");
+      const result = await processFileWithHeader(file, headerRowIndex);
 
-      // extract colDef building logic from the result
-
-      dispatch({
-        type: "SET_DATA",
-        payload: {
-          data: result.data,
-          columnDefs: result.columnDefs,
-        },
-      });
-
-      toast.dismiss();
-      toast.success(
-        `File uploaded successfully! ${result.data.length} rows loaded.`,
-      );
+      dispatch({ type: "SET_DATA", payload: result });
     } catch (error) {
-      toast.dismiss();
-      toast.error(
-        `Error processing file: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`,
-      );
+      console.error("Error processing file:", error);
     }
   };
 
-  return { handleFileChange };
+  const handleHeaderRowChange = async (
+    newHeaderRowIndex: number,
+    currentFile?: File,
+  ) => {
+    if (!currentFile) return;
+
+    try {
+      // Clear previous data
+      dispatch({ type: "SET_DATA", payload: { data: [], columnDefs: [] } });
+
+      const { processFileWithHeader } = await import("../utils/file-processor");
+      const result = await processFileWithHeader(
+        currentFile,
+        newHeaderRowIndex,
+      );
+
+      dispatch({ type: "SET_DATA", payload: result });
+    } catch (error) {
+      console.error("Error reprocessing file with new header row:", error);
+    }
+  };
+
+  return {
+    handleFileChange,
+    handleHeaderRowChange,
+  };
 };

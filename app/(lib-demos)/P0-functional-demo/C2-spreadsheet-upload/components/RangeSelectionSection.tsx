@@ -1,46 +1,52 @@
 import React from "react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { UploadFormData } from "../types";
+import { Button } from "@/components/ui/button";
 
 interface RangeSelectionSectionProps {
-  register: UseFormRegister<UploadFormData>;
-  errors: FieldErrors<UploadFormData>;
+  register: UseFormRegister<any>;
+  errors: FieldErrors<any>;
   onUpdateSelection: () => void;
   onClearSelection: () => void;
   hasSelection: boolean;
   cellRangeValue: string;
 }
 
-export const RangeSelectionSection: React.FC<RangeSelectionSectionProps> = ({
+export function RangeSelectionSection({
   register,
   errors,
   onUpdateSelection,
   onClearSelection,
   hasSelection,
   cellRangeValue,
-}) => {
+}: RangeSelectionSectionProps) {
   return (
-    <div className="mb-4">
-      <label htmlFor="cellRange" className="block text-sm font-medium mb-2">
-        Select Cell Range (e.g., A1:C10 or A1) - Enter range manually to select
-        data
-      </label>
-      <div className="flex gap-2">
+    <div className="space-y-4">
+      <div>
+        <label htmlFor="cell-range" className="text-sm font-medium">
+          Cell Range (e.g., A1:C10)
+        </label>
         <Input
-          id="cellRange"
+          id="cell-range"
           type="text"
+          placeholder="A1:C10"
           {...register("cellRange")}
-          placeholder="Enter range like A1:C10"
-          className="flex-1"
         />
+        {errors.cellRange && (
+          <p className="text-sm text-red-500 mt-1">
+            {String(errors.cellRange?.message || "Invalid cell range")}
+          </p>
+        )}
+        <p className="text-xs text-gray-500 mt-1">
+          Enter a cell range to select specific data (e.g., A1:C10, B2:D15)
+        </p>
+      </div>
+
+      <div className="flex gap-2">
         <Button
           type="button"
           onClick={onUpdateSelection}
-          disabled={!cellRangeValue?.trim()}
-          className="whitespace-nowrap"
+          disabled={!cellRangeValue.trim()}
         >
           Update Selection
         </Button>
@@ -49,16 +55,10 @@ export const RangeSelectionSection: React.FC<RangeSelectionSectionProps> = ({
           variant="outline"
           onClick={onClearSelection}
           disabled={!hasSelection}
-          className="whitespace-nowrap"
         >
           Clear Selection
         </Button>
       </div>
-      {errors.cellRange && (
-        <Alert className="mt-2 text-red-500">
-          <AlertDescription>{errors.cellRange.message}</AlertDescription>
-        </Alert>
-      )}
     </div>
   );
-};
+}
