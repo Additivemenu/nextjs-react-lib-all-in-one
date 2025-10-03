@@ -60,6 +60,12 @@
         "hasPage": false,
         "children": [
           {
+            "name": "01 Thumbs Up",
+            "path": "/P0-HTML-CSS-JS-demo/js/01-thumbs-up",
+            "hasPage": true,
+            "children": []
+          },
+          {
             "name": "07 Virtual Menu",
             "path": "/P0-HTML-CSS-JS-demo/js/07-virtual-menu",
             "hasPage": true,
