@@ -1,4 +1,4 @@
-import { SpreadsheetState, SpreadsheetAction } from "../types";
+import { SpreadsheetState, SpreadsheetAction } from "../types/index";
 
 // Initial state for the spreadsheet application (Source Data Only)
 export const initialSpreadsheetState: SpreadsheetState = {

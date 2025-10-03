@@ -1,4 +1,4 @@
-import { CellReference } from "../types";
+import { CellReference } from "../types/index";
 
 /**
  * Represents different types of cell ranges

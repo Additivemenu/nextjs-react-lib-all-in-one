@@ -1,6 +1,6 @@
 import { toast } from "sonner";
-import { processFile } from "../../utils/file-processor";
-import { SpreadsheetAction } from "../../types";
+import { processFileWithHeader } from "../../utils/file-processor";
+import { SpreadsheetAction } from "../../types/index";
 
 export const useFileUpload = (
   dispatch: React.Dispatch<SpreadsheetAction>,
@@ -16,7 +16,7 @@ export const useFileUpload = (
       toast.loading("Processing file...");
 
       //! bottleneck here, as it reads the file and processes it
-      const result = await processFile(file, defaultHeaderRow);
+      const result = await processFileWithHeader(file, defaultHeaderRow);
 
       // extract colDef building logic from the result
 

@@ -3,7 +3,7 @@ import {
   SpreadsheetState,
   DerivedSpreadsheetState,
   CellReference,
-} from "../../types";
+} from "../../types/index";
 import { parseRange, getCellRange } from "../../utils/excel-helpers";
 
 /**

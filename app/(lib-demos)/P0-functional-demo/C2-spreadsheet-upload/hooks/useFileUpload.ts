@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 // import { readFileAsArrayBuffer } from "../utils/file-reader";
-import { SpreadsheetAction  } from "../types";
+import { SpreadsheetAction } from "../types/index";
 
 import { ChangeEvent, Dispatch } from "react";
 // import { SpreadsheetAction } from "../reducers/spreadsheet-reducer";

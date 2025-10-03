@@ -1,5 +1,5 @@
 export { UserProfile } from "./user-profile";
-export { UserPosts } from "./user-posts";
+// export { UserPosts } from "./user-posts";
 export { LazyComponent } from "./lazy-component";
 export { ErrorBoundary } from "./error-boundary";
 export { DemoControls } from "./demo-controls";

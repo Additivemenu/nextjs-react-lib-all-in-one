@@ -1,7 +1,7 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import { ColDef, CellClassParams } from "ag-grid-community";
-import { CellReference } from "../types";
+import { CellReference } from "../types/index";
 
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);

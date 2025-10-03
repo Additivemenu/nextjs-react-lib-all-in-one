@@ -4,7 +4,7 @@ import {
   SpreadsheetState,
   SpreadsheetAction,
   UploadFormData,
-} from "../../types";
+} from "../../types/index";
 
 export const useRangeSelection = (
   state: SpreadsheetState,

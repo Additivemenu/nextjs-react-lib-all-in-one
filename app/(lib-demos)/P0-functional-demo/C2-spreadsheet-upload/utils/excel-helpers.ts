@@ -1,4 +1,4 @@
-import { CellReference } from "../types";
+import { CellReference } from "../types/index";
 import { ColDef } from "ag-grid-community";
 import { CellRange } from "./cell-range";
 
