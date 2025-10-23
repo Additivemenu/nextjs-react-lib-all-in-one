@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "pnpm run generate-nav && pnpm run generate-readme-path && next dev",
-    "build": "pnpm run generate-nav && pnpm run generate-readme-path && next build",
+    "build": "pnpm run generate-nav && pnpm run generate-readme-path && pnpm run copy-demos && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --verbose",
     "test:watch": "jest --watch",
     "generate-nav": "tsx scripts/generate-nav.ts",
-    "generate-readme-path": "tsx scripts/generate-readme-path.ts"
+    "generate-readme-path": "tsx scripts/generate-readme-path.ts",
+    "copy-demos": "tsx scripts/copy-paste-demo-to-public.ts"
   },
   "dependencies": {
     "@emotion/core": "^11.0.0",

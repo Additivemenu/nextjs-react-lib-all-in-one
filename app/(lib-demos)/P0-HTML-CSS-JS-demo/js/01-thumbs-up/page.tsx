@@ -15,7 +15,7 @@ const Page = () => {
   const localDemoPath = `/demos/html/${dynamicPath}.html`;
 
   // Option 2: Keep using public folder (fallback)
-  const htmlFilePath = `/demos/js/${dynamicPath}/index.html`;
+  const htmlFilePath = `/demos/${dynamicPath}/index.html`;
 
   // Add some debugging
   console.log("pathname:", pathname);

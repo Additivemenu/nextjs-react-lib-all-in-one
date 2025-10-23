@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Text Truncation Bug Demo</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .example {
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        /* THE BUG: Nested content without min-width: 0 */
+        .container-bug {
+            width: 400px;
+            display: flex;
+            border: 2px solid #ef4444;
+            padding: 8px;
+            gap: 8px;
+            background: #fee;
+        }
+
+        .item-bug {
+            flex: 1;
+            /* ❌ NO min-width: 0 here */
+            border: 1px solid #666;
+            padding: 8px;
+            background: white;
+        }
+
+        .text-bug {
+            /* This is the nested element that causes the issue */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* THE FIX: Add min-width: 0 to flex item */
+        .container-fix {
+            width: 400px;
+            display: flex;
+            border: 2px solid #22c55e;
+            padding: 8px;
+            gap: 8px;
+            background: #efe;
+        }
+
+        .item-fix {
+            flex: 1;
+            min-width: 0; /* ✅ This fixes it! */
+            border: 1px solid #666;
+            padding: 8px;
+            background: white;
+        }
+
+        .text-fix {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .button {
+            flex-shrink: 0;
+            padding: 8px 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            background: #ddd;
+            border-radius: 50%;
+        }
+
+        code {
+            background: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .highlight {
+            background: #fef08a;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flexbox Text Truncation Bug: The Real Scenario</h1>
+
+    <!-- Simple flex item (no bug) -->
+    <div class="example">
+        <h2>✅ Case 1: Simple Flex Item (No Bug)</h2>
+        <p>When text is <strong>directly</strong> in the flex item, it wraps or shrinks normally:</p>
+        <div style="width: 400px; display: flex; border: 2px solid #666; padding: 8px; gap: 8px;">
+            <div style="flex: 1; border: 1px solid #666; padding: 8px;">
+                This is a very long text that will wrap naturally because it's directly in the flex item
+            </div>
+            <button class="button">Button</button>
+        </div>
+        <p style="margin-top: 10px;">
+            <code>flex: 1</code> works fine here - no overflow!
+        </p>
+    </div>
+
+    <!-- THE BUG: Nested content -->
+    <div class="example">
+        <h2>🐛 Case 2: Nested Content WITHOUT min-width: 0 (The Bug!)</h2>
+        <p>When text is in a <strong>nested element</strong> that needs truncation:</p>
+        <div class="container-bug">
+            <div class="icon"></div>
+            <div class="item-bug">
+                <div class="text-bug">
+                    This is a very long text that should truncate with ellipsis but OVERFLOWS instead!
+                </div>
+            </div>
+            <button class="button">Button</button>
+        </div>
+        <p style="margin-top: 10px;">
+            ❌ The nested <code>&lt;div class="text-bug"&gt;</code> overflows because the parent flex item has <code class="highlight">min-width: auto</code> (default)
+        </p>
+        <p><strong>Why?</strong> The flex item refuses to shrink below the width of its nested content.</p>
+    </div>
+
+    <!-- THE FIX -->
+    <div class="example">
+        <h2>✅ Case 3: Nested Content WITH min-width: 0 (Fixed!)</h2>
+        <p>Same nested structure, but with <code>min-width: 0</code> on the flex item:</p>
+        <div class="container-fix">
+            <div class="icon"></div>
+            <div class="item-fix">
+                <div class="text-fix">
+                    This is a very long text that should truncate with ellipsis and now it does!
+                </div>
+            </div>
+            <button class="button">Button</button>
+        </div>
+        <p style="margin-top: 10px;">
+            ✅ Adding <code class="highlight">min-width: 0</code> to the flex item allows the nested text to truncate properly!
+        </p>
+    </div>
+
+    <!-- Your TodoListSummary scenario -->
+    <div class="example">
+        <h2>📝 Your TodoListSummary Scenario</h2>
+        <p>This mimics your actual React component structure:</p>
+        
+        <div style="margin-bottom: 20px;">
+            <h3>Without min-width: 0 (Bug):</h3>
+            <div style="width: 400px; display: flex; gap: 8px; padding: 8px; border: 2px solid #ef4444; background: #fee;">
+                <!-- flex: 1 but NO min-width: 0 -->
+                <div style="flex: 1; display: flex; align-items: center; gap: 8px;">
+                    <div class="icon"></div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        Complete the quarterly sales report and submit to management for review
+                    </div>
+                </div>
+                <button class="button">↑</button>
+            </div>
+        </div>
+
+        <div>
+            <h3>With min-width: 0 (Fixed):</h3>
+            <div style="width: 400px; display: flex; gap: 8px; padding: 8px; border: 2px solid #22c55e; background: #efe;">
+                <!-- flex: 1 AND min-width: 0 -->
+                <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px;">
+                    <div class="icon"></div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        Complete the quarterly sales report and submit to management for review
+                    </div>
+                </div>
+                <button class="button">↑</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explanation -->
+    <div class="example">
+        <h2>🎓 Key Takeaway</h2>
+        <p><strong>The bug only occurs when:</strong></p>
+        <ol>
+            <li>You have a <strong>flex item</strong> (with <code>flex: 1</code>)</li>
+            <li>That contains <strong>nested content</strong> (like a <code>&lt;div&gt;</code> or <code>&lt;Truncate&gt;</code> component)</li>
+            <li>The nested content needs to <strong>truncate with ellipsis</strong></li>
+        </ol>
+        <p><strong>Why <code>min-width: 0</code> fixes it:</strong></p>
+        <ul>
+            <li>By default, flex items have <code>min-width: auto</code></li>
+            <li>This means "don't shrink smaller than my content"</li>
+            <li>For nested truncatable content, the flex item sees the full text width as its minimum</li>
+            <li><code>min-width: 0</code> overrides this and says "you CAN shrink below your content size"</li>
+            <li>This allows the nested <code>text-overflow: ellipsis</code> to actually work</li>
+        </ul>
+    </div>
+</body>
+</html>
