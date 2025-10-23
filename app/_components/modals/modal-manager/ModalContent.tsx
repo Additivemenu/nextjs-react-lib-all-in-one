@@ -96,7 +96,7 @@ export const ModalContent: React.FC<ModalContentProps> = ({
   const zIndex = 1000 + modalIndex * 10;
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Only close if clicking directly on the backdrop, not its children
+    //! Only close if clicking directly on the backdrop, not its children
     if (e.target === e.currentTarget) {
       if (closeOnBackdropClick) {
         closeModal(id);
@@ -113,9 +113,11 @@ export const ModalContent: React.FC<ModalContentProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-${id}`}
+      aria-label={`modal${id} backdrop`}
     >
       <div
         className="relative max-h-[90vh] max-w-[90vw] overflow-auto"
+        aria-label={`modal${id} container`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

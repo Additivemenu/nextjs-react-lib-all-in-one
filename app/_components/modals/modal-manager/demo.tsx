@@ -131,6 +131,13 @@ function Modal3Content() {
   );
 }
 
+/**
+ * the beauty of this composite component is that
+ * we can declare the ModalContent anywhere down in the sub tree of <Modal> </Modal>, -- thanks to createPortal
+ * and we just need to use openModal(id) to manage which one to open
+ *
+ * @returns
+ */
 export default function ModalDemo() {
   return (
     <Modal>

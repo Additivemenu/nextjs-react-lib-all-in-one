@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Text Truncation Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            background: white;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .label {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .bug-label {
+            background: #fee;
+            color: #c33;
+        }
+
+        .fix-label {
+            background: #efe;
+            color: #3c3;
+        }
+
+        /* Common styles for both examples */
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #4a90e2;
+            background: white;
+            flex-shrink: 0; /* Icon should never shrink */
+        }
+
+        .icon::before {
+            content: '✓';
+            color: #4a90e2;
+            font-size: 12px;
+        }
+
+        .text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .button {
+            width: 32px;
+            height: 32px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0; /* Button should never shrink */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button:hover {
+            background: #357abd;
+        }
+
+        /* ❌ THE BUG - Default flexbox behavior */
+        .todo-item-bug .text-wrapper {
+            /* 
+                By default, flex items have:
+                min-width: auto
+                
+                This means the element won't shrink below its content size,
+                causing the text to overflow instead of truncating!
+            */
+        }
+
+        /* ✅ THE FIX - Add minWidth: 0 */
+        .todo-item-fix .text-wrapper {
+            flex: 1;
+            min-width: 0; /* This is the magic property! */
+            /*
+                Setting min-width: 0 tells the flex item:
+                "You CAN shrink below your content's natural width"
+                
+                This allows text-overflow: ellipsis to actually work!
+            */
+        }
+
+        .explanation {
+            margin-top: 16px;
+            padding: 16px;
+            background: #f0f7ff;
+            border-left: 4px solid #4a90e2;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-top: 12px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .code-block .comment {
+            color: #75715e;
+        }
+
+        .code-block .property {
+            color: #66d9ef;
+        }
+
+        .code-block .value {
+            color: #a6e22e;
+        }
+
+        .code-block .bug-highlight {
+            background: rgba(255, 100, 100, 0.2);
+        }
+
+        .code-block .fix-highlight {
+            background: rgba(100, 255, 100, 0.2);
+        }
+
+        .resize-container {
+            resize: horizontal;
+            overflow: auto;
+            border: 2px dashed #4a90e2;
+            padding: 12px;
+            min-width: 200px;
+            max-width: 100%;
+        }
+
+        .resize-hint {
+            text-align: center;
+            color: #4a90e2;
+            font-size: 12px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐛 Flexbox Text Truncation Bug & Fix</h1>
+        <p>Resize the containers below to see the difference!</p>
+
+        <!-- THE BUG -->
+        <div class="demo-section">
+            <span class="label bug-label">❌ THE BUG</span>
+            <h2>Without min-width: 0</h2>
+            
+            <div class="resize-container">
+                <div class="todo-item todo-item-bug">
+                    <div class="icon"></div>
+                    <div class="text-wrapper">
+                        <div class="text">
+                            This is a very long todo item title that should be truncated but it will overflow instead!
+                        </div>
+                    </div>
+                    <button class="button">▶</button>
+                </div>
+            </div>
+            <div class="resize-hint">👆 Drag the right edge to resize</div>
+
+            <div class="explanation">
+                <strong>What's happening:</strong>
+                <ul>
+                    <li>The text overflows the container instead of truncating</li>
+                    <li>Flex items have <code>min-width: auto</code> by default</li>
+                    <li>This means: "Don't shrink smaller than my content"</li>
+                    <li>Even though we have <code>text-overflow: ellipsis</code>, it doesn't work!</li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+<span class="comment">/* The problem: */</span>
+.text-wrapper {
+  <span class="comment">/* Implicit default: */</span>
+  <span class="property bug-highlight">min-width</span>: <span class="value">auto</span>; <span class="comment">/* Won't shrink below content! */</span>
+}
+
+.text {
+  <span class="property">white-space</span>: <span class="value">nowrap</span>;
+  <span class="property">overflow</span>: <span class="value">hidden</span>;
+  <span class="property">text-overflow</span>: <span class="value">ellipsis</span>; <span class="comment">/* Doesn't work! */</span>
+}
+            </div>
+        </div>
+
+        <!-- THE FIX -->
+        <div class="demo-section">
+            <span class="label fix-label">✅ THE FIX</span>
+            <h2>With min-width: 0</h2>
+            
+            <div class="resize-container">
+                <div class="todo-item todo-item-fix">
+                    <div class="icon"></div>
+                    <div class="text-wrapper">
+                        <div class="text">
+                            This is a very long todo item title that should be truncated and now it works perfectly!
+                        </div>
+                    </div>
+                    <button class="button">▶</button>
+                </div>
+            </div>
+            <div class="resize-hint">👆 Drag the right edge to resize</div>
+
+            <div class="explanation">
+                <strong>Why it works:</strong>
+                <ul>
+                    <li>The text truncates properly with ellipsis (...)</li>
+                    <li>We set <code>min-width: 0</code> on the text wrapper</li>
+                    <li>This overrides the default and says: "You CAN shrink below content size"</li>
+                    <li>Now <code>text-overflow: ellipsis</code> can do its job!</li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+<span class="comment">/* The solution: */</span>
+.text-wrapper {
+  <span class="property">flex</span>: <span class="value">1</span>; <span class="comment">/* Take available space */</span>
+  <span class="property fix-highlight">min-width</span>: <span class="value">0</span>; <span class="comment">/* ✨ The magic property! */</span>
+}
+
+.text {
+  <span class="property">white-space</span>: <span class="value">nowrap</span>;
+  <span class="property">overflow</span>: <span class="value">hidden</span>;
+  <span class="property">text-overflow</span>: <span class="value">ellipsis</span>; <span class="comment">/* Now it works! */</span>
+}
+            </div>
+        </div>
+
+        <!-- SIDE BY SIDE COMPARISON -->
+        <div class="demo-section">
+            <h2>Side by Side Comparison</h2>
+            <p>Try resizing your browser window to see the difference!</p>
+            
+            <h3>❌ Without min-width: 0 (Overflows)</h3>
+            <div class="todo-item todo-item-bug">
+                <div class="icon"></div>
+                <div class="text-wrapper">
+                    <div class="text">
+                        Super long text that demonstrates the overflow bug in flexbox layouts
+                    </div>
+                </div>
+                <button class="button">▶</button>
+            </div>
+
+            <h3 style="margin-top: 24px;">✅ With min-width: 0 (Truncates)</h3>
+            <div class="todo-item todo-item-fix">
+                <div class="icon"></div>
+                <div class="text-wrapper">
+                    <div class="text">
+                        Super long text that demonstrates the fix with min-width: 0 in flexbox
+                    </div>
+                </div>
+                <button class="button">▶</button>
+            </div>
+        </div>
+
+        <!-- KEY TAKEAWAY -->
+        <div class="demo-section" style="background: #fffbeb; border-left: 4px solid #f59e0b;">
+            <h2>🔑 Key Takeaway</h2>
+            <p style="font-size: 16px; line-height: 1.8;">
+                When using <code>text-overflow: ellipsis</code> inside a flex container, 
+                you <strong>must</strong> set <code>min-width: 0</code> on the flex item 
+                containing the text. Otherwise, the flex item won't shrink below its content 
+                size, and the text will overflow instead of truncating.
+            </p>
+            
+            <p style="font-size: 16px; line-height: 1.8; margin-top: 16px;">
+                This is one of the most common flexbox gotchas and applies to both 
+                <code>min-width: 0</code> (horizontal) and <code>min-height: 0</code> (vertical) 
+                scenarios!
+            </p>
+        </div>
+    </div>
+</body>
+</html>
