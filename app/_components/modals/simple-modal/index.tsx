@@ -69,6 +69,7 @@ const SimpleModalTrigger = ({
       >
         {triggerText}
       </button>
+
       {showModal &&
         createPortal(
           <SimpleModal onClose={() => setShowModal(false)} modal={modal} />,

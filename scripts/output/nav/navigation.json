@@ -33,6 +33,12 @@
         "path": "/P0-functional-demo/C4-nav-item",
         "hasPage": true,
         "children": []
+      },
+      {
+        "name": "C6 Modal Manager",
+        "path": "/P0-functional-demo/C6-modal-manager",
+        "hasPage": true,
+        "children": []
       }
     ]
   },
