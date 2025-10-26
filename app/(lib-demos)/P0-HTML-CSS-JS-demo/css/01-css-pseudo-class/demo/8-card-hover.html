@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>示例8: 卡片悬停效果</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+      /* 示例8: 卡片悬停效果 */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .card-img {
+        height: 150px;
+        background-color: #3498db;
+      }
+
+      .card-content {
+        padding: 15px;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .card:hover .card-title {
+        color: #3498db;
+      }
+
+      .card-title {
+        margin-bottom: 10px;
+        transition: color 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类与组合选择器实例演示</h1>
+
+    <div class="demo-section">
+      <h2>示例8: 卡片悬停效果 (.card:hover, .card:hover .card-title)</h2>
+      <div class="description">
+        <p>
+          这个示例展示了如何使用<code>:hover</code>伪类和后代选择器来创建卡片的悬停效果。
+          当鼠标悬停在卡片上时，卡片会上移并且标题颜色会改变。
+        </p>
+      </div>
+      <div class="code-block">
+        .card:hover { transform: translateY(-10px); box-shadow: 0 12px 20px
+        rgba(0,0,0,0.2); } .card:hover .card-title { color: #3498db; }
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-img"></div>
+          <div class="card-content">
+            <h3 class="card-title">卡片标题1</h3>
+            <p>这是卡片1的内容描述，将鼠标悬停在卡片上查看效果。</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img"></div>
+          <div class="card-content">
+            <h3 class="card-title">卡片标题2</h3>
+            <p>这是卡片2的内容描述，将鼠标悬停在卡片上查看效果。</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img"></div>
+          <div class="card-content">
+            <h3 class="card-title">卡片标题3</h3>
+            <p>这是卡片3的内容描述，将鼠标悬停在卡片上查看效果。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">返回主页</a>
+  </body>
+</html>

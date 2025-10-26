@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>示例7: 树形结构菜单</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+      /* 示例7: 树形结构菜单 */
+      .tree-view {
+        font-family: monospace;
+      }
+
+      .tree-view ul {
+        list-style-type: none;
+        padding-left: 20px;
+      }
+
+      .tree-view > ul {
+        padding-left: 0;
+      }
+
+      .tree-item {
+        padding: 5px 0;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .tree-item::before {
+        content: "▶";
+        display: inline-block;
+        margin-right: 5px;
+        font-size: 10px;
+        transition: transform 0.2s;
+      }
+
+      .tree-children {
+        display: none;
+      }
+
+      .tree-view input[type="checkbox"] {
+        display: none;
+      }
+
+      .tree-view input[type="checkbox"]:checked ~ .tree-children {
+        display: block;
+      }
+
+      .tree-view input[type="checkbox"]:checked ~ .tree-item::before {
+        transform: rotate(90deg);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类与组合选择器实例演示</h1>
+
+    <div class="demo-section">
+      <h2>
+        示例7: 树形结构菜单 (input[type="checkbox"]:checked ~ .tree-children)
+      </h2>
+      <div class="description">
+        <p>
+          这个示例使用了<code>:checked</code>伪类和一般兄弟选择器<code>~</code>来创建可折叠的树形结构菜单。
+          当复选框被选中时，子菜单会展开显示。
+        </p>
+      </div>
+      <div class="code-block">
+        .tree-view input[type="checkbox"]:checked ~ .tree-children { display:
+        block; } .tree-view input[type="checkbox"]:checked ~ .tree-item::before
+        { transform: rotate(90deg); }
+      </div>
+
+      <div class="tree-view">
+        <ul>
+          <li>
+            <input type="checkbox" id="folder1" />
+            <label class="tree-item" for="folder1">项目文件夹</label>
+            <ul class="tree-children">
+              <li>
+                <input type="checkbox" id="subfolder1" />
+                <label class="tree-item" for="subfolder1">src</label>
+                <ul class="tree-children">
+                  <li><span class="tree-item">index.html</span></li>
+                  <li><span class="tree-item">styles.css</span></li>
+                  <li><span class="tree-item">script.js</span></li>
+                </ul>
+              </li>
+              <li>
+                <input type="checkbox" id="subfolder2" />
+                <label class="tree-item" for="subfolder2">assets</label>
+                <ul class="tree-children">
+                  <li><span class="tree-item">logo.png</span></li>
+                  <li><span class="tree-item">background.jpg</span></li>
+                </ul>
+              </li>
+              <li><span class="tree-item">README.md</span></li>
+              <li><span class="tree-item">package.json</span></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">返回主页</a>
+  </body>
+</html>

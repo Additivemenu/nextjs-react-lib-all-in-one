@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>示例4: 表单验证和状态</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+      /* 示例4: 表单验证和状态 */
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+      }
+
+      .form-control:valid {
+        border-color: #2ecc71;
+      }
+
+      .form-control:invalid {
+        border-color: #e74c3c;
+      }
+
+      .form-message {
+        display: none;
+        margin-top: 5px;
+        font-size: 14px;
+      }
+
+      .form-control:invalid + .form-message {
+        display: block;
+        color: #e74c3c;
+      }
+
+      .form-control:valid + .form-message.success {
+        display: block;
+        color: #2ecc71;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类与组合选择器实例演示</h1>
+
+    <div class="demo-section">
+      <h2>示例4: 表单验证和状态 (.form-control:invalid + .form-message)</h2>
+      <div class="description">
+        <p>
+          这个示例使用了<code>:valid</code>和<code>:invalid</code>伪类，结合相邻兄弟选择器<code>+</code>来显示表单验证消息。
+          当输入无效时，会显示错误消息。
+        </p>
+      </div>
+      <div class="code-block">
+        .form-control:focus { outline: none; border-color: #3498db; box-shadow:
+        0 0 0 3px rgba(52, 152, 219, 0.3); } .form-control:valid { border-color:
+        #2ecc71; } .form-control:invalid { border-color: #e74c3c; }
+        .form-control:invalid + .form-message { display: block; color: #e74c3c;
+        }
+      </div>
+
+      <form>
+        <div class="form-group">
+          <label for="email">邮箱地址</label>
+          <input type="email" id="email" class="form-control" required />
+          <div class="form-message">请输入有效的邮箱地址</div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">密码 (至少8个字符)</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            minlength="8"
+            required
+          />
+          <div class="form-message">密码至少需要8个字符</div>
+        </div>
+      </form>
+    </div>
+
+    <a href="index.html" class="back-link">返回主页</a>
+  </body>
+</html>

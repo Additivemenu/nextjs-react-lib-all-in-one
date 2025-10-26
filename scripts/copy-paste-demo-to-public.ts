@@ -4,8 +4,8 @@
 // then it will copy the demo folder and its files to the public/demons folder
 // maintaining the same relative path structure
 // e.g. app/(lib-demos)/P0-HTML-CSS-JS-demo/js/01-thumbs-up/demo -> public/demos/P0-HTML-CSS-JS-demo/js/01-thumbs-up/
-// all files under 
-// "app/(lib-demos)/P0-HTML-CSS-JS-demo/js/01-thumbs-up/demo" folder will be copied to 
+// all files under
+// "app/(lib-demos)/P0-HTML-CSS-JS-demo/js/01-thumbs-up/demo" folder will be copied to
 // "public/demos/P0-HTML-CSS-JS-demo/js/01-thumbs-up/" folder
 
 import fs from "fs";
@@ -64,7 +64,16 @@ function findDemoFolders(
  * @param publicDemosDir - Target public/demos directory
  */
 function copyDemoFiles(demoInfo: DemoInfo, publicDemosDir: string): void {
-  const targetDir = path.join(publicDemosDir, demoInfo.relativePath);
+  console.log(
+    `Copying files to demoInfo.relativePath: ${demoInfo.relativePath
+      .split("/")
+      .slice(1)
+      .join("/")}`,
+  );
+  const targetDir = path.join(
+    publicDemosDir,
+    demoInfo.relativePath.split("/").slice(1).join("/"),
+  );
 
   // Create target directory if it doesn't exist
   if (!fs.existsSync(targetDir)) {
@@ -106,7 +115,7 @@ const demoFolders = findDemoFolders(appDemosDir, appDemosDir);
 
 console.log(`\nFound ${demoFolders.length} demo folder(s)\n`);
 
-// Copy files from each demo folder
+//! Copy files from each demo folder
 let totalFilesCopied = 0;
 for (const demoInfo of demoFolders) {
   console.log(`Copying files from: ${demoInfo.relativePath}`);

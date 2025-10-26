@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>伪类与组合选择器实例演示</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+      .example-list {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .example-list li {
+        margin-bottom: 15px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .example-list li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .example-list a {
+        display: block;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .example-list p {
+        margin-top: 10px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类与组合选择器实例演示</h1>
+
+    <div class="demo-section">
+      <h2>选择器演示实例</h2>
+      <div class="description">
+        <p>
+          下面是八个不同的CSS选择器实例，每个实例都展示了伪类选择器和组合选择器的不同应用场景。
+          点击链接查看详细演示和代码实现。
+        </p>
+      </div>
+
+      <ul class="example-list">
+        <li>
+          <a href="1-dropdown-menu.html">示例1: 悬停显示下拉菜单</a>
+          <p>使用:hover伪类和后代选择器创建悬停时显示的下拉菜单。</p>
+        </li>
+        <li>
+          <a href="2-tab-switch.html">示例2: 选项卡切换</a>
+          <p>
+            使用:checked伪类和相邻兄弟选择器+创建无JavaScript的标签切换效果。
+          </p>
+        </li>
+        <li>
+          <a href="3-gallery-hover.html">示例3: 图片库悬停效果</a>
+          <p>使用:hover伪类和后代选择器创建图片库的图片放大和标题滑入效果。</p>
+        </li>
+        <li>
+          <a href="4-form-validation.html">示例4: 表单验证和状态</a>
+          <p>使用:valid和:invalid伪类以及相邻兄弟选择器+来显示表单验证消息。</p>
+        </li>
+        <li>
+          <a href="5-accordion.html">示例5: 手风琴/折叠面板</a>
+          <p>
+            使用:checked伪类和一般兄弟选择器~创建无JavaScript的手风琴/折叠面板效果。
+          </p>
+        </li>
+        <li>
+          <a href="6-navigation-menu.html">示例6: 导航菜单高亮当前页面</a>
+          <p>
+            使用class属性结合:hover伪类高亮显示当前页面和悬停状态的导航菜单项。
+          </p>
+        </li>
+        <li>
+          <a href="7-tree-view.html">示例7: 树形结构菜单</a>
+          <p>使用:checked伪类和一般兄弟选择器~创建可折叠的树形结构菜单。</p>
+        </li>
+        <li>
+          <a href="8-card-hover.html">示例8: 卡片悬停效果</a>
+          <p>使用:hover伪类和后代选择器创建卡片的上移和标题颜色变化效果。</p>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

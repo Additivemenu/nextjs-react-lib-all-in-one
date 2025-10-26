@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>示例2: 选项卡切换</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+      /* 示例2: 选项卡切换 */
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .tab-label {
+        padding: 10px 20px;
+        background-color: #e0e0e0;
+        cursor: pointer;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        margin-right: 5px;
+      }
+
+      .tab-content {
+        display: none;
+        order: 1;
+        width: 100%;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 0 4px 4px 4px;
+      }
+
+      .tab-label:hover {
+        background-color: #d0d0d0;
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      input[type="radio"]:checked + .tab-label {
+        background-color: #3498db;
+        color: white;
+      }
+
+      input[type="radio"]:checked + .tab-label + .tab-content {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类与组合选择器实例演示</h1>
+
+    <div class="demo-section">
+      <h2>
+        示例2: 选项卡切换 (input[type="radio"]:checked + .tab-label +
+        .tab-content)
+      </h2>
+      <div class="description">
+        <p>
+          这个示例使用了<code>:checked</code>伪类和相邻兄弟选择器<code>+</code>来创建无JavaScript的标签切换效果。
+          当单选按钮被选中时，相邻的标签和内容会改变样式。
+        </p>
+      </div>
+      <div class="code-block">
+        input[type="radio"]:checked + .tab-label { background-color: #3498db;
+        color: white; } input[type="radio"]:checked + .tab-label + .tab-content
+        { display: block; }
+      </div>
+
+      <div class="tabs">
+        <input type="radio" name="tabs" id="tab1" checked />
+        <label class="tab-label" for="tab1">标签1</label>
+        <div class="tab-content">
+          <p>这是标签1的内容。这里可以放置任何你想要显示的内容。</p>
+        </div>
+
+        <input type="radio" name="tabs" id="tab2" />
+        <label class="tab-label" for="tab2">标签2</label>
+        <div class="tab-content">
+          <p>这是标签2的内容。每个标签可以包含不同的内容。</p>
+        </div>
+
+        <input type="radio" name="tabs" id="tab3" />
+        <label class="tab-label" for="tab3">标签3</label>
+        <div class="tab-content">
+          <p>这是标签3的内容。切换不同标签，显示不同内容。</p>
+        </div>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">返回主页</a>
+  </body>
+</html>

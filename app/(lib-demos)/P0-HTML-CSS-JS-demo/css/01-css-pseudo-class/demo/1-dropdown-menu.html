@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>示例1: 悬停显示下拉菜单</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+      /* 示例1: 悬停显示下拉菜单 */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-btn {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown:hover .dropdown-btn {
+        background-color: #2980b9;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类与组合选择器实例演示</h1>
+
+    <div class="demo-section">
+      <h2>示例1: 悬停显示下拉菜单 (.dropdown:hover .dropdown-content)</h2>
+      <div class="description">
+        <p>
+          这个示例展示了如何使用<code>:hover</code>伪类结合后代选择器来创建一个悬停显示的下拉菜单。
+          当鼠标悬停在.dropdown元素上时，其中的.dropdown-content元素变为显示状态。
+        </p>
+      </div>
+      <div class="code-block">
+        .dropdown:hover .dropdown-content { display: block; } .dropdown:hover
+        .dropdown-btn { background-color: #2980b9; }
+      </div>
+
+      <div class="dropdown">
+        <button class="dropdown-btn">下拉菜单</button>
+        <div class="dropdown-content">
+          <a href="#">选项1</a>
+          <a href="#">选项2</a>
+          <a href="#">选项3</a>
+        </div>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">返回主页</a>
+  </body>
+</html>

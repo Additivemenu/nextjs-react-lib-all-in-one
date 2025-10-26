@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>示例5: 手风琴/折叠面板</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+      /* 示例5: 手风琴/折叠面板 */
+      .accordion {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .accordion-item {
+        border-bottom: 1px solid #ddd;
+      }
+
+      .accordion-item:last-child {
+        border-bottom: none;
+      }
+
+      .accordion-header {
+        padding: 15px;
+        background-color: #f5f5f5;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .accordion-header::after {
+        content: "+";
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        background-color: white;
+      }
+
+      .accordion-content-inner {
+        padding: 15px;
+      }
+
+      .accordion-item input[type="checkbox"] {
+        display: none;
+      }
+
+      .accordion-item input[type="checkbox"]:checked ~ .accordion-content {
+        max-height: 500px;
+      }
+
+      .accordion-item
+        input[type="checkbox"]:checked
+        ~ .accordion-header::after {
+        content: "-";
+      }
+    </style>
+  </head>
+  <body>
+    <h1>伪类与组合选择器实例演示</h1>
+
+    <div class="demo-section">
+      <h2>
+        示例5: 手风琴/折叠面板 (input[type="checkbox"]:checked ~
+        .accordion-content)
+      </h2>
+      <div class="description">
+        <p>
+          这个示例使用了<code>:checked</code>伪类和一般兄弟选择器<code>~</code>来创建无JavaScript的手风琴/折叠面板效果。
+          当复选框被选中时，相关内容会展开显示。
+        </p>
+      </div>
+      <div class="code-block">
+        .accordion-item input[type="checkbox"]:checked ~ .accordion-content {
+        max-height: 500px; } .accordion-item input[type="checkbox"]:checked ~
+        .accordion-header::after { content: "-"; }
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <input type="checkbox" id="acc1" />
+          <label class="accordion-header" for="acc1">第一部分</label>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              <p>
+                这是第一部分的内容。点击标题可以展开或折叠内容。这个效果完全使用CSS实现，不需要JavaScript。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <input type="checkbox" id="acc2" />
+          <label class="accordion-header" for="acc2">第二部分</label>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              <p>这是第二部分的内容。每个部分可以单独展开或折叠。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <input type="checkbox" id="acc3" />
+          <label class="accordion-header" for="acc3">第三部分</label>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              <p>
+                这是第三部分的内容。手风琴/折叠面板对于需要节省空间但又希望提供详细信息的场景非常有用。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">返回主页</a>
+  </body>
+</html>

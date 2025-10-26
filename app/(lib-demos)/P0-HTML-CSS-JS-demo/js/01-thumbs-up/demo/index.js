@@ -17,7 +17,7 @@ document.addEventListener("click", (ev) => {
 
   const dots = createDots(["🎉", "😘", "🎊", "🤡", "🥳", "🤪", "💗"]);
   tips.appendChild(dots);
-
+  
   document.body.appendChild(createNum());
 });
 
@@ -37,7 +37,7 @@ function createDots(emojis) {
     const dot = document.createElement("div");
     dot.className = "custom-tips-dot";
     dot.setAttribute("emoji", emoji);
-    dot.style.setProperty("--d", `${Math.random() * 0.2}s`); // 每个点0 ~ 0.2s 随机延迟，避免"同时起跳"的死板感。
+    dot.style.setProperty("--d", `${Math.random() * 0.2}s`); // 每个点0 ~ 0.2s 随机延迟，避免“同时起跳”的死板感。
     dot.style.setProperty("--x", `${(Math.random() - 0.5) * 1000}%`); // 范围 (-500% ~ 500%)，也就是向左/右最多 10× 自身宽度的位移
     temp.appendChild(dot);
 
