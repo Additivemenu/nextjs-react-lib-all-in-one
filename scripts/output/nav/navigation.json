@@ -530,6 +530,25 @@
             "children": []
           }
         ]
+      },
+      {
+        "name": "C9 React Select",
+        "path": "/P1-react-libs/C9-react-select",
+        "hasPage": false,
+        "children": [
+          {
+            "name": "Demo1 All In One",
+            "path": "/P1-react-libs/C9-react-select/demo1-all-in-one",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "Demo2 Virtulisation",
+            "path": "/P1-react-libs/C9-react-select/demo2-virtulisation",
+            "hasPage": true,
+            "children": []
+          }
+        ]
       }
     ]
   },
