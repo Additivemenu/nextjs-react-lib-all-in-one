@@ -7,12 +7,21 @@ applyTo: "**"
 
 Use this skill whenever the user asks to add a new demo, example, or page to this Next.js app.
 
-> **Supporting rules** — read these for full detail when needed:
+> **Before starting**, ask the developer:
 >
-> - [App structure](rules/app-structure.md)
-> - [Page scroll wrapper](rules/page-scroll-wrapper.md)
-> - [Nav generation](rules/nav-generation.md)
-> - [Page registration](rules/page-registration.md)
+> - Do you want a `readme.md` and a GitHub source code link on the page?
+>   If yes, read [README and source code links](rules/readme-and-source-links.md) before creating the page.
+
+> **Supporting rules** — load the relevant rule file(s) before implementing:
+>
+> | Rule file                                                        | Purpose                                                     | When to load                                             |
+> | ---------------------------------------------------------------- | ----------------------------------------------------------- | -------------------------------------------------------- |
+> | [app-structure.md](rules/app-structure.md)                       | Folder hierarchy, section/topic/demo naming conventions     | Always — when unsure about where to put a new file       |
+> | [page-scroll-wrapper.md](rules/page-scroll-wrapper.md)           | Why every page needs `w-full h-full overflow-y-auto`        | Always — when creating any page under `app/(lib-demos)/` |
+> | [nav-generation.md](rules/nav-generation.md)                     | How the sidebar JSON is auto-generated from the file system | When the user asks about navigation or the sidebar       |
+> | [page-registration.md](rules/page-registration.md)               | How to register a page in a `PageWithAccordions` index      | When adding a demo to an existing topic or section       |
+> | [readme-and-source-links.md](rules/readme-and-source-links.md)   | `LinkButton`, `readme-path.ts`, `getGitHubUrl` pattern      | When the demo needs a README or GitHub source code link  |
+> | [vanilla-html-css-js-demo.md](rules/vanilla-html-css-js-demo.md) | Full pattern for iframe-based HTML/CSS/JS demos             | When the demo is a plain HTML file (not a React page)    |
 
 ---
 
