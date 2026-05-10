@@ -22,9 +22,12 @@ All the code is written in TypeScript except for the HTML, CSS, and JavaScript d
 
 Often times I will ask you to help me with writing code for a specific demo or example, or to explain a concept related to the technologies and patterns mentioned above. I will also ask you to help me with writing documentation for the demos and examples, as well as for the overall project.
 
+When the user asks to add a new page, demo, route, or navigation entry, follow the instructions in `.github/skills/add-new-page/SKILL.md`.
+
 When you are working on this repo, please keep the following in mind:
+
 - Follow the coding standards and best practices for TypeScript, React, and Tailwind CSS.
-- For React code: 
+- For React code:
   - Follow React's Unidirectional Data Flow: data flows down, events bubble up.
   - Follow SOLID principles and design patterns where applicable.
     - but don't over-engineer the code, keep it simple and easy to understand.
