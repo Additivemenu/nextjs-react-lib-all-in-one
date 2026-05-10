@@ -1,14 +1,25 @@
-# Movable — Draggable Wrapper
+# 1. Movable — Pointer-Events Draggable Wrapper
 
-A generic `Movable` wrapper component that makes any child element freely draggable anywhere on screen using Pointer Events. The dragged position is persisted to `localStorage` and validated against the current viewport on mount.
+A zero-dependency `Movable` wrapper that makes any child element freely draggable using the browser's native **Pointer Events API**. No third-party animation library required — all drag mechanics are implemented manually. The dragged position is persisted to `localStorage` and validated against the current viewport on mount.
 
-## Key concepts
+## 1. Why raw Pointer Events?
 
-### Drag vs click distinction
+| Concern                 | Pointer-events (`Movable`)           | Framer-motion (`MovableDnd`)                      |
+| ----------------------- | ------------------------------------ | ------------------------------------------------- |
+| Drag mechanics          | Manual `onPointerMove` delta math    | `drag` prop on `motion.div`                       |
+| Render perf during drag | `useState` → re-render each frame    | `useMotionValue` → CSS transform, zero re-renders |
+| Drag threshold          | Explicit 2 px check before capturing | Handled internally by framer-motion               |
+| Pointer capture         | Manual `setPointerCapture`           | Handled internally by framer-motion               |
+| Bounds                  | Manual clamp logic                   | Declarative `dragConstraints` prop                |
+| Dependencies            | React only                           | framer-motion                                     |
+
+## 2. Key concepts
+
+### 2.1 Drag vs click distinction
 
 Movement must exceed `DRAG_THRESHOLD` (2 px) before a drag is registered. Sub-threshold pointer-ups are treated as normal clicks and propagate to children unchanged.
 
-### Pointer capture
+### 2.2 Pointer capture
 
 `setPointerCapture()` is called once the threshold is exceeded, so `pointermove` events keep arriving even when the cursor leaves the element mid-drag.
 
@@ -19,7 +30,7 @@ if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) {
 }
 ```
 
-### Click suppression (capture phase)
+### 2.3 Click suppression (capture phase)
 
 The browser always fires a `click` event after `pointerup`. An `onClickCapture` handler intercepts and cancels it when a drag just finished, preventing accidental button activations inside the widget.
 
@@ -35,15 +46,15 @@ const handleClickCapture = (e: React.MouseEvent) => {
 <div onClickCapture={handleClickCapture}>…</div>
 ```
 
-### Position persistence
+### 2.4 Position persistence
 
 Position is written to `localStorage` on drag-end via `onPointerUp`. On the next mount the stored value is read back and validated — if it falls outside the current viewport it is replaced with the default.
 
-### Viewport clamping on resize
+### 2.5 Viewport clamping on resize
 
 A `resize` event listener clamps the position to `[0, windowWidth - elementWidth]` × `[0, windowHeight - elementHeight]` whenever the window is resized.
 
-### `useLayoutEffect` for bounds validation
+### 2.6 `useLayoutEffect` for bounds validation
 
 Bounds checking runs inside `useLayoutEffect` (not `useEffect`) so any out-of-bounds correction happens synchronously after DOM paint but before the browser renders — making the jump invisible to the user.
 
@@ -57,7 +68,7 @@ useLayoutEffect(() => {
 }, []);
 ```
 
-## Props
+## 3. Props
 
 | Prop                    | Type        | Default                        | Description                                                     |
 | ----------------------- | ----------- | ------------------------------ | --------------------------------------------------------------- |

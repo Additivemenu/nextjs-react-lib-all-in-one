@@ -39,6 +39,25 @@
         "path": "/P0-functional-demo/C6-modal-manager",
         "hasPage": true,
         "children": []
+      },
+      {
+        "name": "C3 Movable",
+        "path": "/P0-functional-demo/C3-movable",
+        "hasPage": false,
+        "children": [
+          {
+            "name": "On Framer Motion",
+            "path": "/P0-functional-demo/C3-movable/on-framer-motion",
+            "hasPage": true,
+            "children": []
+          },
+          {
+            "name": "On Pointer Events",
+            "path": "/P0-functional-demo/C3-movable/on-pointer-events",
+            "hasPage": true,
+            "children": []
+          }
+        ]
       }
     ]
   },

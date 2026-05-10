@@ -49,7 +49,9 @@ export default function MovableDemo() {
       <div className="max-w-2xl mx-auto py-8 px-4 space-y-6">
         {/* header */}
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold">Movable — Draggable Wrapper</h1>
+          <h1 className="text-2xl font-bold">
+            Movable — Pointer-Events Draggable Wrapper
+          </h1>
           <div className="flex flex-wrap gap-2">
             {[
               "pointer events",
@@ -72,11 +74,12 @@ export default function MovableDemo() {
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="text-sm text-muted-foreground">
-              Two independent floating widgets are mounted as fixed-position
-              overlays. Each has its own <code>storageKey</code> so their
-              positions are persisted separately. Clicking the button inside
-              each widget increments a counter — demonstrating that clicks are
-              not swallowed by the drag logic.
+              Drag is implemented with raw Pointer Events — no animation
+              library. A 2 px <code>DRAG_THRESHOLD</code> distinguishes a click
+              from a drag before pointer capture is acquired. Each widget has
+              its own <code>storageKey</code> so positions are persisted
+              separately. Clicking the button inside each widget increments a
+              counter to verify clicks are not swallowed after a drag.
             </p>
             <div className="flex gap-3 flex-wrap">
               <Button size="sm" onClick={() => setShowB((v) => !v)}>

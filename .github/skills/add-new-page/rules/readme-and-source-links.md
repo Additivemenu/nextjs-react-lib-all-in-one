@@ -78,4 +78,21 @@ import PageToolbar from "@/app/_components/toolbars/page-toolbar";
 
 - `filePath` props must always be **repo-relative** (no leading `/`)
 - Always export `readmePath` from a dedicated `readme-path.ts` — do not hardcode the string in `page.tsx`
+
+---
+
+## README header numbering convention
+
+All `readme.md` files use a numeric prefix on every heading so sections can be referenced unambiguously.
+
+| Heading level | Format          | Example                             |
+| ------------- | --------------- | ----------------------------------- |
+| H1 (`#`)      | `# N. Title`    | `# 1. My Component`                 |
+| H2 (`##`)     | `## N. Title`   | `## 2. Key concepts`                |
+| H3 (`###`)    | `### N.M Title` | `### 2.1 Drag vs click distinction` |
+
+- One H1 per document, always `1.`
+- H2s numbered sequentially within the document
+- H3s numbered `{parent H2}.{sequence}`, resetting per H2
+- H4+ extend the pattern: `#### 2.1.1 Sub-detail`
 - Open links in a new tab is handled automatically by `LinkButton` (`target="_blank"`)
