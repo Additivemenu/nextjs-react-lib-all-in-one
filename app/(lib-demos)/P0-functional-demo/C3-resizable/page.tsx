@@ -5,8 +5,8 @@ import ResizableDemo from "@/app/_components/wrappers/resizable/demo";
 
 const Page = () => {
   return (
-    <div className="w-full h-[calc(100vh-var(--top-nav-height))]">
-      <ResizableDemo />;
+    <div className="w-full h-full overflow-y-auto">
+      <ResizableDemo />
     </div>
   );
 };
