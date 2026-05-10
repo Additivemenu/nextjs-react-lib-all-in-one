@@ -214,7 +214,14 @@
         "name": "C1 Framer Motion",
         "path": "/P1-react-libs/C1-framer-motion",
         "hasPage": true,
-        "children": []
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P1-react-libs/C1-framer-motion/demo1",
+            "hasPage": true,
+            "children": []
+          }
+        ]
       },
       {
         "name": "C2 React Flow",
