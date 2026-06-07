@@ -584,6 +584,19 @@
     "hasPage": true,
     "children": [
       {
+        "name": "Code Mirror",
+        "path": "/P2-js-libs/code-mirror",
+        "hasPage": true,
+        "children": [
+          {
+            "name": "Demo1",
+            "path": "/P2-js-libs/code-mirror/demo1",
+            "hasPage": true,
+            "children": []
+          }
+        ]
+      },
+      {
         "name": "XLSX",
         "path": "/P2-js-libs/XLSX",
         "hasPage": true,

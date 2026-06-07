@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeMirror 6 - Basic JavaScript Editor</title>
+    <link rel="stylesheet" href="./index.css" />
+    <!--
+      Import map: lets the compiled index.js keep its bare specifiers
+      ("codemirror", "@codemirror/lang-javascript") and resolve them
+      from the esm.sh CDN at runtime. Versions are pinned to match
+      the ones installed in package.json (used for TypeScript types).
+    -->
+    <script type="importmap">
+      {
+        "imports": {
+          "codemirror": "https://esm.sh/codemirror@6.0.2",
+          "@codemirror/lang-javascript": "https://esm.sh/@codemirror/lang-javascript@6.2.5"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main class="container">
+      <h1>CodeMirror 6 — Basic JavaScript Editor</h1>
+      <p class="hint">
+        Edit the code below, then click <strong>Run</strong> to execute it.
+        <code>console.log</code> output is captured into the panel underneath.
+      </p>
+
+      <div id="editor"></div>
+
+      <div class="toolbar">
+        <button id="run-btn" type="button">▶ Run</button>
+        <button id="clear-btn" type="button">Clear output</button>
+        <span id="doc-stats" class="stats"></span>
+      </div>
+
+      <pre id="output" class="output" aria-live="polite"></pre>
+    </main>
+
+    <!-- index.js is compiled from index.ts via tsc (see readme.md) -->
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>

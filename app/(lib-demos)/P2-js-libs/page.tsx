@@ -8,6 +8,11 @@ const content = [
     path: "/XLSX/",
     style: "text-red-500 underline",
   },
+  {
+    title: "C2: code-mirror",
+    path: "/code-mirror/",
+    style: "text-red-500 underline",
+  },
 ];
 
 export default function Home() {
