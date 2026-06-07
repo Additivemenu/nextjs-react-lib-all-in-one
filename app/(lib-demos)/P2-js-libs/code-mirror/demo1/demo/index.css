@@ -103,3 +103,36 @@ h1 {
 .output .error {
   color: #f87171;
 }
+
+kbd {
+  background: #e2e8f0;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.8em;
+  border: 1px solid #cbd5e1;
+  border-bottom-width: 2px;
+}
+
+/* slash-command / autocomplete popup */
+.cm-tooltip.cm-tooltip-autocomplete {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+}
+
+.cm-tooltip-autocomplete ul li {
+  padding: 4px 8px !important;
+}
+
+.cm-tooltip-autocomplete ul li[aria-selected] {
+  background: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+.cm-completionDetail {
+  margin-left: 8px;
+  font-size: 0.85em;
+  opacity: 0.7;
+  font-style: normal;
+}
