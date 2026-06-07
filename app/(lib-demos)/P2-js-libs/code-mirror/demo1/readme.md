@@ -14,15 +14,31 @@ A minimal [CodeMirror 6](https://codemirror.net/) demo written in **vanilla Type
 
 ### 3.1 Source and compilation
 
-The demo logic lives in `demo/index.ts` and is compiled to `demo/index.js` with `tsc` (no bundler):
+The demo logic lives in TypeScript modules under `demo/src/` and is compiled with `tsc` (no bundler) into **flat ES modules** in `demo/`:
 
-```bash
-npx tsc "app/(lib-demos)/P2-js-libs/code-mirror/demo1/demo/index.ts" \
-  --target ES2020 --module ESNext --moduleResolution bundler \
-  --lib ES2020,DOM,DOM.Iterable --strict --skipLibCheck
+```
+demo/
+  index.html, index.css        ← static assets
+  src/                         ← TypeScript source (has its own tsconfig.json)
+    index.ts                   ← entry point: DOM lookups + wiring
+    editor.ts                  ← EditorView creation + extensions
+    slash-commands.ts          ← slash-command completion source + actions
+    runner.ts                  ← output panel + console-capturing code runner
+  index.js, editor.js,
+  slash-commands.js, runner.js ← compiled output (what the browser runs)
 ```
 
-Both the `.ts` source and the compiled `.js` are committed. Re-run the command after editing `index.ts`.
+```bash
+npx tsc -p "app/(lib-demos)/P2-js-libs/code-mirror/demo1/demo/src"
+```
+
+Both the `.ts` source and the compiled `.js` are committed. Re-run the command after editing anything in `src/`.
+
+Details that make the no-bundler setup work:
+
+- **Relative imports carry the `.js` extension in the `.ts` source** (e.g. `import { createEditor } from "./editor.js"`). TypeScript resolves `./editor.js` → `editor.ts` at check time but emits the specifier verbatim, so the output is natively loadable by the browser.
+- **Output is emitted flat into `demo/`** (`outDir: ".."`), because the copy script only copies top-level *files* of `demo/` — subdirectories like `src/` are skipped (which conveniently keeps the TS source out of `public/`).
+- The src `tsconfig.json` uses `"files"` instead of `"include"` — `outDir` is the parent folder, and tsc auto-excludes the outDir from include globs, which would otherwise swallow `src/` itself.
 
 ### 3.2 Bare imports resolved by an import map
 

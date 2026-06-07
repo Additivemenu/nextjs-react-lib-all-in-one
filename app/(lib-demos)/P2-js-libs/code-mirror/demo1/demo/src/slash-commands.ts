@@ -1,41 +1,20 @@
 /**
- * CodeMirror 6 basic demo — written in TypeScript, compiled to index.js
- * with tsc (see readme.md for the exact command). The bare module
- * specifiers below are resolved in the browser by the import map
- * declared in index.html (pointing at esm.sh).
+ * Slash-command menu.
+ *
+ * A custom completion source for the autocompletion engine that ships
+ * with basicSetup. It only activates on a *standalone* "/" (preceded
+ * and followed by whitespace / line boundaries). Each option's
+ * `apply` callback runs an editor action instead of inserting text —
+ * `from`/`to` always span the "/" plus whatever filter text was
+ * typed after it, so replacing/deleting that range removes the "/".
  */
-import { basicSetup, EditorView } from "codemirror";
-import { javascript, javascriptLanguage } from "@codemirror/lang-javascript";
 // type-only imports — erased by tsc, so no runtime CDN dependency is added
+import type { EditorView } from "codemirror";
 import type {
   Completion,
   CompletionContext,
   CompletionResult,
 } from "@codemirror/autocomplete";
-
-const INITIAL_DOC = `// Edit me, then hit "Run"
-// Tip: type "/" on its own (start of line or after a space)
-// to open the slash-command menu
-
-function fib(n) {
-  return n <= 1 ? n : fib(n - 1) + fib(n - 2);
-}
-
-for (let i = 0; i < 10; i++) {
-  console.log(\`fib(\${i}) = \${fib(i)}\`);
-}
-`;
-
-/* ------------------------------------------------------------------ */
-/* Slash-command menu                                                  */
-/*                                                                     */
-/* A custom completion source for the autocompletion engine that ships */
-/* with basicSetup. It only activates on a *standalone* "/" (preceded  */
-/* and followed by whitespace / line boundaries). Each option's        */
-/* `apply` callback runs an editor action instead of inserting text —  */
-/* `from`/`to` always span the "/" plus whatever filter text was       */
-/* typed after it, so replacing/deleting that range removes the "/".   */
-/* ------------------------------------------------------------------ */
 
 /** Current line, with the "/command" text sliced out */
 const lineWithoutSlash = (
@@ -135,7 +114,7 @@ const slashCommands: Completion[] = [
   },
 ];
 
-const slashCommandSource = (
+export const slashCommandSource = (
   context: CompletionContext,
 ): CompletionResult | null => {
   // "/" plus any filter text typed after it (e.g. "/dup")
@@ -161,75 +140,3 @@ const slashCommandSource = (
     validFor: /^\/[\w-]*$/,
   };
 };
-
-const editorParent = document.querySelector<HTMLDivElement>("#editor");
-const runBtn = document.querySelector<HTMLButtonElement>("#run-btn");
-const clearBtn = document.querySelector<HTMLButtonElement>("#clear-btn");
-const output = document.querySelector<HTMLPreElement>("#output");
-const docStats = document.querySelector<HTMLSpanElement>("#doc-stats");
-
-if (!editorParent || !runBtn || !clearBtn || !output || !docStats) {
-  throw new Error("Demo DOM elements not found");
-}
-
-const updateStats = (view: EditorView): void => {
-  const doc = view.state.doc;
-  docStats.textContent = `${doc.lines} lines · ${doc.length} chars`;
-};
-
-// 1. Create the editor: state + extensions, mounted onto #editor
-const editor = new EditorView({
-  doc: INITIAL_DOC,
-  extensions: [
-    basicSetup, // line numbers, history, fold gutter, default keymap, …
-    javascript(), // JS syntax highlighting + autocompletion
-    // register the slash-command source as an extra completion source
-    // for JS content (alongside the default language completions)
-    javascriptLanguage.data.of({ autocomplete: slashCommandSource }),
-    // updateListener: fires on every transaction (typing, selection, …)
-    EditorView.updateListener.of((update) => {
-      if (update.docChanged) {
-        updateStats(update.view);
-      }
-    }),
-  ],
-  parent: editorParent,
-});
-
-updateStats(editor);
-
-const appendOutput = (text: string, isError = false): void => {
-  const line = document.createElement("span");
-  line.textContent = `${text}\n`;
-  if (isError) {
-    line.classList.add("error");
-  }
-  output.appendChild(line);
-};
-
-// 2. Run button: read the current doc from editor state and execute it,
-//    capturing console.log output into the panel
-runBtn.addEventListener("click", () => {
-  output.textContent = "";
-  const code = editor.state.doc.toString();
-
-  const originalLog = console.log;
-  console.log = (...args: unknown[]) => {
-    appendOutput(args.map((arg) => String(arg)).join(" "));
-    originalLog(...args);
-  };
-
-  try {
-    // eslint-disable-next-line no-new-func
-    new Function(code)();
-  } catch (err) {
-    appendOutput(String(err), true);
-  } finally {
-    console.log = originalLog;
-  }
-});
-
-// 3. Clear button: wipe the output panel
-clearBtn.addEventListener("click", () => {
-  output.textContent = "";
-});
